@@ -69,6 +69,10 @@ public class ChessPiece {
             Knight knight = new Knight(pieceColor, type, myPosition, moveCollection, board);
             knight.potentialMoveAdder();
         }
+        else if(this.type == PieceType.PAWN) {
+            Pawn pawn = new Pawn(pieceColor, type, myPosition, moveCollection, board);
+            pawn.potentialMoveAdder();
+        }
         return moveCollection;
     }
 
