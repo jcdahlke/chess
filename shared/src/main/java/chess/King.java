@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class King extends ChessPiece {
-  private final PieceType type = PieceType.BISHOP;
+  private final PieceType type = PieceType.KING;
   private final ChessPosition startPosition;
   private final Collection<ChessMove> possibleMoves;
   private final ChessBoard board;
@@ -30,7 +30,7 @@ public class King extends ChessPiece {
     possibleKingMoves.add(new ChessPosition(startPosition.getRow()+1, startPosition.getColumn()-1));
     possibleKingMoves.add(new ChessPosition(startPosition.getRow()+1, startPosition.getColumn()));
     for (ChessPosition move:possibleKingMoves) {
-      if(!move.isOutOfBounds() && board.getPiece(move) == null) {
+      if(!move.isOutOfBounds() && !spaceOccupied(board, move)) {
         possibleMoves.add(new ChessMove(startPosition, move));
       }
       else if(!move.isOutOfBounds() && board.getPiece(move).getTeamColor() != pieceColor) {

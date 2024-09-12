@@ -65,6 +65,10 @@ public class ChessPiece {
             King king = new King(pieceColor, type, myPosition, moveCollection, board);
             king.potentialMoveAdder();
         }
+        else if(this.type == PieceType.KNIGHT) {
+            Knight knight = new Knight(pieceColor, type, myPosition, moveCollection, board);
+            knight.potentialMoveAdder();
+        }
         return moveCollection;
     }
 

@@ -1,0 +1,15 @@
+
+“	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğé†8ã“¨µ2J$bd00f9d6-cc62-4768-8804-78e59fb326c9
+˜	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(î¿¦îúÿÿÿÿ8ä“¨µ2J$e8cfc814-e2d7-4c1c-bc15-79de68b73724
+˜	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´á×üÿÿÿÿ8ä“¨µ2J$69b21aeb-e61f-473d-b44d-d4fd104db0cc
+˜	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·Û­õüÿÿÿÿ8ä“¨µ2J$632cabd7-3696-4edd-b667-c9639ec91e7a
+i
+java:S1170"!Make this final field static too.(Äïƒ¤şÿÿÿÿ8±”¨µ2J$8f19a3cc-a1b6-4090-ab7b-be070c91182c
+n
+java:S2160"+Override the "equals" method in this class.(–ÒÔ¢8±”¨µ2J$67e54d6e-f400-423b-a0b0-87f517dc680b
+š
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Î”‚Àıÿÿÿÿ8´”¨µ2J$06fe349c-42a1-4013-ab49-9d8cee184ad2
+s
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8¹”¨µ2J$3e870cf5-6367-487d-aafc-ce09ee33abef
+p
+java:S1068"(Remove this unused "type" private field.(Äïƒ¤şÿÿÿÿ8¹”¨µ2J$2f5f3910-286c-4b1c-ade2-36ae8e416c7f
