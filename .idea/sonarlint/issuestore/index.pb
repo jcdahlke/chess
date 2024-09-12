@@ -19,3 +19,7 @@ R
 "src/main/java/chess/ChessGame.java,7\3\73bf4fdc57c71c6f70f600b9fea515a646b27eef
 ^
 .src/test/java/passoff/chess/TestUtilities.java,9\5\9545f8b4a46f33bc722576bac5bfe9c00702cdb3
+d
+4src/test/java/passoff/chess/piece/KingMoveTests.java,3\8\38ebd7b9921639dfb1e79eae7f090973e8652e69
+M
+src/main/java/chess/King.java,a\b\ab2da006d7d4f0b405a25a6baf1b1d4b69ae03dd

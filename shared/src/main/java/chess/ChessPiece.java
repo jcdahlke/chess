@@ -61,6 +61,10 @@ public class ChessPiece {
             Bishop bishop = new Bishop(pieceColor, type, myPosition, moveCollection, board);
             bishop.potentialMoveAdder();
         }
+        else if(this.type == PieceType.KING) {
+            King king = new King(pieceColor, type, myPosition, moveCollection, board);
+            king.potentialMoveAdder();
+        }
         return moveCollection;
     }
 
