@@ -27,3 +27,7 @@ f
 6src/test/java/passoff/chess/piece/KnightMoveTests.java,e\a\ea923ae5656d777ebbc1ce26adecb7338f8ba7dd
 O
 src/main/java/chess/Knight.java,8\5\85d09d29ca5a198e68ef91d46063e048fdac751c
+d
+4src/test/java/passoff/chess/piece/PawnMoveTests.java,6\f\6fe1354a9b6f2adaebc86ce17c85f70c46d74e50
+M
+src/main/java/chess/Pawn.java,d\6\d6749b7d66d9cf56c001e712de56c8df6ccabe26
