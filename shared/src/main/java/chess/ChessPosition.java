@@ -44,6 +44,8 @@ public class ChessPosition {
       return (row > 8 || row < 1) || (col > 8 || col < 1);
     }
 
+
+
     @Override
     public String toString() {
         return "["+ row +

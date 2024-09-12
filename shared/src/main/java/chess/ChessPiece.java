@@ -58,10 +58,19 @@ public class ChessPiece {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> moveCollection = new ArrayList<>();
         if (this.type == PieceType.BISHOP) {
-            Bishop bishop = new Bishop(pieceColor, type, myPosition, moveCollection);
+            Bishop bishop = new Bishop(pieceColor, type, myPosition, moveCollection, board);
             bishop.potentialMoveAdder();
         }
         return moveCollection;
+    }
+
+    public boolean spaceOccupied(ChessBoard board, ChessPosition position) {
+        if (board.getPiece(position) == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     @Override
