@@ -73,6 +73,10 @@ public class ChessPiece {
             Pawn pawn = new Pawn(pieceColor, type, myPosition, moveCollection, board);
             pawn.potentialMoveAdder();
         }
+        else if(this.type == PieceType.QUEEN) {
+            Queen queen = new Queen(pieceColor, type, myPosition, moveCollection, board);
+            queen.potentialMoveAdder();
+        }
         return moveCollection;
     }
 

@@ -1,0 +1,17 @@
+
+“	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğé†8ÔÑ‡è2J$e86c72f0-db46-4853-92be-6fc9e934b66d
+˜	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(î¿¦îúÿÿÿÿ8ÕÑ‡è2J$6765cca0-f5c2-4411-bbd8-2ab81b14a9fe
+˜	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´á×üÿÿÿÿ8ÕÑ‡è2J$b0735dc0-ec63-400e-94c7-ddeda3649873
+˜	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·Û­õüÿÿÿÿ8ÕÑ‡è2J$fcb15ac3-64a5-4b00-a017-b9edee1715f6
+“	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şí–Á8ÕÑ‡è2J$fe78d60f-547c-4f90-b65c-5592866cf910
+˜	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü¤Ô©şÿÿÿÿ8ÕÑ‡è2J$c77230be-18f9-496e-be74-f42aa19a4fe5
+˜	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÈŸ®ıûÿÿÿÿ8ÕÑ‡è2J$25befc40-156a-4f28-ad15-6f29adff0cab
+“	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñ¹Ç†8ÕÑ‡è2J$40f1d327-6844-4d1b-9224-298721391900
+i
+java:S1170"!Make this final field static too.(Äïƒ¤şÿÿÿÿ8ÛÑ‡è2J$4209eb78-c6ab-4237-a777-00efbdab036e
+s
+java:S2160"+Override the "equals" method in this class.(é´õ…úÿÿÿÿ8ÜÑ‡è2J$81033481-49a5-4e95-b7d1-43a4dc430d5e
+s
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8áÑ‡è2J$24ce2ed2-b0e1-42ca-b201-b3e13d0b10e1
+p
+java:S1068"(Remove this unused "type" private field.(Äïƒ¤şÿÿÿÿ8âÑ‡è2J$173be63c-d07f-43cc-b5fa-0a460a498896

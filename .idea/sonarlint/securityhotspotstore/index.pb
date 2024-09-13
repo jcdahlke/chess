@@ -19,3 +19,7 @@ f
 6src/test/java/passoff/chess/piece/KnightMoveTests.java,e\a\ea923ae5656d777ebbc1ce26adecb7338f8ba7dd
 M
 src/main/java/chess/King.java,a\b\ab2da006d7d4f0b405a25a6baf1b1d4b69ae03dd
+e
+5src/test/java/passoff/chess/piece/QueenMoveTests.java,0\a\0a959e861aa739d9c24b9e29d313101dcb5e8325
+N
+src/main/java/chess/Queen.java,f\8\f869e0cddbe0f50e2e3dcc55fe9efee9f6b24457
