@@ -23,3 +23,7 @@ e
 5src/test/java/passoff/chess/piece/QueenMoveTests.java,0\a\0a959e861aa739d9c24b9e29d313101dcb5e8325
 N
 src/main/java/chess/Queen.java,f\8\f869e0cddbe0f50e2e3dcc55fe9efee9f6b24457
+d
+4src/test/java/passoff/chess/piece/RookMoveTests.java,6\9\69e9785f60de8da7a1625ee0a9db7af2bd25e7cb
+M
+src/main/java/chess/Rook.java,5\f\5f60c58ccbf62143e0a9c1c153a79e2e6142738e
