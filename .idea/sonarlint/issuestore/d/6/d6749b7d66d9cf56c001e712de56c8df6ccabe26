@@ -1,0 +1,19 @@
+
+“	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(şí–Á8£¯æ2J$7ea6bc59-2838-4558-9fa3-e29285509287
+“	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğé†8£¯æ2J$9a4ec7f5-8212-4ef9-8529-f36a9c51b970
+˜	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(î¿¦îúÿÿÿÿ8Ÿ£¯æ2J$24b9eaf0-d414-4a1b-8ea0-806d46635e6a
+˜	java:S117B"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÈŸ®ıûÿÿÿÿ8Ÿ£¯æ2J$61c4e27d-778b-49e8-bd08-3fb9aa049d34
+˜	java:S117C"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´á×üÿÿÿÿ8Ÿ£¯æ2J$acc2616a-dae4-4687-8be4-8abf8d988d8c
+˜	java:S117D"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·Û­õüÿÿÿÿ8Ÿ£¯æ2J$1bacf3b1-f8e1-4f1e-8277-0c4f8af7e972
+i
+java:S1170"!Make this final field static too.(À«ı“ùÿÿÿÿ8²¤¯æ2J$c7c9990e-e77b-4064-9a11-53ff72e56eb8
+s
+java:S2160"+Override the "equals" method in this class.(ÍŒÃÿÿÿÿÿ8³¤¯æ2J$a9c503ed-55c2-47ea-a7e7-b8ac61cf8208
+š
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 50 to the 15 allowed.(Î”‚Àıÿÿÿÿ8¸¤¯æ2J$1a1643fd-0bf1-4a2b-8f54-6eebbcb80552
+s
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8Ùú·æ2J$443d18bc-a661-4255-ac80-7bc29f6c5d95
+p
+java:S1068"(Remove this unused "type" private field.(À«ı“ùÿÿÿÿ8Ã¤¯æ2J$4b9ff19e-7c3f-4f69-896e-650b07aaf4cc
+
+java:S6541"ÄA "Brain Method" was detected. Refactor it to reduce at least one of the following metrics: LOC from 82 to 64, Complexity from 31 to 14, Nesting Level from 3 to 2, Number of Variables from 8 to 6.(Î”‚Àıÿÿÿÿ8–¦´æ2J$9044a334-8d61-43b0-aea6-11487eafa643
