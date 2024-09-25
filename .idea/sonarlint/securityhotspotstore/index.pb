@@ -19,3 +19,15 @@ S
 +src/main/java/chess/RookMoveCalculator.java,e\5\e5397a597ebc35f62eb8e3cdce9376b9a0fe2b75
 [
 +src/main/java/chess/PawnMoveCalculator.java,a\7\a7d42cd38cc02fd42f5abd9b5228063e08b32fc5
+_
+/src/test/java/passoff/chess/ChessMoveTests.java,4\c\4caa1f49c8660a1fcde5ee5c0ce76b72000c0403
+b
+2src/test/java/passoff/chess/game/FullGameTest.java,0\2\02dd6e6e59e06d1e6f7c5a8d2895605db34075ff
+c
+3src/test/java/passoff/chess/game/MakeMoveTests.java,f\4\f41142b0746248c4e66c6b17464a21c72843b730
+e
+5src/test/java/passoff/chess/game/ValidMovesTests.java,1\6\16949001d5638f5e744434108e132725a5f8b811
+e
+5src/test/java/passoff/chess/game/GameStatusTests.java,9\5\95005f1bdbc430353aa32dd9ab73d0748d79c4b2
+R
+"src/main/java/chess/ChessGame.java,7\3\73bf4fdc57c71c6f70f600b9fea515a646b27eef
