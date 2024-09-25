@@ -7,3 +7,15 @@ S
 0src/test/java/passoff/chess/ChessBoardTests.java,8\a\8af669845ac3f59bd12b81507de0f5b73d6fe308
 \
 ,src/main/java/chess/PieceMoveCalculator.java,6\b\6b3cf47f986a2254ff76a3694291a4d46a65972b
+]
+-src/main/java/chess/BishopMoveCalculator.java,6\f\6f01df50db8796cd88e748a8887d8fd7f118d65a
+[
++src/main/java/chess/KingMoveCalculator.java,9\c\9c503531c7f8b358b3a146d8e8d332771a592388
+]
+-src/main/java/chess/KnightMoveCalculator.java,4\f\4f244109c6bc6fc6c53b19567157e650f8b00379
+\
+,src/main/java/chess/QueenMoveCalculator.java,3\d\3d10cd7e77aea3590d1f995345e56104f1f92b84
+[
++src/main/java/chess/RookMoveCalculator.java,e\5\e5397a597ebc35f62eb8e3cdce9376b9a0fe2b75
+[
++src/main/java/chess/PawnMoveCalculator.java,a\7\a7d42cd38cc02fd42f5abd9b5228063e08b32fc5
