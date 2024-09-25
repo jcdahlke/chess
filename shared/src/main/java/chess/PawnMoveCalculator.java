@@ -13,21 +13,21 @@ public class PawnMoveCalculator extends PieceMoveCalculator {
   public Collection<ChessMove> getPossibleMoves() {
     Collection<ChessMove> possibleMoves = new ArrayList<>();
     if (getPiece().getTeamColor() == ChessGame.TeamColor.WHITE) {
-      possibleMoves.addAll(moveCalculator(1,0,false));
-      possibleMoves.addAll(moveCalculator(1,1,true));
-      possibleMoves.addAll(moveCalculator(1,-1,true));
-      possibleMoves.addAll(moveCalculator(2,0,false));
+      possibleMoves.addAll(directionMover(1,0,false));
+      possibleMoves.addAll(directionMover(1,1,true));
+      possibleMoves.addAll(directionMover(1,-1,true));
+      possibleMoves.addAll(directionMover(2,0,false));
     }
     else {
-      possibleMoves.addAll(moveCalculator(-1,0,false));
-      possibleMoves.addAll(moveCalculator(-1,1,true));
-      possibleMoves.addAll(moveCalculator(-1,-1,true));
-      possibleMoves.addAll(moveCalculator(-2,0,false));
+      possibleMoves.addAll(directionMover(-1,0,false));
+      possibleMoves.addAll(directionMover(-1,1,true));
+      possibleMoves.addAll(directionMover(-1,-1,true));
+      possibleMoves.addAll(directionMover(-2,0,false));
     }
     return possibleMoves;
   }
   @Override
-  public Collection<ChessMove> moveCalculator(int rowIncrement, int colIncrement, boolean diagonalMovement) {
+  public Collection<ChessMove> directionMover(int rowIncrement, int colIncrement, boolean diagonalMovement) {
     Collection<ChessMove> possibleMoves = new ArrayList<>();
     ChessPosition newPosition=  new ChessPosition(getPosition().getRow()+rowIncrement, getPosition().getColumn()+colIncrement);
     if (diagonalMovement) {

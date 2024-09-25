@@ -18,33 +18,44 @@ public class PieceMoveCalculator {
   public Collection<ChessMove> pieceSorter() {
     if (piece.getPieceType()== ChessPiece.PieceType.BISHOP) {
       BishopMoveCalculator bishop = new BishopMoveCalculator(piece,board,position);
-      return bishop.possibleMovesCalculator();
+      return bishop.getPossibleMoves();
     }
     else if (piece.getPieceType()== ChessPiece.PieceType.KING) {
       KingMoveCalculator king = new KingMoveCalculator(piece,board,position);
-      return king.possibleMovesCalculator();
+      return king.getPossibleMoves();
     }
     else if (piece.getPieceType()== ChessPiece.PieceType.QUEEN) {
       QueenMoveCalculator queen = new QueenMoveCalculator(piece,board,position);
-      return queen.possibleMovesCalculator();
+      return queen.getPossibleMoves();
     }
     else if (piece.getPieceType()== ChessPiece.PieceType.ROOK) {
       RookMoveCalculator rook = new RookMoveCalculator(piece,board,position);
-      return rook.possibleMovesCalculator();
+      return rook.getPossibleMoves();
     }
     else if (piece.getPieceType()== ChessPiece.PieceType.KNIGHT) {
       KnightMoveCalculator knight = new KnightMoveCalculator(piece,board,position);
-      return knight.possibleMovesCalculator();
+      return knight.getPossibleMoves();
     }
     else if (piece.getPieceType()== ChessPiece.PieceType.PAWN) {
       PawnMoveCalculator pawn = new PawnMoveCalculator(piece,board,position);
-      return pawn.possibleMovesCalculator();
+      return pawn.getPossibleMoves();
     }
     else{
       return null;
     }
   }
 
+  public ChessPiece getPiece() {
+    return piece;
+  }
+
+  public ChessBoard getBoard() {
+    return board;
+  }
+
+  public ChessPosition getPosition() {
+    return position;
+  }
 
   public Collection<ChessMove> directionMover(int rowIncrement, int columnIncrement, boolean continuousMovement) {
     Collection<ChessMove> chessMoveCollection = new ArrayList<>();
