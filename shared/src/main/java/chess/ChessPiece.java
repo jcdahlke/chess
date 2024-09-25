@@ -56,32 +56,8 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        Collection<ChessMove> moveCollection = new ArrayList<>();
-        if (this.type == PieceType.BISHOP) {
-            Bishop bishop = new Bishop(pieceColor, type, myPosition, moveCollection, board);
-            bishop.potentialMoveAdder();
-        }
-        else if(this.type == PieceType.KING) {
-            King king = new King(pieceColor, type, myPosition, moveCollection, board);
-            king.potentialMoveAdder();
-        }
-        else if(this.type == PieceType.KNIGHT) {
-            Knight knight = new Knight(pieceColor, type, myPosition, moveCollection, board);
-            knight.potentialMoveAdder();
-        }
-        else if(this.type == PieceType.PAWN) {
-            Pawn pawn = new Pawn(pieceColor, type, myPosition, moveCollection, board);
-            pawn.potentialMoveAdder();
-        }
-        else if(this.type == PieceType.QUEEN) {
-            Queen queen = new Queen(pieceColor, type, myPosition, moveCollection, board);
-            queen.potentialMoveAdder();
-        }
-        else if(this.type == PieceType.ROOK) {
-            Rook rook = new Rook(pieceColor, type, myPosition, moveCollection, board);
-            rook.potentialMoveAdder();
-        }
-        return moveCollection;
+        PieceMoveCalculator calculator = new PieceMoveCalculator(this, board, myPosition);
+        return calculator.pieceSorter();
     }
 
     public boolean spaceOccupied(ChessBoard board, ChessPosition position) {
