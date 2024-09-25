@@ -46,22 +46,22 @@ public class PieceMoveCalculator {
   }
 
 
-  public Collection<ChessMove> directionMover(int rowIncrement, int columnIncrement, ChessPosition startPosition, boolean continuousMovement) {
+  public Collection<ChessMove> directionMover(int rowIncrement, int columnIncrement, boolean continuousMovement) {
     Collection<ChessMove> chessMoveCollection = new ArrayList<>();
-    ChessPosition newPosition = new ChessPosition(startPosition.getRow() + rowIncrement, startPosition.getColumn()+columnIncrement);
+    ChessPosition newPosition = new ChessPosition(position.getRow() + rowIncrement, position.getColumn()+columnIncrement);
     if (continuousMovement){
       while (!newPosition.isOutOfBounds() && (!spaceOccupied(newPosition))) {
-        chessMoveCollection.add(new ChessMove(startPosition, newPosition));
+        chessMoveCollection.add(new ChessMove(position, newPosition));
         newPosition = new ChessPosition(newPosition.getRow() + rowIncrement, newPosition.getColumn()+columnIncrement);
       }
       if (!newPosition.isOutOfBounds() && (!spaceOccupied(newPosition) || board.getPiece(newPosition).getTeamColor() != piece.getTeamColor())) {
-        chessMoveCollection.add(new ChessMove(startPosition, newPosition));
+        chessMoveCollection.add(new ChessMove(position, newPosition));
       }
     }
     else {
       if (!newPosition.isOutOfBounds()) {
         if (!spaceOccupied(newPosition) || board.getPiece(newPosition).getTeamColor() != piece.getTeamColor()) {
-          chessMoveCollection.add(new ChessMove(startPosition, newPosition));
+          chessMoveCollection.add(new ChessMove(position, newPosition));
         }
       }
     }
