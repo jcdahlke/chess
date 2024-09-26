@@ -61,7 +61,7 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+        board.movePiece(move);
     }
 
     /**
@@ -101,8 +101,7 @@ public class ChessGame {
      * @param board the new board to use
      */
     public void setBoard(ChessBoard board) {
-
-        board.resetBoard();
+        this.board = board;
     }
 
     /**
