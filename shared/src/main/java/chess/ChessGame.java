@@ -70,8 +70,18 @@ public class ChessGame {
         if (possibleMoves == null){
             throw new InvalidMoveException("No piece at this position");
         }
+        if(board.getPiece(move.getStartPosition()).getTeamColor() != currentTeamTurn) {
+            throw new InvalidMoveException("It is not this teams turn");
+        }
+
         if (possibleMoves.contains(move)) {
             board.movePiece(move);
+            if (board.getPiece(move.getEndPosition()).getTeamColor() == TeamColor.WHITE) {
+                currentTeamTurn = TeamColor.BLACK;
+            }
+            else {
+                currentTeamTurn = TeamColor.WHITE;
+            }
         }
         else {
             throw new InvalidMoveException("This is not a valid move");
