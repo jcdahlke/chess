@@ -96,7 +96,23 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        Collection<ChessMove> possibleMoves;
+        ChessPiece currentPiece;
+        for (int r=1; r <9; r++) {
+            for (int c = 1; c < 9; c++) {
+                currentPiece = board.getPiece(new ChessPosition(r,c));
+                if(currentPiece!=null && currentPiece.getTeamColor() != teamColor) {
+                    possibleMoves = validMoves(new ChessPosition(r,c));
+                    for (ChessMove move:possibleMoves) {
+                        if (board.getPiece(move.getEndPosition())!=null && board.getPiece(move.getEndPosition()).getPieceType() == ChessPiece.PieceType.KING) {
+                            return true;
+                        }
+                    }
+                }
+
+            }
+        }
+        return false;
     }
 
     /**
