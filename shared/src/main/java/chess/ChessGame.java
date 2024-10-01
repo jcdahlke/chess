@@ -126,6 +126,13 @@ public class ChessGame {
         return false;
     }
 
+    /**
+     * Determines if the given team is in check given theoritical board
+     *
+     * @param teamColor which team to check for check
+     * @param copyBoard a copy of the current playing board with changes
+     * @return True if the specified team is in check
+     */
     public boolean isInCheck(TeamColor teamColor, ChessBoard copyBoard) {
         Collection<ChessMove> possibleMoves;
         ChessPiece currentPiece;
