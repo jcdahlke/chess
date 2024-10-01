@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -57,9 +58,10 @@ public class ChessGame {
         else {
             Collection<ChessMove> moves = board.getPiece(startPosition).pieceMoves(board,startPosition);
             ChessBoard copyBoard = board.copy();
-            for (ChessMove move: moves) {
+            Collection<ChessMove> copyMoves = new CopyOnWriteArrayList<>(moves);
+            for (ChessMove move: copyMoves) {
                 copyBoard.movePiece(move);
-                if (isInCheck(currentTeamTurn,copyBoard)) {
+                if (isInCheck(copyBoard.getPiece(move.getEndPosition()).getTeamColor(),copyBoard)) {
                     moves.remove(move);
                 }
                 copyBoard = board.copy();
