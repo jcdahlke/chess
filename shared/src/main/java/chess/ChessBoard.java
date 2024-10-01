@@ -94,6 +94,21 @@ public class ChessBoard {
         addPiece(new ChessPosition(7,8), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN));
     }
 
+    public ChessBoard copy() {
+        ChessBoard newBoard = new ChessBoard();
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                ChessPiece piece = squares[row][col];
+                if (piece != null) {
+                    newBoard.squares[row][col] = new ChessPiece(piece.getTeamColor(), piece.getPieceType());
+                }
+            }
+        }
+
+        return newBoard;
+    }
+
     @Override
     public String toString() {
         String outcome = "";
