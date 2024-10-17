@@ -11,6 +11,8 @@ public class Server {
 
         // Register your endpoints and handle exceptions here.
 
+        Spark.delete("/db", this::clearHandler);
+
         //This line initializes the server and can be removed once you have a functioning endpoint 
         Spark.init();
 
@@ -18,6 +20,33 @@ public class Server {
         return Spark.port();
     }
 
+    private String clearHandler(Request req, Response res){
+        return "";
+    }
+
+    private Object registerHandler(Request req, Response res) {
+        return "";
+    }
+
+    private Object loginHandler(Request req, Response res) {
+        return "";
+    }
+
+    private Object logoutHandler(Request req, Response res) {
+        return "";
+    }
+
+    private Object listGamesHandler(Request req, Response res) {
+        return "";
+    }
+
+    private Object createGamesHandler(Request req, Response res) {
+        return "";
+    }
+
+    private Object joinGameHandler(Request req, Response res) {
+        return "";
+    }
     public void stop() {
         Spark.stop();
         Spark.awaitStop();
