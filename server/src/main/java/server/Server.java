@@ -10,14 +10,14 @@ public class Server {
         Spark.staticFiles.location("web");
 
         // Register your endpoints and handle exceptions here.
-
+        String gamePath = "/game";
         Spark.delete("/db", this::clearHandler);
         Spark.post("/user", this::registerHandler);
         Spark.post("/session", this::loginHandler);
         Spark.delete("/session", this::logoutHandler);
-        Spark.get("/game", this::listGamesHandler);
-        Spark.post("/game", this::createGamesHandler);
-        Spark.put("/game", this::joinGameHandler);
+        Spark.get(gamePath, this::listGamesHandler);
+        Spark.post(gamePath, this::createGamesHandler);
+        Spark.put(gamePath, this::joinGameHandler);
 
         //This line initializes the server and can be removed once you have a functioning endpoint 
         Spark.init();
