@@ -27,10 +27,14 @@ public class Server {
     }
 
     private String clearHandler(Request req, Response res){
+
         return "";
     }
 
     private Object registerHandler(Request req, Response res) {
+        if (req.body().length() != 3) {
+            throw new RuntimeException("We need 3 inputs");
+        }
         return "";
     }
 
