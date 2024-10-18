@@ -18,3 +18,9 @@ Q
 !src/main/java/model/AuthData.java,7\b\7bcd29809a55527ca1777bd63a3d1e148c92b46e
 Q
 !src/main/java/model/GameData.java,6\7\67153312f42cfc25e918e7241d99ff3d32f0ce01
+U
+%src/main/java/dataaccess/UserDAO.java,5\2\522842c61ae2e3dbd8796886903058d7de2ae8dc
+U
+%src/main/java/dataaccess/GameDAO.java,a\5\a55d6678c343ed4095b6c2089c7368d4633eff97
+U
+%src/main/java/dataaccess/AuthDAO.java,9\1\91db918cd92b11c75a61c2e65f189de168b5e6ef
