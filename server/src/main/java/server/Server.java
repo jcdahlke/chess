@@ -1,9 +1,11 @@
 package server;
 
+import com.google.gson.Gson;
+import model.UserData;
 import spark.*;
 
 public class Server {
-
+    private final Gson serializer = new Gson();
     public int run(int desiredPort) {
         Spark.port(desiredPort);
 
@@ -35,6 +37,8 @@ public class Server {
         if (req.body().length() != 3) {
             throw new RuntimeException("We need 3 inputs");
         }
+
+        var newUser = serializer.fromJson(req.body(), UserData.class);
         return "";
     }
 
