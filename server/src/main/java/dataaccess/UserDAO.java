@@ -3,9 +3,10 @@ package dataaccess;
 import model.UserData;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public abstract class UserDAO implements DataAccess{
-  final private HashMap<String, UserData> users = new HashMap<>();
+  private final HashMap<String, UserData> users = new HashMap<>();
 
   @Override
   public void clear() {
@@ -23,8 +24,9 @@ public abstract class UserDAO implements DataAccess{
     return users.get(username);
   }
 
+  //This may be an unnecessary method as I can check this on the service level
   @Override
   public Boolean authenticateUser(String password, UserData user) throws DataAccessException {
-    return password == user.password();
+    return Objects.equals(password, user.password());
   }
 }

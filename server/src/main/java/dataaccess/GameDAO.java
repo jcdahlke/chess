@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public abstract class GameDAO implements DataAccess {
   private int nextId = 1;
-  final private HashMap<Integer, GameData> chessGames = new HashMap<>();
+  private final HashMap<Integer, GameData> chessGames = new HashMap<>();
   @Override
   public void clear() {
     chessGames.clear();
@@ -21,7 +21,7 @@ public abstract class GameDAO implements DataAccess {
 
   @Override
   public GameData getGame(String gameID) throws DataAccessException {
-    return chessGames.get(gameID);
+    return chessGames.get(Integer.parseInt(gameID));
   }
 
   @Override
