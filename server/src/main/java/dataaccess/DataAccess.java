@@ -14,11 +14,11 @@ public interface DataAccess {
 
   UserData getUser() throws DataAccessException;
 
-  void createGame(GameData gameData) throws DataAccessException;
+  void createGame(String gameName) throws DataAccessException;
 
   GameData getGame(String gameID) throws DataAccessException;
 
-  Collection<ChessGame> listGames();
+  Collection<GameData> listGames();
 
   void updateGame(String gameID, String newID) throws DataAccessException;
 

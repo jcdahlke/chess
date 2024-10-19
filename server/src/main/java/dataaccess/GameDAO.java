@@ -8,28 +8,29 @@ import java.util.HashMap;
 
 public abstract class GameDAO implements DataAccess {
   private int nextId = 1;
-  final private HashMap<Integer, ChessGame> chesGames = new HashMap<>();
+  final private HashMap<Integer, GameData> chessGames = new HashMap<>();
   @Override
   public void clear() {
-    chesGames.clear();
+    chessGames.clear();
   }
   @Override
-  public void createGame(GameData gameData) throws DataAccessException {
-
+  public void createGame(String gameName) throws DataAccessException {
+    GameData game = new GameData(nextId++, null, null, gameName, new ChessGame());
+    chessGames.put(game.gameID(), game);
   }
 
   @Override
   public GameData getGame(String gameID) throws DataAccessException {
-    return null;
+    return chessGames.get(gameID);
   }
 
   @Override
-  public Collection<ChessGame> listGames() {
-    return null;
+  public Collection<GameData> listGames() {
+    return chessGames.values();
   }
 
   @Override
   public void updateGame(String gameID, String newID) throws DataAccessException {
-
+    //FIXME
   }
 }
