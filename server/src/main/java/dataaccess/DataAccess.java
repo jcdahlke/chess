@@ -10,9 +10,11 @@ import java.util.Collection;
 public interface DataAccess {
 
   void clear();
-  void createUser(UserData user) throws DataAccessException;
+  void createUser(String username, String password, String email) throws DataAccessException;
 
-  UserData getUser() throws DataAccessException;
+  UserData getUser(String username) throws DataAccessException;
+
+  Boolean authenticateUser(String password, UserData user) throws DataAccessException;
 
   void createGame(String gameName) throws DataAccessException;
 
