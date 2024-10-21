@@ -31,7 +31,16 @@ public class GameDAO implements GameDataAccess {
   }
 
   @Override
-  public void updateGame(String gameID, String newID) throws DataAccessException {
-    //FIXME
+  public void updateGame(String gameID, String newUser, ChessGame.TeamColor color) throws DataAccessException {
+    GameData game = chessGames.get(Integer.parseInt(gameID));
+    GameData newGame;
+    if (color.equals(ChessGame.TeamColor.WHITE)){
+      newGame = new GameData(game.gameID(), newUser, game.blackUsername(), game.gameName(), game.game());
+    }
+    else {
+      newGame = new GameData(game.gameID(), game.whiteUsername(), newUser, game.gameName(), game.game());
+    }
+    chessGames.remove(Integer.parseInt(gameID));
+    chessGames.put(Integer.parseInt(gameID), newGame);
   }
 }

@@ -1,5 +1,6 @@
 package server;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -78,9 +79,10 @@ public class Server {
     }
 
     private Object listGamesHandler(Request req, Response res) throws DataAccessException {
-        Collection<GameData> gamesList = gameService.listGames(req.headers("authorization"));
+        String authToken = req.headers("authorization");
+        Collection<GameData> gamesList = gameService.listGames(authToken);
         res.status(200);
-        return new Gson().toJson(Map.of("game", gamesList.toArray()));
+        return new Gson().toJson(Map.of("games", gamesList.toArray()));
     }
 
     private Object createGamesHandler(Request req, Response res) throws DataAccessException {
@@ -98,6 +100,20 @@ public class Server {
     }
 
     private Object joinGameHandler(Request req, Response res) {
+        String authToken = req.headers("authorization");
+        JsonObject jsonObject = JsonParser.parseString(req.body()).getAsJsonObject();
+        int gameID = jsonObject.get("gameID").getAsInt();
+        String colorString = jsonObject.get("playerColor").getAsString();
+        ChessGame.TeamColor color;
+        if (colorString.equals("WHITE")) {
+            color = ChessGame.TeamColor.WHITE;
+        }
+        else {
+            color = ChessGame.TeamColor.BLACK;
+        }
+
+
+        res.status(200);
         return "";
     }
     public void stop() {

@@ -1,5 +1,6 @@
 package dataaccess;
 
+import chess.ChessGame;
 import model.GameData;
 
 import java.util.Collection;
@@ -14,5 +15,5 @@ public interface GameDataAccess {
 
   Collection<GameData> listGames();
 
-  void updateGame(String gameID, String newID) throws DataAccessException;
+  void updateGame(String gameID, String newUser, ChessGame.TeamColor color) throws DataAccessException;
 }
