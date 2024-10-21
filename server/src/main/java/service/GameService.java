@@ -1,6 +1,10 @@
 package service;
 
 import dataaccess.DataAccess;
+import dataaccess.DataAccessException;
+import model.GameData;
+
+import java.util.Collection;
 
 public class GameService {
   private final DataAccess dataAccess;
@@ -9,5 +13,10 @@ public class GameService {
     this.dataAccess=dataAccess;
   }
 
-  public
+  public Collection<GameData> listGames(String authToken) throws DataAccessException {
+    dataAccess.getAuth(authToken);
+    return dataAccess.listGames();
+  }
+
+
 }
