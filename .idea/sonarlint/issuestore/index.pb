@@ -42,3 +42,11 @@ a
 1src/main/java/dataaccess/DataAccessException.java,6\e\6e09ec32b48351089b4f11f02293c0f806a5c04f
 X
 (src/main/java/dataaccess/DataAccess.java,b\f\bf696fea8e620291a0e39614135cd11112ed2668
+V
+&src/main/java/service/UserService.java,f\2\f2bf6a3d9f14ae9a85e78a6ec1a3f81261e3329c
+V
+&src/main/java/service/AuthService.java,f\5\f577623d535484927fcb9913d4be40aff600b239
+W
+'src/main/java/service/GamerService.java,f\2\f29364f132329b7481b0d0fa1bc2c2e6290548e9
+V
+&src/main/java/service/GameService.java,9\f\9fb869ea241e6fca6054397a70142c04b4036d07

@@ -13,10 +13,11 @@ public abstract class AuthDAO implements DataAccess{
   }
 
   @Override
-  public void createAuth(String username) {
+  public String createAuth(String username) {
     AuthData auth = new AuthData(generateToken(), username);
 
     authData.put(auth.authToken(), auth);
+    return auth.authToken();
   }
 
   @Override
