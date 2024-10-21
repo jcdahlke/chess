@@ -18,5 +18,9 @@ public class GameService {
     return dataAccess.listGames();
   }
 
+  public int createGame(String authToken, String gameName) throws DataAccessException {
+    return dataAccess.createGame(gameName);
+  }
+
 
 }

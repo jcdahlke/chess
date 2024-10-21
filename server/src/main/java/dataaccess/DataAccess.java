@@ -16,7 +16,7 @@ public interface DataAccess {
 
   Boolean authenticateUser(String password, UserData user) throws DataAccessException;
 
-  void createGame(String gameName) throws DataAccessException;
+  int createGame(String gameName) throws DataAccessException;
 
   GameData getGame(String gameID) throws DataAccessException;
 

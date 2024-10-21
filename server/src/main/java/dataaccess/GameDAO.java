@@ -14,9 +14,10 @@ public abstract class GameDAO implements DataAccess {
     chessGames.clear();
   }
   @Override
-  public void createGame(String gameName) throws DataAccessException {
+  public int createGame(String gameName) throws DataAccessException {
     GameData game = new GameData(nextId++, null, null, gameName, new ChessGame());
     chessGames.put(game.gameID(), game);
+    return game.gameID();
   }
 
   @Override
