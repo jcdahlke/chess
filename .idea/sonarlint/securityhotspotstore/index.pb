@@ -50,3 +50,9 @@ W
 'src/main/java/service/GamerService.java,f\2\f29364f132329b7481b0d0fa1bc2c2e6290548e9
 V
 &src/main/java/service/GameService.java,9\f\9fb869ea241e6fca6054397a70142c04b4036d07
+\
+,src/main/java/dataaccess/AuthDataAccess.java,8\2\820193bbe3fb34889fc3a2954234acf1d4b1ee8a
+\
+,src/main/java/dataaccess/GameDataAccess.java,e\6\e605aab99be2abd41590f76f5060633bc115a5d0
+\
+,src/main/java/dataaccess/UserDataAccess.java,4\7\47979ae0f26408df359ed63eaed1d3fe6c5f6964

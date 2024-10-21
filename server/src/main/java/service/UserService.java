@@ -16,7 +16,7 @@ public class UserService {
   }
 
   public AuthData register(String username, String password, String email) throws DataAccessException {
-    if (userDataAccess.getUser(username).equals(null)) {
+    if (userDataAccess.getUser(username) != null) {
       throw new DataAccessException("User already exists");
     }
     userDataAccess.createUser(username, password, email);

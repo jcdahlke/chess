@@ -1,10 +1,8 @@
 package server;
 
 import com.google.gson.Gson;
-import dataaccess.AuthDAO;
-import dataaccess.DataAccess;
-import dataaccess.GameDAO;
-import dataaccess.UserDAO;
+import dataaccess.*;
+import model.AuthData;
 import model.UserData;
 import service.ClearService;
 import service.GameService;
@@ -44,21 +42,27 @@ public class Server {
     }
 
     private String clearHandler(Request req, Response res){
-
+        clearService.clearAllData();
+        res.status(200);
         return "";
     }
 
-    private Object registerHandler(Request req, Response res) {
-        if (req.body().length() != 3) {
-            throw new RuntimeException("We need 3 inputs");
-        }
+    private Object registerHandler(Request req, Response res) throws DataAccessException {
+//        if (req.body().length() != 3) {
+//            throw new RuntimeException("We need 3 inputs");
+//        }
 
         var newUser = serializer.fromJson(req.body(), UserData.class);
-        return "";
+        AuthData authData = userService.register(newUser.username(), newUser.password(), newUser.email());
+        res.status(200);
+        return new Gson().toJson(authData);
     }
 
-    private Object loginHandler(Request req, Response res) {
-        return "";
+    private Object loginHandler(Request req, Response res) throws DataAccessException {
+        var newUser = serializer.fromJson(req.body(), UserData.class);
+        String authToken = userService.userLogin(newUser.username(), newUser.password());
+        res.status(200);
+        return new Gson().toJson(authToken);
     }
 
     private Object logoutHandler(Request req, Response res) {
