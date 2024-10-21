@@ -67,7 +67,16 @@ public class Server {
 
     private Object loginHandler(Request req, Response res) throws DataAccessException {
         var newUser = serializer.fromJson(req.body(), UserData.class);
-        AuthData authData = userService.userLogin(newUser.username(), newUser.password());
+        AuthData authData;
+        try{
+            authData = userService.userLogin(newUser.username(), newUser.password());
+        }
+        catch (DataAccessException e) {
+            res.status(401);
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("message", "Error: unauthorized");
+            return errorResponse;
+        }
         res.status(200);
         return new Gson().toJson(authData);
     }
