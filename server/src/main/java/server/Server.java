@@ -99,10 +99,10 @@ public class Server {
 
     }
 
-    private Object joinGameHandler(Request req, Response res) {
+    private Object joinGameHandler(Request req, Response res) throws DataAccessException {
         String authToken = req.headers("authorization");
         JsonObject jsonObject = JsonParser.parseString(req.body()).getAsJsonObject();
-        int gameID = jsonObject.get("gameID").getAsInt();
+        String gameID = jsonObject.get("gameID").getAsString();
         String colorString = jsonObject.get("playerColor").getAsString();
         ChessGame.TeamColor color;
         if (colorString.equals("WHITE")) {
@@ -112,7 +112,7 @@ public class Server {
             color = ChessGame.TeamColor.BLACK;
         }
 
-
+        gameService.joinGame(authToken, gameID, color);
         res.status(200);
         return "";
     }
