@@ -2,6 +2,7 @@ package service;
 
 import dataaccess.DataAccess;
 import dataaccess.DataAccessException;
+import model.AuthData;
 import model.UserData;
 
 import java.util.ArrayList;
@@ -14,17 +15,13 @@ public class UserService {
     this.dataAccess=dataAccess;
   }
 
-  public Collection<String> register(String username, String password, String email) throws DataAccessException {
+  public AuthData register(String username, String password, String email) throws DataAccessException {
     if (dataAccess.getUser(username).equals(null)) {
       throw new DataAccessException("User already exists");
     }
     dataAccess.createUser(username, password, email);
     String authToken =dataAccess.createAuth(username);
-    Collection<String> result = new ArrayList<>();
-    result.add(username);
-    result.add(authToken);
-
-    return result;
+    return dataAccess.getAuth(authToken);
   }
 
   public String userLogin(String username, String password) throws DataAccessException {
