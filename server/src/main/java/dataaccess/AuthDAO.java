@@ -5,7 +5,7 @@ import model.AuthData;
 import java.util.HashMap;
 import java.util.UUID;
 
-public abstract class AuthDAO implements DataAccess{
+public class AuthDAO implements AuthDataAccess{
   private final HashMap<String, AuthData> authData = new HashMap<>();
   @Override
   public void clear() {

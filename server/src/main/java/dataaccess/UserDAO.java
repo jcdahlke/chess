@@ -5,7 +5,7 @@ import model.UserData;
 import java.util.HashMap;
 import java.util.Objects;
 
-public abstract class UserDAO implements DataAccess{
+public class UserDAO implements UserDataAccess{
   private final HashMap<String, UserData> users = new HashMap<>();
 
   @Override

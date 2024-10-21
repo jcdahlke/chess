@@ -1,14 +1,23 @@
 package service;
 
-import dataaccess.DataAccess;
+import dataaccess.AuthDataAccess;
+import dataaccess.GameDataAccess;
+import dataaccess.UserDataAccess;
 
 public class ClearService {
-  public ClearService(DataAccess dataAccess) {
-    this.dataAccess=dataAccess;
+  private final GameDataAccess gameDataAccess;
+  private final UserDataAccess userDataAccess;
+  private final AuthDataAccess authDataAccess;
+
+  public ClearService(GameDataAccess gameDataAccess, UserDataAccess userDataAccess, AuthDataAccess authDataAccess) {
+    this.gameDataAccess=gameDataAccess;
+    this.userDataAccess=userDataAccess;
+    this.authDataAccess=authDataAccess;
   }
 
-  private final DataAccess dataAccess;
   public void clearAllData() {
-    dataAccess.clear();
+    gameDataAccess.clear();
+    userDataAccess.clear();
+    authDataAccess.clear();
   }
 }

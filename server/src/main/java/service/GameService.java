@@ -1,25 +1,30 @@
 package service;
 
-import dataaccess.DataAccess;
+import dataaccess.AuthDataAccess;
 import dataaccess.DataAccessException;
+import dataaccess.GameDataAccess;
 import model.GameData;
 
 import java.util.Collection;
 
 public class GameService {
-  private final DataAccess dataAccess;
+  private final GameDataAccess gameDataAccess;
+  private final AuthDataAccess authDataAccess;
 
-  public GameService(DataAccess dataAccess) {
-    this.dataAccess=dataAccess;
+  public GameService(GameDataAccess gameDataAccess, AuthDataAccess authDataAccess) {
+    this.gameDataAccess=gameDataAccess;
+    this.authDataAccess=authDataAccess;
   }
 
+
   public Collection<GameData> listGames(String authToken) throws DataAccessException {
-    dataAccess.getAuth(authToken);
-    return dataAccess.listGames();
+    authDataAccess.getAuth(authToken);
+    return gameDataAccess.listGames();
   }
 
   public int createGame(String authToken, String gameName) throws DataAccessException {
-    return dataAccess.createGame(gameName);
+    authDataAccess.getAuth(authToken);
+    return gameDataAccess.createGame(gameName);
   }
 
 

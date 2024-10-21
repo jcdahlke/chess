@@ -6,7 +6,7 @@ import model.GameData;
 import java.util.Collection;
 import java.util.HashMap;
 
-public abstract class GameDAO implements DataAccess {
+public class GameDAO implements GameDataAccess {
   private int nextId = 1;
   private final HashMap<Integer, GameData> chessGames = new HashMap<>();
   @Override
