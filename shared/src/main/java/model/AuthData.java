@@ -2,6 +2,6 @@ package model;
 
 import java.util.HashMap;
 
-public record AuthData(String authToken, String username) {
+public record AuthData(String username, String authToken) {
 
 }

@@ -60,9 +60,9 @@ public class Server {
 
     private Object loginHandler(Request req, Response res) throws DataAccessException {
         var newUser = serializer.fromJson(req.body(), UserData.class);
-        String authToken = userService.userLogin(newUser.username(), newUser.password());
+        AuthData authData = userService.userLogin(newUser.username(), newUser.password());
         res.status(200);
-        return new Gson().toJson(authToken);
+        return new Gson().toJson(authData);
     }
 
     private Object logoutHandler(Request req, Response res) {

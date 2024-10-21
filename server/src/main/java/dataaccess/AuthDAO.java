@@ -14,7 +14,7 @@ public class AuthDAO implements AuthDataAccess{
 
   @Override
   public String createAuth(String username) {
-    AuthData auth = new AuthData(generateToken(), username);
+    AuthData auth = new AuthData(username, generateToken());
 
     authData.put(auth.authToken(), auth);
     return auth.authToken();

@@ -24,10 +24,11 @@ public class UserService {
     return authDataAccess.getAuth(authToken);
   }
 
-  public String userLogin(String username, String password) throws DataAccessException {
+  public AuthData userLogin(String username, String password) throws DataAccessException {
     UserData user = userDataAccess.getUser(username);
     if(userDataAccess.authenticateUser(password, user)){
-      return authDataAccess.createAuth(username);
+      String authToken = authDataAccess.createAuth(username);
+      return authDataAccess.getAuth(authToken);
     }
     else {
       throw new DataAccessException("WrongPassword");
