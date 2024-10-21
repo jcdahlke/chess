@@ -1,13 +1,19 @@
 package server;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import dataaccess.*;
 import model.AuthData;
+import model.GameData;
 import model.UserData;
 import service.ClearService;
 import service.GameService;
 import service.UserService;
 import spark.*;
+
+import java.util.Collection;
+import java.util.Map;
 
 public class Server {
     private final Gson serializer = new Gson();
@@ -67,15 +73,28 @@ public class Server {
 
     private Object logoutHandler(Request req, Response res) throws DataAccessException {
         userService.logout(req.headers("authorization"));
+        res.status(200);
         return "";
     }
 
-    private Object listGamesHandler(Request req, Response res) {
-        return "";
+    private Object listGamesHandler(Request req, Response res) throws DataAccessException {
+        Collection<GameData> gamesList = gameService.listGames(req.headers("authorization"));
+        res.status(200);
+        return new Gson().toJson(Map.of("game", gamesList.toArray()));
     }
 
-    private Object createGamesHandler(Request req, Response res) {
-        return "";
+    private Object createGamesHandler(Request req, Response res) throws DataAccessException {
+//        String gameName = serializer.fromJson(req.body(), String.class);
+        JsonObject jsonObject = JsonParser.parseString(req.body()).getAsJsonObject();
+
+        // Extract the "gameName" field from the JSON object
+        String gameName = jsonObject.get("gameName").getAsString();
+        int gameID = gameService.createGame(req.headers("authorization"), gameName);
+        res.status(200);
+        JsonObject responseJson = new JsonObject();
+        responseJson.addProperty("gameID", gameID);
+        return responseJson.toString();
+
     }
 
     private Object joinGameHandler(Request req, Response res) {
