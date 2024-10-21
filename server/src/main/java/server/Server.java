@@ -65,7 +65,8 @@ public class Server {
         return new Gson().toJson(authData);
     }
 
-    private Object logoutHandler(Request req, Response res) {
+    private Object logoutHandler(Request req, Response res) throws DataAccessException {
+        userService.logout(req.headers("authorization"));
         return "";
     }
 
