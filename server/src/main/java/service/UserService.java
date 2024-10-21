@@ -26,12 +26,15 @@ public class UserService {
 
   public AuthData userLogin(String username, String password) throws DataAccessException {
     UserData user = userDataAccess.getUser(username);
-    if(userDataAccess.authenticateUser(password, user)){
+    if(user == null) {
+      throw new DataAccessException("Invalid username");
+    }
+    if(userDataAccess.authenticateUser(password, user) && user != null ){
       String authToken = authDataAccess.createAuth(username);
       return authDataAccess.getAuth(authToken);
     }
     else {
-      throw new DataAccessException("WrongPassword");
+      throw new DataAccessException("Wrong password");
     }
   }
 
