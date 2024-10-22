@@ -132,6 +132,12 @@ public class Server {
     }
 
     private Object createGamesHandler(Request req, Response res) throws DataAccessException {
+        if (!req.body().contains("gameName")) {
+            res.status(400);
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("message", "Error: bad request");
+            return errorResponse;
+        }
 //        String gameName = serializer.fromJson(req.body(), String.class);
         JsonObject jsonObject = JsonParser.parseString(req.body()).getAsJsonObject();
         // Extract the "gameName" field from the JSON object
