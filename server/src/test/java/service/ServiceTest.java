@@ -97,5 +97,25 @@ public class ServiceTest {
     assertEquals("unauthorized", exception.getMessage());
   }
 
+  @Test
+  void goodCreateGame() throws DataAccessException {
+    var authToken = authDAO.createAuth("username");
+
+    assertNull(gameDAO.getGame("1"));
+
+    String gameID = Integer.toString(gameService.createGame(authToken, "gameName"));
+     assertNotNull(gameDAO.getGame(gameID));
+  }
+
+  @Test
+  void badCreateGame() throws DataAccessException{
+    authDAO.createAuth("username");
+
+    Exception exception = assertThrows(DataAccessException.class, () -> {
+      gameService.createGame("fake authToken", "gameName");
+    });
+
+    assertEquals("unauthorized", exception.getMessage());
+  }
 
 }
