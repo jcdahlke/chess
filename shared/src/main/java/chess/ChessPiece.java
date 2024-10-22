@@ -61,12 +61,7 @@ public class ChessPiece {
     }
 
     public boolean spaceOccupied(ChessBoard board, ChessPosition position) {
-        if (board.getPiece(position) == null) {
-            return false;
-        }
-        else {
-            return true;
-        }
+      return board.getPiece(position) != null;
     }
 
     @Override

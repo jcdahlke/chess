@@ -19,7 +19,7 @@ public class GameService {
 
 
   public Collection<GameData> listGames(String authToken) throws DataAccessException {
-    if (authDataAccess.getAuth(authToken) == null){
+    if (authDataAccess.getAuth(authToken) == null) {
       throw new DataAccessException("unauthorized");
     }
     authDataAccess.getAuth(authToken);
@@ -27,22 +27,21 @@ public class GameService {
   }
 
   public int createGame(String authToken, String gameName) throws DataAccessException {
-    if (authDataAccess.getAuth(authToken) == null){
+    if (authDataAccess.getAuth(authToken) == null) {
       throw new DataAccessException("unauthorized");
     }
     return gameDataAccess.createGame(gameName);
   }
 
   public void joinGame(String authToken, String gameID, ChessGame.TeamColor color) throws DataAccessException {
-    String username = authDataAccess.getAuth(authToken).username();
-    GameData game = gameDataAccess.getGame(gameID);
-    if(color == ChessGame.TeamColor.WHITE) {
-      if(game.whiteUsername()!=null) {
+    String username=authDataAccess.getAuth(authToken).username();
+    GameData game=gameDataAccess.getGame(gameID);
+    if (color == ChessGame.TeamColor.WHITE) {
+      if (game.whiteUsername() != null) {
         throw new DataAccessException("Already Taken");
       }
-    }
-    else {
-      if(game.blackUsername()!=null) {
+    } else {
+      if (game.blackUsername() != null) {
         throw new DataAccessException("Already Taken");
       }
     }

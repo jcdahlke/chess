@@ -81,12 +81,7 @@ public class PieceMoveCalculator {
 
 
   public boolean spaceOccupied (ChessPosition position) {
-    if (board.getPiece(position) != null) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return board.getPiece(position) != null;
   }
 
 }
