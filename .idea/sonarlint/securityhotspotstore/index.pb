@@ -68,3 +68,5 @@ R
 "src/main/java/chess/ChessMove.java,4\2\429c55da8253d8ee02138d80d1951c5e7d4a468c
 [
 +src/main/java/chess/PawnMoveCalculator.java,a\7\a7d42cd38cc02fd42f5abd9b5228063e08b32fc5
+V
+&src/main/java/chess/ChessPosition.java,1\2\12180158e3ed9f2b7cf9588a38f33fca071ee26a
