@@ -82,7 +82,15 @@ public class Server {
     }
 
     private Object logoutHandler(Request req, Response res) throws DataAccessException {
-        userService.logout(req.headers("authorization"));
+        try {
+            userService.logout(req.headers("authorization"));
+        }
+        catch (DataAccessException e) {
+            res.status(401);
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("message", "Error: unauthorized");
+            return errorResponse;
+        }
         res.status(200);
         return "";
     }

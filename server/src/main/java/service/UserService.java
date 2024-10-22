@@ -39,6 +39,9 @@ public class UserService {
   }
 
   public void logout(String authToken) throws DataAccessException {
+    if (authDataAccess.getAuth(authToken) == null){
+      throw new DataAccessException("");
+    }
     authDataAccess.deleteAuth(authToken);
   }
 }
