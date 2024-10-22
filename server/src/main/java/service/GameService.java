@@ -24,7 +24,9 @@ public class GameService {
   }
 
   public int createGame(String authToken, String gameName) throws DataAccessException {
-    authDataAccess.getAuth(authToken);
+    if (authDataAccess.getAuth(authToken) == null){
+      throw new DataAccessException("");
+    }
     return gameDataAccess.createGame(gameName);
   }
 

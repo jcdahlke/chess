@@ -105,10 +105,18 @@ public class Server {
     private Object createGamesHandler(Request req, Response res) throws DataAccessException {
 //        String gameName = serializer.fromJson(req.body(), String.class);
         JsonObject jsonObject = JsonParser.parseString(req.body()).getAsJsonObject();
-
         // Extract the "gameName" field from the JSON object
         String gameName = jsonObject.get("gameName").getAsString();
-        int gameID = gameService.createGame(req.headers("authorization"), gameName);
+        int gameID;
+        try {
+            gameID=gameService.createGame(req.headers("authorization"), gameName);
+        }
+        catch (DataAccessException e) {
+            res.status(401);
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("message", "Error: unauthorized");
+            return errorResponse;
+        }
         res.status(200);
         JsonObject responseJson = new JsonObject();
         responseJson.addProperty("gameID", gameID);
