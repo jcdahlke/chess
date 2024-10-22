@@ -160,7 +160,8 @@ public class Server {
     }
 
     private Object joinGameHandler(Request req, Response res) throws DataAccessException {
-        if (!req.body().contains("playerColor") || (!req.body().contains("WHITE") && !req.body().contains("BLACK")) || !req.body().contains("gameID")) {
+        if (!req.body().contains("playerColor") || (!req.body().contains("WHITE") && !req.body().contains("BLACK"))
+                || !req.body().contains("gameID")) {
             res.status(400);
             JsonObject errorResponse = new JsonObject();
             errorResponse.addProperty("message", "Error: bad request");
