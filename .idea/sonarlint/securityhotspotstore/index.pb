@@ -56,3 +56,9 @@ V
 ,src/main/java/dataaccess/GameDataAccess.java,e\6\e605aab99be2abd41590f76f5060633bc115a5d0
 \
 ,src/main/java/dataaccess/UserDataAccess.java,4\7\47979ae0f26408df359ed63eaed1d3fe6c5f6964
+\
+,src/main/java/chess/PieceMoveCalculator.java,6\b\6b3cf47f986a2254ff76a3694291a4d46a65972b
+S
+#src/main/java/chess/ChessPiece.java,8\5\85a88ea4958ed1b3e2cc2a545a3ad992329e985a
+S
+#src/main/java/chess/ChessBoard.java,1\3\139d0d4bb2b8e11a4e03dbed5b694452387fb52a

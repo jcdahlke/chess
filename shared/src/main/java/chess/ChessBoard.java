@@ -67,13 +67,7 @@ public class ChessBoard {
         addPiece(new ChessPosition(2,6), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN));
         addPiece(new ChessPosition(2,7), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN));
         addPiece(new ChessPosition(2,8), new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN));
-        
-        // makes middle space empty
-//        for (int r=3; r <7; r++) {
-//            for (int c = 1; c < 9; c++) {
-//                squares[r-1][c-1] = null;
-//            }
-//        }
+
 
         // All the Black pieces
         addPiece(new ChessPosition(8,1), new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK));
