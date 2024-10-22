@@ -1,4 +1,5 @@
 package service;
+import chess.ChessGame;
 import service.UserService;
 import service.GameService;
 import service.ClearService;
@@ -148,5 +149,44 @@ public class ServiceTest {
     });
 
     assertEquals("unauthorized", exception.getMessage());
+  }
+
+  @Test
+  void goodJoinGame() throws DataAccessException {
+    var authToken = authDAO.createAuth("username");
+    String gameID1 = Integer.toString(gameDAO.createGame("game1"));
+    gameService.joinGame(authToken, gameID1, ChessGame.TeamColor.BLACK);
+    var expectedBlackUsername = "username";
+    var actualBlackUsername = gameDAO.getGame(gameID1).blackUsername();
+
+    assertEquals(expectedBlackUsername, actualBlackUsername);
+  }
+
+  @Test
+  void badBlackJoinGame() throws DataAccessException {
+    var authToken1 = authDAO.createAuth("user1");
+    var authToken2 = authDAO.createAuth("user2");
+    String gameID1 = Integer.toString(gameDAO.createGame("game1"));
+    gameService.joinGame(authToken1, gameID1, ChessGame.TeamColor.BLACK);
+
+    Exception exception = assertThrows(DataAccessException.class, () -> {
+      gameService.joinGame(authToken2, gameID1, ChessGame.TeamColor.BLACK);
+    });
+
+    assertEquals("Already Taken", exception.getMessage());
+  }
+
+  @Test
+  void badWhiteJoinGame() throws DataAccessException {
+    var authToken1 = authDAO.createAuth("user1");
+    var authToken2 = authDAO.createAuth("user2");
+    String gameID1 = Integer.toString(gameDAO.createGame("game1"));
+    gameService.joinGame(authToken1, gameID1, ChessGame.TeamColor.WHITE);
+
+    Exception exception = assertThrows(DataAccessException.class, () -> {
+      gameService.joinGame(authToken2, gameID1, ChessGame.TeamColor.WHITE);
+    });
+
+    assertEquals("Already Taken", exception.getMessage());
   }
 }
