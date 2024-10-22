@@ -128,7 +128,7 @@ public class ChessGame {
     }
 
     /**
-     * Determines if the given team is in check given theoritical board
+     * Determines if the given team is in check given theoretical board
      *
      * @param teamColor which team to check for check
      * @param copyBoard a copy of the current playing board with changes
