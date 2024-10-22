@@ -64,3 +64,5 @@ S
 #src/main/java/chess/ChessBoard.java,1\3\139d0d4bb2b8e11a4e03dbed5b694452387fb52a
 R
 "src/main/java/chess/ChessGame.java,7\3\73bf4fdc57c71c6f70f600b9fea515a646b27eef
+R
+"src/main/java/chess/ChessMove.java,4\2\429c55da8253d8ee02138d80d1951c5e7d4a468c
