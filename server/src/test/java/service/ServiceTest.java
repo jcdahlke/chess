@@ -77,4 +77,25 @@ public class ServiceTest {
 
     assertEquals("Wrong password", exception.getMessage());
   }
+
+  @Test
+  void goodLogOut() throws DataAccessException  {
+    var authToken = authDAO.createAuth("username");
+    userService.logout(authToken);
+    var actualAuthData = authDAO.getAuth(authToken);
+    assertNull(actualAuthData);
+  }
+
+  @Test
+  void badLogOut() throws DataAccessException  {
+    authDAO.createAuth("username");
+
+    Exception exception = assertThrows(DataAccessException.class, () -> {
+      userService.logout("fake authToken");
+    });
+
+    assertEquals("unauthorized", exception.getMessage());
+  }
+
+
 }
