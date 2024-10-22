@@ -1,17 +1,24 @@
 package server;
 
 import chess.ChessGame;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import dataaccess.*;
+import dataaccess.AuthDAO;
+import dataaccess.DataAccessException;
+import dataaccess.GameDAO;
+import dataaccess.UserDAO;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
 import service.ClearService;
 import service.GameService;
 import service.UserService;
-import spark.*;
+import spark.Request;
+import spark.Response;
+import spark.Spark;
+
 
 import java.util.Collection;
 import java.util.Map;
@@ -55,12 +62,24 @@ public class Server {
     }
 
     private Object registerHandler(Request req, Response res) throws DataAccessException {
-//        if (req.body().length() != 3) {
-//            throw new RuntimeException("We need 3 inputs");
-//        }
-
+        if (!req.body().contains("username") || !req.body().contains("password") || !req.body().contains("email")) {
+            res.status(400);
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("message", "Error: bad request");
+            return errorResponse;
+        }
         var newUser = serializer.fromJson(req.body(), UserData.class);
-        AuthData authData = userService.register(newUser.username(), newUser.password(), newUser.email());
+
+        AuthData authData;
+        try {
+            authData=userService.register(newUser.username(), newUser.password(), newUser.email());
+        }
+        catch (DataAccessException e) {
+            res.status(403);
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("message", "Error: already taken");
+            return errorResponse;
+        }
         res.status(200);
         return new Gson().toJson(authData);
     }
