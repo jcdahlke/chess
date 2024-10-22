@@ -70,3 +70,7 @@ R
 +src/main/java/chess/PawnMoveCalculator.java,a\7\a7d42cd38cc02fd42f5abd9b5228063e08b32fc5
 V
 &src/main/java/chess/ChessPosition.java,1\2\12180158e3ed9f2b7cf9588a38f33fca071ee26a
+]
+-src/main/java/chess/InvalidMoveException.java,7\4\74dbc6a85b1a58bc483c83143b099c250c60bd7d
+]
+-src/main/java/chess/KnightMoveCalculator.java,4\f\4f244109c6bc6fc6c53b19567157e650f8b00379

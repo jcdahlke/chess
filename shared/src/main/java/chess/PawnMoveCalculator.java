@@ -48,15 +48,17 @@ public class PawnMoveCalculator extends PieceMoveCalculator {
 
     }
     else {
-      if (getPosition().getRow() == 2 && getPiece().getTeamColor() == ChessGame.TeamColor.WHITE && rowIncrement == 2) {
-        if (!spaceOccupied(newPosition) && !spaceOccupied(new ChessPosition(getPosition().getRow()+1, getPosition().getColumn()))) {
+      if (getPosition().getRow() == 2 && getPiece().getTeamColor() == ChessGame.TeamColor.WHITE && rowIncrement == 2 &&
+              (!spaceOccupied(newPosition) &&
+                      !spaceOccupied(new ChessPosition(getPosition().getRow()+1, getPosition().getColumn())))) {
           possibleMoves.add(new ChessMove(getPosition(), newPosition));
-        }
+
       }
-      if (getPosition().getRow() == 7 && getPiece().getTeamColor() == ChessGame.TeamColor.BLACK && rowIncrement == -2) {
-        if (!spaceOccupied(newPosition) && !spaceOccupied(new ChessPosition(getPosition().getRow()-1, getPosition().getColumn()))) {
+      if (getPosition().getRow() == 7 && getPiece().getTeamColor() == ChessGame.TeamColor.BLACK &&
+              rowIncrement == -2 && (!spaceOccupied(newPosition) &&
+              !spaceOccupied(new ChessPosition(getPosition().getRow()-1, getPosition().getColumn())))) {
           possibleMoves.add(new ChessMove(getPosition(), newPosition));
-        }
+
       }
       if (!newPosition.isOutOfBounds() && !spaceOccupied(newPosition) && rowIncrement != 2 && rowIncrement != -2) {
         if (newPosition.getRow() == 8 && getPiece().getTeamColor() == ChessGame.TeamColor.WHITE) {
