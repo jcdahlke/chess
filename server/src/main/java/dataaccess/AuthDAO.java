@@ -9,7 +9,7 @@ public class AuthDAO implements AuthDataAccess{
   private final HashMap<String, AuthData> authData = new HashMap<>();
   @Override
   public void clear() {
-
+    authData.clear();
   }
 
   @Override

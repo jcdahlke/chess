@@ -116,7 +116,17 @@ public class Server {
 
     private Object listGamesHandler(Request req, Response res) throws DataAccessException {
         String authToken = req.headers("authorization");
-        Collection<GameData> gamesList = gameService.listGames(authToken);
+        Collection<GameData> gamesList;
+        try {
+            gamesList = gameService.listGames(authToken);
+        }
+        catch (DataAccessException e){
+            res.status(401);
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("message", "Error: unauthorized");
+            return errorResponse;
+        }
+
         res.status(200);
         return new Gson().toJson(Map.of("games", gamesList.toArray()));
     }

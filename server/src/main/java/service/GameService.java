@@ -19,6 +19,9 @@ public class GameService {
 
 
   public Collection<GameData> listGames(String authToken) throws DataAccessException {
+    if (authDataAccess.getAuth(authToken) == null){
+      throw new DataAccessException("unauthorized");
+    }
     authDataAccess.getAuth(authToken);
     return gameDataAccess.listGames();
   }
