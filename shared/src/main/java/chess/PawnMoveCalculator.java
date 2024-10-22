@@ -29,9 +29,11 @@ public class PawnMoveCalculator extends PieceMoveCalculator {
   @Override
   public Collection<ChessMove> directionMover(int rowIncrement, int colIncrement, boolean diagonalMovement) {
     Collection<ChessMove> possibleMoves = new ArrayList<>();
-    ChessPosition newPosition=  new ChessPosition(getPosition().getRow()+rowIncrement, getPosition().getColumn()+colIncrement);
+    ChessPosition newPosition=  new ChessPosition(getPosition().getRow()+rowIncrement,
+            getPosition().getColumn()+colIncrement);
     if (diagonalMovement) {
-      if (!newPosition.isOutOfBounds() && spaceOccupied(newPosition) && getBoard().getPiece(newPosition).getTeamColor() != getPiece().getTeamColor()) {
+      if (!newPosition.isOutOfBounds() && spaceOccupied(newPosition) &&
+              getBoard().getPiece(newPosition).getTeamColor() != getPiece().getTeamColor()) {
 
         if (newPosition.getRow() == 8 && getPiece().getTeamColor() == ChessGame.TeamColor.WHITE) {
           possibleMoves.addAll(allPromotionTypes(getPosition(),newPosition));
