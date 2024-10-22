@@ -11,6 +11,10 @@ import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceTest {
@@ -118,4 +122,31 @@ public class ServiceTest {
     assertEquals("unauthorized", exception.getMessage());
   }
 
+  @Test
+  void goodListGames() throws DataAccessException {
+    var authToken = authDAO.createAuth("username");
+    String gameID1 = Integer.toString(gameDAO.createGame("game1"));
+    String gameID2 = Integer.toString(gameDAO.createGame("game2"));
+    String gameID3 = Integer.toString(gameDAO.createGame("game3"));
+    Collection<GameData> expectedList = new ArrayList<>();
+    expectedList.add(gameDAO.getGame(gameID1));
+    expectedList.add(gameDAO.getGame(gameID2));
+    expectedList.add(gameDAO.getGame(gameID3));
+
+    var actualList = gameService.listGames(authToken);
+
+    assertIterableEquals(expectedList, actualList);
+
+  }
+
+  @Test
+  void badListGames() throws DataAccessException{
+    authDAO.createAuth("username");
+
+    Exception exception = assertThrows(DataAccessException.class, () -> {
+      gameService.listGames("fake authToken");
+    });
+
+    assertEquals("unauthorized", exception.getMessage());
+  }
 }
