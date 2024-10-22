@@ -115,7 +115,8 @@ public class ChessGame {
                 if(currentPiece!=null && currentPiece.getTeamColor() != teamColor) {
                     possibleMoves = validMoves(new ChessPosition(r,c));
                     for (ChessMove move:possibleMoves) {
-                        if (board.getPiece(move.getEndPosition())!=null && board.getPiece(move.getEndPosition()).getPieceType() == ChessPiece.PieceType.KING) {
+                        if (board.getPiece(move.getEndPosition())!=null &&
+                                board.getPiece(move.getEndPosition()).getPieceType() == ChessPiece.PieceType.KING) {
                             return true;
                         }
                     }
