@@ -34,16 +34,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator {
     if (diagonalMovement) {
       if (!newPosition.isOutOfBounds() && spaceOccupied(newPosition) &&
               getBoard().getPiece(newPosition).getTeamColor() != getPiece().getTeamColor()) {
-
-        if (newPosition.getRow() == 8 && getPiece().getTeamColor() == ChessGame.TeamColor.WHITE) {
-          possibleMoves.addAll(allPromotionTypes(getPosition(),newPosition));
-        }
-        else if (newPosition.getRow() == 1 && getPiece().getTeamColor() == ChessGame.TeamColor.BLACK) {
-          possibleMoves.addAll(allPromotionTypes(getPosition(),newPosition));
-        }
-        else {
-          possibleMoves.add(new ChessMove(getPosition(), newPosition));
-        }
+        handleMoveWithPotentialPromotion(possibleMoves, newPosition);
       }
 
     }
@@ -61,15 +52,7 @@ public class PawnMoveCalculator extends PieceMoveCalculator {
 
       }
       if (!newPosition.isOutOfBounds() && !spaceOccupied(newPosition) && rowIncrement != 2 && rowIncrement != -2) {
-        if (newPosition.getRow() == 8 && getPiece().getTeamColor() == ChessGame.TeamColor.WHITE) {
-          possibleMoves.addAll(allPromotionTypes(getPosition(),newPosition));
-        }
-        else if (newPosition.getRow() == 1 && getPiece().getTeamColor() == ChessGame.TeamColor.BLACK) {
-          possibleMoves.addAll(allPromotionTypes(getPosition(),newPosition));
-        }
-        else {
-          possibleMoves.add(new ChessMove(getPosition(), newPosition));
-        }
+        handleMoveWithPotentialPromotion(possibleMoves, newPosition);
       }
     }
 
@@ -77,6 +60,19 @@ public class PawnMoveCalculator extends PieceMoveCalculator {
     return possibleMoves;
   }
 
+  private void handleMoveWithPotentialPromotion(Collection<ChessMove> possibleMoves, ChessPosition newPosition) {
+    if (isPromotion(newPosition)) {
+      possibleMoves.addAll(allPromotionTypes(getPosition(), newPosition));
+    } else {
+      possibleMoves.add(new ChessMove(getPosition(), newPosition));
+    }
+  }
+
+  private boolean isPromotion(ChessPosition newPosition) {
+    // Check if the move is a promotion move (reaching the last row for pawns)
+    return (newPosition.getRow() == 8 && getPiece().getTeamColor() == ChessGame.TeamColor.WHITE) ||
+            (newPosition.getRow() == 1 && getPiece().getTeamColor() == ChessGame.TeamColor.BLACK);
+  }
   public Collection<ChessMove> allPromotionTypes(ChessPosition startMove, ChessPosition endMove) {
     Collection<ChessMove> promotionPieces = new ArrayList<>();
     promotionPieces.add(new ChessMove(startMove,endMove, ChessPiece.PieceType.BISHOP));
