@@ -48,4 +48,33 @@ public class ServiceTest {
 
     assertEquals("User already exists", exception.getMessage());
   }
+
+  @Test
+  void goodLogIn() throws DataAccessException  {
+    userDAO.createUser("username", "password", "email");
+    var actualAuthData = userService.userLogin("username", "password");
+    var expectedAuthData = authDAO.getAuth(actualAuthData.authToken());
+
+    assertEquals(expectedAuthData, actualAuthData);
+  }
+
+  @Test
+  void badUsernameLogIn() throws DataAccessException  {
+    userDAO.createUser("username", "password", "email");
+    Exception exception = assertThrows(DataAccessException.class, () -> {
+      userService.userLogin("bad username", "password");
+    });
+
+    assertEquals("Invalid username", exception.getMessage());
+  }
+
+  @Test
+  void badPasswordLogIn() throws DataAccessException  {
+    userDAO.createUser("username", "password", "email");
+    Exception exception = assertThrows(DataAccessException.class, () -> {
+      userService.userLogin("username", "bad password");
+    });
+
+    assertEquals("Wrong password", exception.getMessage());
+  }
 }
