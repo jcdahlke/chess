@@ -32,6 +32,17 @@ public class GameService {
 
   public void joinGame(String authToken, String gameID, ChessGame.TeamColor color) throws DataAccessException {
     String username = authDataAccess.getAuth(authToken).username();
+    GameData game = gameDataAccess.getGame(gameID);
+    if(color == ChessGame.TeamColor.WHITE) {
+      if(game.whiteUsername()!=null) {
+        throw new DataAccessException("Already Taken");
+      }
+    }
+    else {
+      if(game.blackUsername()!=null) {
+        throw new DataAccessException("Already Taken");
+      }
+    }
     gameDataAccess.updateGame(gameID, username, color);
   }
 

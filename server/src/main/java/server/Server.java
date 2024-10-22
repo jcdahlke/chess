@@ -144,7 +144,19 @@ public class Server {
     }
 
     private Object joinGameHandler(Request req, Response res) throws DataAccessException {
+        if (!req.body().contains("playerColor") || (!req.body().contains("WHITE") && !req.body().contains("BLACK")) || !req.body().contains("gameID")) {
+            res.status(400);
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("message", "Error: bad request");
+            return errorResponse;
+        }
         String authToken = req.headers("authorization");
+        if (authDAO.getAuth(authToken)==null) {
+            res.status(401);
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("message", "Error: unauthorized");
+            return errorResponse;
+        }
         JsonObject jsonObject = JsonParser.parseString(req.body()).getAsJsonObject();
         String gameID = jsonObject.get("gameID").getAsString();
         String colorString = jsonObject.get("playerColor").getAsString();
@@ -155,8 +167,15 @@ public class Server {
         else {
             color = ChessGame.TeamColor.BLACK;
         }
-
-        gameService.joinGame(authToken, gameID, color);
+        try {
+            gameService.joinGame(authToken, gameID, color);
+        }
+        catch (DataAccessException e) {
+            res.status(403);
+            JsonObject errorResponse = new JsonObject();
+            errorResponse.addProperty("message", "Error: already taken");
+            return errorResponse;
+        }
         res.status(200);
         return "";
     }
