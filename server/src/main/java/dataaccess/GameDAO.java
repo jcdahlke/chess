@@ -43,4 +43,9 @@ public class GameDAO implements GameDataAccess {
     chessGames.remove(Integer.parseInt(gameID));
     chessGames.put(Integer.parseInt(gameID), newGame);
   }
+
+  @Override
+  public int size(){
+    return chessGames.size();
+  }
 }

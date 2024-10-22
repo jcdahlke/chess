@@ -30,6 +30,11 @@ public class AuthDAO implements AuthDataAccess{
     authData.remove(authToken);
   }
 
+  @Override
+  public int size(){
+    return authData.size();
+  }
+
   public static String generateToken() {
     return UUID.randomUUID().toString();
   }

@@ -16,4 +16,6 @@ public interface GameDataAccess {
   Collection<GameData> listGames();
 
   void updateGame(String gameID, String newUser, ChessGame.TeamColor color) throws DataAccessException;
+
+  int size();
 }

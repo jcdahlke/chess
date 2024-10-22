@@ -189,4 +189,24 @@ public class ServiceTest {
 
     assertEquals("Already Taken", exception.getMessage());
   }
+
+  @Test
+  void clearAll() throws DataAccessException {
+    gameDAO.createGame("gameName1");
+    gameDAO.createGame("gameName2");
+
+    authDAO.createAuth("username");
+
+    userDAO.createUser("username", "password", "email");
+
+    assertEquals(2, gameDAO.size());
+    assertEquals(1, authDAO.size());
+    assertEquals(1, userDAO.size());
+
+    clearService.clearAllData();
+
+    assertEquals(0, gameDAO.size());
+    assertEquals(0, authDAO.size());
+    assertEquals(0, userDAO.size());
+  }
 }

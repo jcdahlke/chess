@@ -10,4 +10,6 @@ public interface UserDataAccess {
   UserData getUser(String username) throws DataAccessException;
 
   Boolean authenticateUser(String password, UserData user) throws DataAccessException;
+
+  int size();
 }

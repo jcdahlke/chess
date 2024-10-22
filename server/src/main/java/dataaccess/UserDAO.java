@@ -29,4 +29,9 @@ public class UserDAO implements UserDataAccess{
   public Boolean authenticateUser(String password, UserData user) throws DataAccessException {
     return Objects.equals(password, user.password());
   }
+
+  @Override
+  public int size(){
+    return users.size();
+  }
 }
