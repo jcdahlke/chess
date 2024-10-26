@@ -8,3 +8,13 @@ _
 :
 
 server.iml,8\2\8223cc95a68355bfb31e8c65de12cb67ce74a18a
+X
+(src/main/java/dataaccess/SQLAuthDAO.java,2\d\2dc8b572d235f0a526a31a3ea9164595a1850045
+X
+(src/main/java/dataaccess/SQLGameDAO.java,f\0\f038d70a886d78b4a8a79c0f66c26d674e996478
+X
+(src/main/java/dataaccess/SQLUserDAO.java,7\c\7cff2a6f1ed36b37ce44c66bb1949c691f80bcb6
+U
+%src/main/java/dataaccess/UserDAO.java,5\2\522842c61ae2e3dbd8796886903058d7de2ae8dc
+Q
+!src/main/java/model/GameData.java,6\7\67153312f42cfc25e918e7241d99ff3d32f0ce01
