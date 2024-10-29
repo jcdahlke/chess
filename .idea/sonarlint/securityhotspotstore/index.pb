@@ -28,3 +28,9 @@ V
 &src/test/java/service/ServiceTest.java,8\b\8bbf216e3a281e60e903f336525c27f41b2e096a
 W
 'src/main/java/service/ClearService.java,b\0\b0e319af87b7e33e2bfd88f0d061d2b1deaeeee6
+Q
+!src/main/java/model/AuthData.java,7\b\7bcd29809a55527ca1777bd63a3d1e148c92b46e
+U
+%src/main/java/dataaccess/AuthDAO.java,9\1\91db918cd92b11c75a61c2e65f189de168b5e6ef
+\
+,src/main/java/dataaccess/AuthDataAccess.java,8\2\820193bbe3fb34889fc3a2954234acf1d4b1ee8a

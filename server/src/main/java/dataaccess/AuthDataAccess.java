@@ -4,7 +4,7 @@ import model.AuthData;
 
 public interface AuthDataAccess {
 
-  void clear();
+  void clear() throws DataAccessException;
 
   String createAuth(String username);
 
