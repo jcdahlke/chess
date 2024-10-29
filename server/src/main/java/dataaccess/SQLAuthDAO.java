@@ -3,6 +3,7 @@ package dataaccess;
 import model.AuthData;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import static java.sql.Types.NULL;
@@ -15,8 +16,11 @@ public class SQLAuthDAO implements AuthDataAccess{
   }
 
   @Override
-  public String createAuth(String username) {
-    return null;
+  public String createAuth(String username) throws DataAccessException {
+    String authToken = generateToken();
+    var statement = "INSERT INTO user (username, authToken) VALUES (?, ?)";
+    executeUpdate(statement, username, authToken);
+    return authToken;
   }
 
   @Override
@@ -34,6 +38,9 @@ public class SQLAuthDAO implements AuthDataAccess{
     return 0;
   }
 
+  public static String generateToken() {
+    return UUID.randomUUID().toString();
+  }
 
   private int executeUpdate(String statement, Object... params) throws DataAccessException {
     try (var conn = DatabaseManager.getConnection()) {
