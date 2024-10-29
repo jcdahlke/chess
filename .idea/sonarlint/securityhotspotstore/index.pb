@@ -18,3 +18,7 @@ U
 %src/main/java/dataaccess/UserDAO.java,5\2\522842c61ae2e3dbd8796886903058d7de2ae8dc
 Q
 !src/main/java/model/GameData.java,6\7\67153312f42cfc25e918e7241d99ff3d32f0ce01
+Q
+!src/main/java/model/UserData.java,3\8\38719670ec0261570896dcf7e398500f4b350234
+\
+,src/main/java/dataaccess/UserDataAccess.java,4\7\47979ae0f26408df359ed63eaed1d3fe6c5f6964
