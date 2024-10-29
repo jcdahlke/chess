@@ -3,6 +3,7 @@ package dataaccess;
 import chess.ChessGame;
 import com.google.gson.Gson;
 import model.GameData;
+import model.UserData;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -29,6 +30,29 @@ public class SQLGameDAO implements GameDataAccess{
 
   @Override
   public GameData getGame(String gameID) throws DataAccessException {
+    String query = "SELECT id, whiteUsername, blackUsername, gameName, json FROM game WHERE id = ?";
+
+    try (var conn = DatabaseManager.getConnection();
+         var ps = conn.prepareStatement(query)) {
+
+      ps.setString(1, gameID);
+      try (var rs = ps.executeQuery()) {
+        if (rs.next()) {
+          // Extract user data from the ResultSet
+          String whiteUsername = rs.getString("whiteUsername");
+          String blackUsername = rs.getString("blackUsername");
+          String gameName = rs.getString("gameName");
+          var json = rs.getString("json");
+          var chessGame = new Gson().fromJson(json, ChessGame.class);
+          // Return a new GameData object with the extracted data
+          return new GameData(Integer.parseInt(gameID), whiteUsername, blackUsername, gameName, chessGame);
+        }
+      }
+    } catch (SQLException e) {
+      throw new DataAccessException("Error fetching game with ID: " + gameID + " - " + e.getMessage());
+    }
+
+    // If no user was found, return null or throw an exception depending on requirements
     return null;
   }
 

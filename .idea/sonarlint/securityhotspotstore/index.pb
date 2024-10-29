@@ -34,3 +34,5 @@ U
 %src/main/java/dataaccess/AuthDAO.java,9\1\91db918cd92b11c75a61c2e65f189de168b5e6ef
 \
 ,src/main/java/dataaccess/AuthDataAccess.java,8\2\820193bbe3fb34889fc3a2954234acf1d4b1ee8a
+\
+,src/main/java/dataaccess/GameDataAccess.java,e\6\e605aab99be2abd41590f76f5060633bc115a5d0
