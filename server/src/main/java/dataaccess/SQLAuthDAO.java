@@ -60,7 +60,20 @@ public class SQLAuthDAO implements AuthDataAccess{
   }
 
   @Override
-  public int size() {
+  public int size() throws DataAccessException {
+    String query = "SELECT COUNT(*) AS total FROM auth";
+
+    try (var conn = DatabaseManager.getConnection();
+         var ps = conn.prepareStatement(query);
+         var rs = ps.executeQuery()) {
+
+      if (rs.next()) {
+        return rs.getInt("total");  // Get the count from the "total" column
+      }
+    } catch (SQLException | DataAccessException e) {
+      throw new DataAccessException("Error counting users in the table: " + e.getMessage());
+    }
+
     return 0;
   }
 
