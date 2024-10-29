@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public interface GameDataAccess {
 
-  void clear();
+  void clear() throws DataAccessException;
 
   int createGame(String gameName) throws DataAccessException;
 
