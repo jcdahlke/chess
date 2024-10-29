@@ -10,6 +10,9 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import static java.sql.Types.NULL;
 
 public class SQLAuthDAO implements AuthDataAccess{
+  public SQLAuthDAO() throws DataAccessException {
+    configureDatabase();
+  }
   @Override
   public void clear() throws DataAccessException {
     String statement = "DELETE FROM auth";
@@ -19,14 +22,14 @@ public class SQLAuthDAO implements AuthDataAccess{
   @Override
   public String createAuth(String username) throws DataAccessException {
     String authToken = generateToken();
-    var statement = "INSERT INTO user (username, authToken) VALUES (?, ?)";
+    var statement = "INSERT INTO auth (username, authToken) VALUES (?, ?)";
     executeUpdate(statement, username, authToken);
     return authToken;
   }
 
   @Override
   public AuthData getAuth(String authToken) throws DataAccessException {
-    String query = "SELECT username, authToken FROM user WHERE authToken = ?";
+    String query = "SELECT username, authToken FROM auth WHERE authToken = ?";
 
     try (var conn = DatabaseManager.getConnection();
          var ps = conn.prepareStatement(query)) {
@@ -91,13 +94,13 @@ public class SQLAuthDAO implements AuthDataAccess{
   private final String[] createStatements = {
 
           """
-            CREATE TABLE IF NOT EXISTS  auth (
-              `username` varchar(256) NOT NULL,
-              `authToken` varchar(256) NOT NULL,
-              PRIMARY KEY (`authToken),
-              INDEX(`username`),
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-            """
+          CREATE TABLE IF NOT EXISTS auth (
+          `username` varchar(256) NOT NULL,
+          `authToken` varchar(256) NOT NULL,
+          PRIMARY KEY (`authToken`),
+          INDEX(`username`)
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+          """
   };
 
 
