@@ -1,6 +1,7 @@
 package dataaccess;
 
 import model.AuthData;
+import model.UserData;
 
 import java.sql.SQLException;
 import java.util.UUID;
@@ -25,8 +26,29 @@ public class SQLAuthDAO implements AuthDataAccess{
 
   @Override
   public AuthData getAuth(String authToken) throws DataAccessException {
+    String query = "SELECT username, authToken FROM user WHERE authToken = ?";
+
+    try (var conn = DatabaseManager.getConnection();
+         var ps = conn.prepareStatement(query)) {
+
+      ps.setString(1, authToken); // Set the username parameter
+      try (var rs = ps.executeQuery()) {
+        if (rs.next()) {
+          // Extract user data from the ResultSet
+          String username = rs.getString("username");
+
+          // Return a new UserData object with the extracted data
+          return new AuthData(username, authToken);
+        }
+      }
+    } catch (SQLException e) {
+      throw new DataAccessException("Error fetching user with authToken: " + authToken + " - " + e.getMessage());
+    }
+
+    // If no user was found, return null or throw an exception depending on requirements
     return null;
   }
+
 
   @Override
   public void deleteAuth(String authToken) throws DataAccessException {
