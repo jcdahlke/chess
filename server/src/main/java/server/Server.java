@@ -55,7 +55,7 @@ public class Server {
         return Spark.port();
     }
 
-    private String clearHandler(Request req, Response res){
+    private String clearHandler(Request req, Response res) throws DataAccessException {
         clearService.clearAllData();
         res.status(200);
         return "";

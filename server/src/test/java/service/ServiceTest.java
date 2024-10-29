@@ -27,7 +27,7 @@ public class ServiceTest {
   private final UserService userService = new UserService(userDAO, authDAO);
 
   @BeforeEach
-  void clear() {
+  void clear() throws DataAccessException {
     clearService.clearAllData();
   }
 
