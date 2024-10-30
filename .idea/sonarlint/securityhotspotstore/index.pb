@@ -40,3 +40,9 @@ G
 src/main/java/Main.java,e\4\e44a8606ce010ad9b89aafdfcee2ab49afbf6d10
 b
 2src/test/java/passoff/server/StandardAPITests.java,4\4\44865688478e7de6876fba6fab89c554392767d8
+X
+(src/main/java/dataaccess/baseSQLDAO.java,1\7\1788e5cd94f746ee5abdf4289ff14dde791ea6f3
+U
+%src/main/java/dataaccess/BaseDAO.java,9\6\965da84b73105de103e31f8b8cc7c90f41dc267b
+X
+(src/main/java/dataaccess/BaseDAOSQL.java,8\9\89bf5fdf2e3325f232208d825d3bd065e4bac410
