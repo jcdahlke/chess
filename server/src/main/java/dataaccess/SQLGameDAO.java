@@ -13,8 +13,12 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import static java.sql.Types.NULL;
 
 public class SQLGameDAO implements GameDataAccess{
-  public SQLGameDAO() throws DataAccessException {
-    configureDatabase();
+  public SQLGameDAO() {
+    try {
+      configureDatabase();
+    } catch (DataAccessException e) {
+      throw new RuntimeException(e);
+    }
   }
   @Override
   public void clear() throws DataAccessException {

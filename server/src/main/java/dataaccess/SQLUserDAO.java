@@ -10,8 +10,12 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import static java.sql.Types.NULL;
 
 public class SQLUserDAO implements UserDataAccess{
-  public SQLUserDAO() throws DataAccessException {
-    configureDatabase();
+  public SQLUserDAO() {
+    try {
+      configureDatabase();
+    } catch (DataAccessException e) {
+      throw new RuntimeException(e);
+    }
   }
   @Override
   public void clear() throws DataAccessException {

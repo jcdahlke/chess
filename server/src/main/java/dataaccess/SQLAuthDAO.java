@@ -9,8 +9,12 @@ import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import static java.sql.Types.NULL;
 
 public class SQLAuthDAO implements AuthDataAccess{
-  public SQLAuthDAO() throws DataAccessException {
-    configureDatabase();
+  public SQLAuthDAO() {
+    try {
+      configureDatabase();
+    } catch (DataAccessException e) {
+      throw new RuntimeException(e);
+    }
   }
   @Override
   public void clear() throws DataAccessException {

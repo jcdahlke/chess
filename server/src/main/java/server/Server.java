@@ -5,10 +5,7 @@ import chess.ChessGame;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import dataaccess.AuthDAO;
-import dataaccess.DataAccessException;
-import dataaccess.GameDAO;
-import dataaccess.UserDAO;
+import dataaccess.*;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
@@ -25,15 +22,21 @@ import java.util.Map;
 
 public class Server {
     private final Gson serializer = new Gson();
-    private final AuthDAO authDAO= new AuthDAO();
-    private final GameDAO gameDAO= new GameDAO();
-    private final UserDAO userDAO= new UserDAO();
+//    private final AuthDAO authDAO= new AuthDAO();
+//    private final GameDAO gameDAO= new GameDAO();
+//    private final UserDAO userDAO= new UserDAO();
+    private final SQLAuthDAO authDAO = new SQLAuthDAO();
+    private final SQLGameDAO gameDAO = new SQLGameDAO();
+    private final SQLUserDAO userDAO = new SQLUserDAO();
     private final ClearService clearService = new ClearService(gameDAO, userDAO, authDAO);
     private final GameService gameService = new GameService(gameDAO, authDAO);
     private final UserService userService = new UserService(userDAO, authDAO);
 
+  public Server(){
+  }
 
-    public int run(int desiredPort) {
+
+  public int run(int desiredPort) {
         Spark.port(desiredPort);
 
         Spark.staticFiles.location("web");
