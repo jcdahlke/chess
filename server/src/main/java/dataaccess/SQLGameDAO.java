@@ -60,10 +60,10 @@ public class SQLGameDAO implements GameDataAccess{
   @Override
   public Collection<GameData> listGames() throws DataAccessException {
     Collection<GameData> games = new ArrayList<>();
-    try (var conn = DatabaseManager.getConnection()) {
-      var statement = "SELECT id, json FROM game";
-      try (var ps = conn.prepareStatement(statement)) {
-        try (var rs = ps.executeQuery()) {
+    String statement = "SELECT id, whiteUsername, blackUsername, gameName, json FROM game";
+    try (var conn = DatabaseManager.getConnection();
+         var ps = conn.prepareStatement(statement);
+         var rs = ps.executeQuery()) {
           while (rs.next()) {
             int gameID = rs.getInt("id");
             String whiteUsername = rs.getString("whiteUsername");
@@ -79,8 +79,7 @@ public class SQLGameDAO implements GameDataAccess{
             games.add(gameData);
           }
         }
-      }
-    } catch (Exception e) {
+    catch (Exception e) {
       throw new DataAccessException(String.format("Unable to read data: %s", e.getMessage()));
     }
     return games;
@@ -88,7 +87,29 @@ public class SQLGameDAO implements GameDataAccess{
 
   @Override
   public void updateGame(String gameID, String newUser, ChessGame.TeamColor color) throws DataAccessException {
+    String statement;
+    if (color == ChessGame.TeamColor.WHITE) {
+      statement = "UPDATE game SET whiteUsername = ? WHERE id = ?";
+    }
+    else {
+      statement = "UPDATE game SET blackUsername = ? WHERE id = ?";
+    }
+    try (var conn = DatabaseManager.getConnection();
+         var ps = conn.prepareStatement(statement)) {
+      // Set the new username and the game ID in the prepared statement
+      ps.setString(1, newUser);
+      ps.setString(2, gameID);
 
+      // Execute the update
+      int rowsAffected = ps.executeUpdate();
+
+      // Optional: Check if the update was successful
+      if (rowsAffected == 0) {
+        throw new DataAccessException("No game found with ID: " + gameID);
+      }
+    } catch (SQLException e) {
+      throw new DataAccessException("Error updating game with ID: " + gameID + " - " + e.getMessage());
+    }
   }
 
   @Override
