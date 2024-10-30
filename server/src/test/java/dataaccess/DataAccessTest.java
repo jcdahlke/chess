@@ -116,11 +116,9 @@ public class DataAccessTest {
   void goodCreateAuth() throws DataAccessException {
     String username = "testUser";
     String authToken = authDataAccess.createAuth(username);
-    AuthData retrievedAuth = authDataAccess.getAuth(authToken);
+    AuthData authData = new AuthData(username, authToken);
 
-    assertNotNull(retrievedAuth);
-    assertEquals(username, retrievedAuth.username());
-    assertEquals(authToken, retrievedAuth.authToken());
+    assertEquals(authData, authDataAccess.getAuth(authToken));
   }
 
   @Test
@@ -132,7 +130,7 @@ public class DataAccessTest {
 
   @Test
   void goodGetAuth() throws DataAccessException {
-    String username = "testUser";
+    String username = "userTest";
     String authToken = authDataAccess.createAuth(username);
     AuthData retrievedAuth = authDataAccess.getAuth(authToken);
 
