@@ -6,6 +6,7 @@ import model.GameData;
 import model.UserData;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
@@ -57,8 +58,32 @@ public class SQLGameDAO implements GameDataAccess{
   }
 
   @Override
-  public Collection<GameData> listGames() {
-    return null;
+  public Collection<GameData> listGames() throws DataAccessException {
+    Collection<GameData> games = new ArrayList<>();
+    try (var conn = DatabaseManager.getConnection()) {
+      var statement = "SELECT id, json FROM game";
+      try (var ps = conn.prepareStatement(statement)) {
+        try (var rs = ps.executeQuery()) {
+          while (rs.next()) {
+            int gameID = rs.getInt("id");
+            String whiteUsername = rs.getString("whiteUsername");
+            String blackUsername = rs.getString("blackUsername");
+            String gameName = rs.getString("gameName");
+            String json = rs.getString("json");
+
+            // Parse the JSON data into a ChessGame object
+            ChessGame chessGame = new Gson().fromJson(json, ChessGame.class);
+
+            // Create and add the GameData object to the collection
+            GameData gameData = new GameData(gameID, whiteUsername, blackUsername, gameName, chessGame);
+            games.add(gameData);
+          }
+        }
+      }
+    } catch (Exception e) {
+      throw new DataAccessException(String.format("Unable to read data: %s", e.getMessage()));
+    }
+    return games;
   }
 
   @Override

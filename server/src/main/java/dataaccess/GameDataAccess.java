@@ -13,7 +13,7 @@ public interface GameDataAccess {
 
   GameData getGame(String gameID) throws DataAccessException;
 
-  Collection<GameData> listGames();
+  Collection<GameData> listGames() throws DataAccessException;
 
   void updateGame(String gameID, String newUser, ChessGame.TeamColor color) throws DataAccessException;
 
