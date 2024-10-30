@@ -9,7 +9,7 @@ public class SQLUserDAO extends BaseDAOSQL implements UserDataAccess {
 
   public SQLUserDAO() {
     try {
-      configureDatabase(createStatements);
+      configureDatabase(CREATE_STATEMENTS);
     } catch (DataAccessException e) {
       throw new RuntimeException(e);
     }
@@ -62,7 +62,7 @@ public class SQLUserDAO extends BaseDAOSQL implements UserDataAccess {
     }
   }
 
-  private static final String[] createStatements = {
+  private static final String[] CREATE_STATEMENTS = {
           """
       CREATE TABLE IF NOT EXISTS user (
         `username` varchar(256) NOT NULL,

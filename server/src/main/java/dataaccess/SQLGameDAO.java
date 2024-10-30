@@ -12,7 +12,7 @@ public class SQLGameDAO extends BaseDAOSQL implements GameDataAccess {
 
   public SQLGameDAO() {
     try {
-      configureDatabase(createStatements);
+      configureDatabase(CREATE_STATEMENTS);
     } catch (DataAccessException e) {
       throw new RuntimeException(e);
     }
@@ -104,7 +104,7 @@ public class SQLGameDAO extends BaseDAOSQL implements GameDataAccess {
     }
   }
 
-  private static final String[] createStatements = {
+  private static final String[] CREATE_STATEMENTS = {
           """
       CREATE TABLE IF NOT EXISTS game (
         `id` int NOT NULL AUTO_INCREMENT,

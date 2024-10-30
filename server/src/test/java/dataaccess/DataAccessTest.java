@@ -36,46 +36,38 @@ public class DataAccessTest {
     authDataAccess.clear();
     gameDataAccess.clear();
   }
-@Test
-void goodCreateUser() throws DataAccessException{
-  userDataAccess.createUser("testUser", "testPass", "testEmail@example.com");
-  UserData retrievedUser = userDataAccess.getUser("testUser");
-  assertNotNull(retrievedUser);
-  assertEquals("testUser", retrievedUser.username());
-  assertTrue(sqlUserDAO.authenticateUser("testPass", retrievedUser));
-}
 
-@Test
-void badCreateUser() throws DataAccessException {
-  assertThrows(DataAccessException.class, () -> {
-    userDataAccess.createUser(null, "password", "email@example.com");
-  });
-}
-
-@Test
-void goodUserClear() throws DataAccessException {
-  userDataAccess.createUser("testUser", "testPass", "testEmail@example.com");
-  assertEquals(1, userDataAccess.size());
-  userDataAccess.clear();
-  assertEquals(0, userDataAccess.size());
-}
-
-@Test
-void badUserClear() throws DataAccessException {
-  try {
-    userDataAccess.clear();
-  } catch (DataAccessException e) {
-    fail("Clear should not throw an exception on an empty table");
+  @Test
+  void goodCreateUser() throws DataAccessException {
+    createUserAndAssert("testUser", "testPass", "testEmail@example.com");
   }
-}
 
-@Test
-void goodGetUser() throws DataAccessException {
-  userDataAccess.createUser("testUser", "testPass", "testEmail@example.com");
-  UserData retrievedUser = userDataAccess.getUser("testUser");
-  assertNotNull(retrievedUser);
-  assertEquals("testUser", retrievedUser.username());
-  assertEquals("testEmail@example.com", retrievedUser.email());
+  @Test
+  void badCreateUser() {
+    assertThrows(DataAccessException.class, () -> {
+      userDataAccess.createUser(null, "password", "email@example.com");
+    });
+  }
+
+  @Test
+  void goodUserClear() throws DataAccessException {
+    createUserAndAssert("testUser", "testPass", "testEmail@example.com");
+    assertEquals(1, userDataAccess.size());
+    userDataAccess.clear();
+    assertEquals(0, userDataAccess.size());
+  }
+
+  @Test
+  void badUserClear() {
+    assertDoesNotThrow(() -> userDataAccess.clear());
+  }
+
+  @Test
+  void goodGetUser() throws DataAccessException {
+    createUserAndAssert("testUser", "testPass", "testEmail@example.com");
+    UserData retrievedUser = userDataAccess.getUser("testUser");
+    assertNotNull(retrievedUser);
+    assertEquals("testEmail@example.com", retrievedUser.email());
   }
 
   @Test
@@ -85,14 +77,14 @@ void goodGetUser() throws DataAccessException {
 
   @Test
   void goodAuthenticateUser() throws DataAccessException {
-    userDataAccess.createUser("testUser", "testPass", "testEmail@example.com");
+    createUserAndAssert("testUser", "testPass", "testEmail@example.com");
     UserData retrievedUser = userDataAccess.getUser("testUser");
     assertTrue(userDataAccess.authenticateUser("testPass", retrievedUser));
   }
 
   @Test
   void badAuthenticateUser() throws DataAccessException {
-    userDataAccess.createUser("testUser", "testPass", "testEmail@example.com");
+    createUserAndAssert("testUser", "testPass", "testEmail@example.com");
     UserData retrievedUser = userDataAccess.getUser("testUser");
     assertFalse(userDataAccess.authenticateUser("wrongPass", retrievedUser));
   }
@@ -100,8 +92,8 @@ void goodGetUser() throws DataAccessException {
   @Test
   void goodUserSize() throws DataAccessException {
     assertEquals(0, userDataAccess.size());
-    userDataAccess.createUser("user1", "password1", "email1@example.com");
-    userDataAccess.createUser("user2", "password2", "email2@example.com");
+    createUserAndAssert("user1", "password1", "email1@example.com");
+    createUserAndAssert("user2", "password2", "email2@example.com");
     assertEquals(2, userDataAccess.size());
   }
 
@@ -109,6 +101,15 @@ void goodGetUser() throws DataAccessException {
   void badUserSize() throws DataAccessException {
     userDataAccess.clear();
     assertEquals(0, userDataAccess.size());
+  }
+
+  // Helper method to create a user and assert its retrieval
+  private void createUserAndAssert(String username, String password, String email) throws DataAccessException {
+    userDataAccess.createUser(username, password, email);
+    UserData retrievedUser = userDataAccess.getUser(username);
+    assertNotNull(retrievedUser);
+    assertEquals(username, retrievedUser.username());
+    assertTrue(sqlUserDAO.authenticateUser(password, retrievedUser));
   }
 
   @Test

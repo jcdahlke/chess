@@ -9,7 +9,7 @@ public class SQLAuthDAO extends BaseDAOSQL implements AuthDataAccess {
 
   public SQLAuthDAO() {
     try {
-      configureDatabase(createStatements);
+      configureDatabase(CREATE_STATEMENTS);
     } catch (DataAccessException e) {
       throw new RuntimeException(e);
     }
@@ -74,7 +74,7 @@ public class SQLAuthDAO extends BaseDAOSQL implements AuthDataAccess {
     return UUID.randomUUID().toString();
   }
 
-  private final String[] createStatements = {
+  private final String[] CREATE_STATEMENTS = {
           """
     CREATE TABLE IF NOT EXISTS auth (
       `username` varchar(256) NOT NULL,
