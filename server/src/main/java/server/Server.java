@@ -22,17 +22,28 @@ import java.util.Map;
 
 public class Server {
     private final Gson serializer = new Gson();
-//    private final AuthDAO authDAO= new AuthDAO();
-//    private final GameDAO gameDAO= new GameDAO();
-//    private final UserDAO userDAO= new UserDAO();
-    private final SQLAuthDAO authDAO = new SQLAuthDAO();
-    private final SQLGameDAO gameDAO = new SQLGameDAO();
-    private final SQLUserDAO userDAO = new SQLUserDAO();
-    private final ClearService clearService = new ClearService(gameDAO, userDAO, authDAO);
-    private final GameService gameService = new GameService(gameDAO, authDAO);
-    private final UserService userService = new UserService(userDAO, authDAO);
+    private final AuthDataAccess authDAO;
+    private final GameDataAccess gameDAO;
+    private final UserDataAccess userDAO;
+    private final ClearService clearService;
+    private final GameService gameService;
+    private final UserService userService;
 
   public Server(){
+    int dataBaseSwitch=1;
+    if (dataBaseSwitch == 1) {
+      authDAO = new SQLAuthDAO();
+      gameDAO = new SQLGameDAO();
+      userDAO = new SQLUserDAO();
+    }
+    else {
+      authDAO = new AuthDAO();
+      gameDAO = new GameDAO();
+      userDAO = new UserDAO();
+    }
+    clearService = new ClearService(gameDAO, userDAO, authDAO);
+    gameService = new GameService(gameDAO, authDAO);
+    userService = new UserService(userDAO, authDAO);
   }
 
 
