@@ -113,7 +113,20 @@ public class SQLGameDAO implements GameDataAccess{
   }
 
   @Override
-  public int size() {
+  public int size() throws DataAccessException {
+    String query = "SELECT COUNT(*) AS total FROM game";
+
+    try (var conn = DatabaseManager.getConnection();
+         var ps = conn.prepareStatement(query);
+         var rs = ps.executeQuery()) {
+
+      if (rs.next()) {
+        return rs.getInt("total");  // Get the count from the "total" column
+      }
+    } catch (SQLException e) {
+      throw new DataAccessException("Error counting games in the table: " + e.getMessage());
+    }
+
     return 0;
   }
 
