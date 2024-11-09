@@ -17,12 +17,18 @@ public class ServerFacade {
   private final String serverUrl;
 
   public ServerFacade(String url) {
-    serverUrl = "http://localhost:"+url+"/";
+    serverUrl = url;
+    System.out.println(serverUrl);
   }
 
   public AuthData register(String username, String password, String email) throws Exception {
     var path = "/user";
     return this.makeRequest("POST", path, new UserData(username, password, email), AuthData.class);
+  }
+
+  public void clear() throws Exception {
+    var path = "/db";
+    this.makeRequest("DELETE", path, null, null);
   }
 
 
