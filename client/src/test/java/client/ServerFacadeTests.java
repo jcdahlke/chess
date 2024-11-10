@@ -53,6 +53,28 @@ public class ServerFacadeTests {
     }
 
     @Test
+    public void loginGood() throws Exception {
+        serverFacade.register("player1", "password", "p1@email.com");
+        var authData = serverFacade.login("player1", "password");
+        assertTrue(authData.authToken().length() > 10);
+    }
+
+    @Test
+    public void loginBadUsername() throws Exception {
+        serverFacade.register("player1", "password", "p1@email.com");
+        assertThrows(Exception.class, () -> {
+            serverFacade.login("player2", "password");
+        });
+    }
+
+    @Test
+    public void loginBadPassword() throws Exception {
+        serverFacade.register("player1", "password", "p1@email.com");
+        assertThrows(Exception.class, () -> {
+            serverFacade.login("player1", "PaSsWoRd");
+        });
+    }
+    @Test
     public void clearBad() throws Exception {
 
 

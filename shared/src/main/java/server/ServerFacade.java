@@ -31,6 +31,11 @@ public class ServerFacade {
     this.makeRequest("DELETE", path, null, null);
   }
 
+  public AuthData login(String username, String password) throws Exception {
+    var path = "/session";
+    return this.makeRequest("POST", path, new UserData(username, password, null), AuthData.class);
+  }
+
 
   private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass) throws Exception {
     try {
