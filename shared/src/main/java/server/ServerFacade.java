@@ -2,6 +2,7 @@ package server;
 
 import com.google.gson.Gson;
 import model.AuthData;
+import model.GameData;
 import model.UserData;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.Collection;
 
 public class ServerFacade {
 
@@ -39,6 +41,24 @@ public class ServerFacade {
   public void logout(String authToken) throws Exception {
     String path = "/session";
     this.makeRequest("DELETE", path, "", authToken, null);
+  }
+
+  public Collection<GameData> listGames(String authToken) throws Exception {
+    String path = "/game";
+    record listGameResponse(Collection<GameData> game) {
+
+    }
+    var response = this.makeRequest("GET", path, "", authToken, listGameResponse.class);
+    return response.game;
+  }
+
+  public Integer createGame(String authToken, String gameName) throws Exception {
+    String path = "/game";
+    record CreateGameRequest(String gameName) {}
+    record CreateGameResponse(int gameID) {}
+    CreateGameRequest request = new CreateGameRequest(gameName);
+    var response = this.makeRequest("POST", path, request, authToken, CreateGameResponse.class);
+    return response.gameID;
   }
 
 

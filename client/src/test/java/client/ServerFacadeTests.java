@@ -95,4 +95,12 @@ public class ServerFacadeTests {
         });
     }
 
+    @Test
+    public void createGameGood() throws Exception {
+        AuthData authData = serverFacade.register("username", "password", "email");
+        String authToken = authData.authToken();
+        int gameID = serverFacade.createGame(authToken, "Joey'sGame");
+        assertTrue(gameID > 0);
+    }
+
 }
