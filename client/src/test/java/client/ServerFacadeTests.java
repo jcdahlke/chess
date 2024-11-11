@@ -1,9 +1,12 @@
 package client;
 
 import model.AuthData;
+import model.GameData;
 import org.junit.jupiter.api.*;
 import server.Server;
 import server.ServerFacade;
+
+import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -101,6 +104,18 @@ public class ServerFacadeTests {
         String authToken = authData.authToken();
         int gameID = serverFacade.createGame(authToken, "Joey'sGame");
         assertTrue(gameID > 0);
+    }
+
+    @Test
+    public void listGamesGood() throws Exception {
+        AuthData authData = serverFacade.register("username", "password", "email");
+        String authToken = authData.authToken();
+        serverFacade.createGame(authToken, "gameEX1");
+        serverFacade.createGame(authToken, "gameEX2");
+        serverFacade.createGame(authToken, "gameEX3");
+        serverFacade.createGame(authToken, "gameEX4");
+        Collection<GameData> games = serverFacade.listGames(authToken);
+        assertEquals(4, games.size());
     }
 
 }
