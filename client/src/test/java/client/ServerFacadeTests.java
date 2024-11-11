@@ -1,5 +1,6 @@
 package client;
 
+import model.AuthData;
 import org.junit.jupiter.api.*;
 import server.Server;
 import server.ServerFacade;
@@ -53,6 +54,15 @@ public class ServerFacadeTests {
     }
 
     @Test
+    public void clearBad() throws Exception {
+        serverFacade.register("player1", "password", "p1@email.com");
+        serverFacade.clear();
+        assertThrows(Exception.class, () -> {
+            serverFacade.login("player1", "password");
+        });
+    }
+
+    @Test
     public void loginGood() throws Exception {
         serverFacade.register("player1", "password", "p1@email.com");
         var authData = serverFacade.login("player1", "password");
@@ -74,10 +84,15 @@ public class ServerFacadeTests {
             serverFacade.login("player1", "PaSsWoRd");
         });
     }
+
     @Test
-    public void clearBad() throws Exception {
-
-
+    public void logoutGood() throws Exception {
+        serverFacade.register("username", "password", "email@gmail.com");
+        AuthData authData = serverFacade.login("username", "password");
+        serverFacade.logout(authData.authToken());
+        assertThrows(Exception.class, () -> {
+            serverFacade.logout(authData.authToken());
+        });
     }
 
 }

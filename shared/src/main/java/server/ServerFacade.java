@@ -22,26 +22,34 @@ public class ServerFacade {
   }
 
   public AuthData register(String username, String password, String email) throws Exception {
-    var path = "/user";
-    return this.makeRequest("POST", path, new UserData(username, password, email), AuthData.class);
+    String path = "/user";
+    return this.makeRequest("POST", path, new UserData(username, password, email), null, AuthData.class);
   }
 
   public void clear() throws Exception {
-    var path = "/db";
-    this.makeRequest("DELETE", path, null, null);
+    String path = "/db";
+    this.makeRequest("DELETE", path, null, null, null);
   }
 
   public AuthData login(String username, String password) throws Exception {
-    var path = "/session";
-    return this.makeRequest("POST", path, new UserData(username, password, null), AuthData.class);
+    String path = "/session";
+    return this.makeRequest("POST", path, new UserData(username, password, null), null, AuthData.class);
+  }
+
+  public void logout(String authToken) throws Exception {
+    String path = "/session";
+    this.makeRequest("DELETE", path, "", authToken, null);
   }
 
 
-  private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass) throws Exception {
+  private <T> T makeRequest(String method, String path, Object request, String authToken, Class<T> responseClass) throws Exception {
     try {
       URL url = (new URI(serverUrl + path)).toURL();
       HttpURLConnection http = (HttpURLConnection) url.openConnection();
       http.setRequestMethod(method);
+      if (authToken != null) {
+        http.addRequestProperty("Authorization", authToken);
+      }
       http.setDoOutput(true);
 
       writeBody(request, http);
