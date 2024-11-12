@@ -99,11 +99,25 @@ public class ServerFacadeTests {
     }
 
     @Test
+    public void logoutBad() throws Exception {
+        assertThrows(Exception.class, () -> {
+            serverFacade.logout("FalseAuthToken");
+        });
+    }
+
+    @Test
     public void createGameGood() throws Exception {
         AuthData authData = serverFacade.register("username", "password", "email");
         String authToken = authData.authToken();
         int gameID = serverFacade.createGame(authToken, "Joey'sGame");
         assertTrue(gameID > 0);
+    }
+
+    @Test
+    public void createGameBad() throws Exception {
+        assertThrows(Exception.class, () -> {
+            serverFacade.createGame("FalseAuthToken", "gameName");
+        });
     }
 
     @Test
@@ -118,4 +132,35 @@ public class ServerFacadeTests {
         assertEquals(4, games.size());
     }
 
+    @Test
+    public void listGamesBad() throws Exception {
+        AuthData authData = serverFacade.register("username", "password", "email");
+        String authToken = authData.authToken();
+        serverFacade.createGame(authToken, "gameEX1");
+        assertThrows(Exception.class, () -> {
+            serverFacade.listGames("FalseAuthToken");
+        });
+    }
+
+    @Test
+    public void joinGameGood() throws Exception {
+        AuthData authData = serverFacade.register("username", "password", "email");
+        String authToken = authData.authToken();
+        int gameID = serverFacade.createGame(authToken, "game1");
+        serverFacade.joinGame(authToken, String.valueOf(gameID), "BLACK");
+        Collection<GameData> games = serverFacade.listGames(authToken);
+        GameData firstGame = games.iterator().next();
+        assertEquals("username", firstGame.blackUsername());
+    }
+
+    @Test
+    public void joinGameBad() throws Exception {
+        AuthData authData = serverFacade.register("username", "password", "email");
+        String authToken = authData.authToken();
+        int gameID = serverFacade.createGame(authToken, "game1");
+        assertThrows(Exception.class, () -> {
+            serverFacade.joinGame(authToken, String.valueOf(gameID), "Orange");
+        });
+
+    }
 }
