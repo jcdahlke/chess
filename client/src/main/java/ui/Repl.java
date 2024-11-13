@@ -17,7 +17,7 @@ public class Repl {
   }
 
   public void run() {
-    System.out.println("\uD83D\uDC36 Welcome to Chess! Sign in to start.");
+    System.out.println("Welcome to Chess! Sign in to start.");
     System.out.print(client.help());
     Scanner scanner = new Scanner(System.in);
     var result = "";
@@ -31,6 +31,7 @@ public class Repl {
         if (result.split(" ")[1].equals("signed")) {
           String authToken = client.getAuthToken();
           client = new PostLoginClient(serverFacade, authToken);
+          System.out.print(client.help());
         }
       } catch (Throwable e) {
         var msg = e.toString();
@@ -43,6 +44,6 @@ public class Repl {
 
 
   private void printPrompt() {
-    System.out.print("\n" + "\u001b0m" + ">>> " + SET_TEXT_COLOR_GREEN);
+    System.out.print("\n" + ">>> " + SET_TEXT_COLOR_GREEN);
   }
 }
