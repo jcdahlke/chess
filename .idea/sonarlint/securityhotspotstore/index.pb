@@ -23,3 +23,7 @@ P
  src/main/java/ui/GameClient.java,9\e\9e7b2c17a615b97d0053b0520e667831ce8f8cfb
 T
 $src/main/java/ui/PreLoginClient.java,6\7\6759183767e1832107e0d08887456bf653420599
+U
+%src/main/java/ui/EscapeSequences.java,f\5\f5164a7694d7bc0ec5a278873d5b206d75837ac4
+U
+%src/main/java/ui/PostLoginClient.java,b\5\b54a71146ebcbe0595de43b145cef8cb8e52ead0

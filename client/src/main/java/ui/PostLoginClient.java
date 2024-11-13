@@ -2,10 +2,10 @@ package ui;
 
 import server.ServerFacade;
 
-public class GameClient {
+public class PostLoginClient {
   private final ServerFacade serverFacade;
 
-  public GameClient(ServerFacade server) {
+  public PostLoginClient(ServerFacade server) {
     serverFacade = server;
   }
 }
