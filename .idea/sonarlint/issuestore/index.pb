@@ -31,3 +31,5 @@ U
 %src/main/java/ui/ClientInterface.java,b\c\bca93702476717ae5afbeeaf2711652ee763668b
 \
 ,src/main/java/dataaccess/AuthDataAccess.java,8\2\820193bbe3fb34889fc3a2954234acf1d4b1ee8a
+Q
+!src/main/java/model/GameData.java,6\7\67153312f42cfc25e918e7241d99ff3d32f0ce01

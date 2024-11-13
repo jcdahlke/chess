@@ -1,8 +1,10 @@
 package ui;
 
+import model.GameData;
 import server.ServerFacade;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 public class PostLoginClient implements ClientInterface{
   private final ServerFacade serverFacade;
@@ -35,12 +37,30 @@ public class PostLoginClient implements ClientInterface{
     }
   }
 
-  public String createGame(String... params) {
-    return null;
+  public String createGame(String... params) throws Exception {
+    if (params.length == 1){
+      String gameName = params[0];
+      int gameID = serverFacade.createGame(authToken, gameName);
+
+      return String.format("%s created the Chess game %s, with gameID %d.", username, gameName, gameID);
+    }
+    throw new Exception("Expected 1 argument: <gameName>");
   }
 
-  public String listGames() {
-    return null;
+  public String listGames() throws Exception{
+    Collection<GameData> games = serverFacade.listGames(authToken);
+    String result = "";
+    if (games.isEmpty()) {
+      return "There are no active games, create one to get started!";
+    }
+    int gameCount = 0;
+    for (GameData game: games) {
+      result += "Game " + gameCount + ":\n";
+      result += game.toString();
+      result += "\n\n";
+      gameCount++;
+    }
+    return result;
   }
 
   public String joinGame(String... params) {
