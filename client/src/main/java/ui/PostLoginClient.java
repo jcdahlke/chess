@@ -71,8 +71,9 @@ public class PostLoginClient implements ClientInterface{
     return null;
   }
 
-  public String logout() {
-    return null;
+  public String logout() throws Exception {
+    serverFacade.logout(authToken);
+    return  String.format("%s has successfully logged out", username);
   }
 
   @Override
@@ -83,6 +84,7 @@ public class PostLoginClient implements ClientInterface{
           - play <gameID> [WHITE|BLACK]
           - observe <gameID>
           - logout
+          - help
           - quit
           """;
   }

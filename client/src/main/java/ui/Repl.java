@@ -28,10 +28,15 @@ public class Repl {
       try {
         result = client.eval(line);
         System.out.print(SET_TEXT_COLOR_BLUE + result);
-        if (result.split(" ")[1].equals("signed")) {
+        String[] resultWords = result.split(" ");
+        if (resultWords.length > 0 && resultWords[1].equals("signed")) {
           String authToken = client.getAuthToken();
           String username = client.getUsername();
           client = new PostLoginClient(serverFacade, authToken, username);
+          System.out.print(client.help());
+        }
+        if (resultWords.length > 5 && resultWords[4].equals("out")) {
+          client = new PreLoginClient(serverFacade);
           System.out.print(client.help());
         }
       } catch (Throwable e) {
