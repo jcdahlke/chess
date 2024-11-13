@@ -7,9 +7,11 @@ import java.util.Arrays;
 public class PreLoginClient implements ClientInterface {
 
   private final ServerFacade serverFacade;
+  private String authToken;
 
   public PreLoginClient(ServerFacade server) {
     serverFacade = server;
+    authToken = null;
   }
 
   public String eval(String input) {
@@ -33,7 +35,7 @@ public class PreLoginClient implements ClientInterface {
 
       String username = params[0];
       String password = params[1];
-      serverFacade.login(username, password);
+      authToken = serverFacade.login(username, password).authToken();
 
       return String.format("You signed in as %s.", username);
     }
@@ -50,6 +52,10 @@ public class PreLoginClient implements ClientInterface {
       return String.format("You registered as %s.", username);
     }
     throw new Exception("Expected: <username> <password> <email>");
+  }
+
+  public String getAuthToken() {
+    return authToken;
   }
 
   public String help() {

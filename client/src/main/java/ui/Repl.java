@@ -8,7 +8,7 @@ import static ui.EscapeSequences.*;
 
 public class Repl {
   private final ServerFacade serverFacade;
-  private final ClientInterface client;
+  private ClientInterface client;
 
   public Repl(String port) {
     String url = "http://localhost:" + port + "/";
@@ -28,6 +28,10 @@ public class Repl {
       try {
         result = client.eval(line);
         System.out.print(SET_TEXT_COLOR_BLUE + result);
+        if (result.split(" ")[1].equals("signed")) {
+          String authToken = client.getAuthToken();
+          client = new PostLoginClient(serverFacade, authToken);
+        }
       } catch (Throwable e) {
         var msg = e.toString();
         System.out.print(msg);
