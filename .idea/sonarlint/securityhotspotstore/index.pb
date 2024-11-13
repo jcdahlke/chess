@@ -27,3 +27,7 @@ U
 %src/main/java/ui/EscapeSequences.java,f\5\f5164a7694d7bc0ec5a278873d5b206d75837ac4
 U
 %src/main/java/ui/PostLoginClient.java,b\5\b54a71146ebcbe0595de43b145cef8cb8e52ead0
+U
+%src/main/java/ui/ClientInterface.java,b\c\bca93702476717ae5afbeeaf2711652ee763668b
+\
+,src/main/java/dataaccess/AuthDataAccess.java,8\2\820193bbe3fb34889fc3a2954234acf1d4b1ee8a

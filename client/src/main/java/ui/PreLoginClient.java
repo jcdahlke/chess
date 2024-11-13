@@ -4,7 +4,7 @@ import server.ServerFacade;
 
 import java.util.Arrays;
 
-public class PreLoginClient {
+public class PreLoginClient implements ClientInterface {
 
   private final ServerFacade serverFacade;
 
