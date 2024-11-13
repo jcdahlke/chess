@@ -35,7 +35,7 @@ public class PreLoginClient implements ClientInterface {
   public String login(String... params) throws Exception {
     if (params.length == 2) {
 
-      String username = params[0];
+      username = params[0];
       String password = params[1];
       authToken = serverFacade.login(username, password).authToken();
 
@@ -46,10 +46,10 @@ public class PreLoginClient implements ClientInterface {
 
   public String register(String... params) throws Exception {
     if (params.length == 3) {
-      String username = params[0];
+      String registerUsername = params[0];
       String password = params[1];
       String email = params[2];
-      serverFacade.register(username, password, email);
+      serverFacade.register(registerUsername, password, email);
 
       return String.format("You registered as %s.", username);
     }
