@@ -6,4 +6,6 @@ public interface ClientInterface {
   public String help();
 
   public String getAuthToken();
+
+  public String getUsername();
 }

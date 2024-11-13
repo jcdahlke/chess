@@ -30,7 +30,8 @@ public class Repl {
         System.out.print(SET_TEXT_COLOR_BLUE + result);
         if (result.split(" ")[1].equals("signed")) {
           String authToken = client.getAuthToken();
-          client = new PostLoginClient(serverFacade, authToken);
+          String username = client.getUsername();
+          client = new PostLoginClient(serverFacade, authToken, username);
           System.out.print(client.help());
         }
       } catch (Throwable e) {

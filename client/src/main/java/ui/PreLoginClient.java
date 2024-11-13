@@ -8,10 +8,12 @@ public class PreLoginClient implements ClientInterface {
 
   private final ServerFacade serverFacade;
   private String authToken;
+  private String username;
 
   public PreLoginClient(ServerFacade server) {
     serverFacade = server;
     authToken = null;
+    username = null;
   }
 
   public String eval(String input) {
@@ -56,6 +58,10 @@ public class PreLoginClient implements ClientInterface {
 
   public String getAuthToken() {
     return authToken;
+  }
+
+  public String getUsername() {
+    return username;
   }
 
   public String help() {

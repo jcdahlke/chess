@@ -7,10 +7,12 @@ import java.util.Arrays;
 public class PostLoginClient implements ClientInterface{
   private final ServerFacade serverFacade;
   private final String authToken;
+  private final String username;
 
-  public PostLoginClient(ServerFacade server, String authToken) {
+  public PostLoginClient(ServerFacade server, String authToken, String username) {
     serverFacade = server;
     this.authToken = authToken;
+    this.username = username;
   }
 
   @Override
@@ -69,4 +71,11 @@ public class PostLoginClient implements ClientInterface{
   public String getAuthToken() {
     return authToken;
   }
+
+  @Override
+  public String getUsername() {
+    return username;
+  }
 }
+
+
