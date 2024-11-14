@@ -80,9 +80,9 @@ public class PostLoginClient implements ClientInterface{
         // Proceed with using the gameID as needed
 
       } catch (NumberFormatException e) {
-        System.out.println("Error: Please enter a valid number.");
+        return "Please enter a valid number for argument 1\n Expected: <gameNumber> <WHITE|BLACK>";
       } catch (IndexOutOfBoundsException e) {
-        System.out.println("Error: " + e.getMessage());
+        return "Invalid game number. Please choose a number between 1 and " + games.size();
       }
       try {
         switch (params[1].toLowerCase()) {
@@ -111,7 +111,7 @@ public class PostLoginClient implements ClientInterface{
       new DrawBoard(board,"black").displayBoard();
       return String.format("%s has successfully joined game %s playing %s", username, params[0], params[1].toUpperCase());
     }
-    throw new Exception("Expected 2 arguments: <gameID> <WHITE|BLACK>");
+    throw new Exception("Expected 2 arguments: <gameNumber> <WHITE|BLACK>");
   }
 
   public String observeGame(String... params) throws Exception {
