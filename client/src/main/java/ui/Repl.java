@@ -36,7 +36,7 @@ public class Repl {
         }
         System.out.print(SET_TEXT_COLOR_BLUE + SET_BG_COLOR_BLACK + result);
 
-        if (resultWords.length > 1 && resultWords[1].equals("signed")) {
+        if (resultWords.length > 1 && (resultWords[1].equals("signed") || resultWords[1].equals("registered"))) {
           String authToken = client.getAuthToken();
           String username = client.getUsername();
           client = new PostLoginClient(serverFacade, authToken, username);

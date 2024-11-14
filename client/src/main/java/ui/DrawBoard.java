@@ -82,7 +82,7 @@ public class DrawBoard {
 
     // Now print each square in the row, only once
     for (int colIndex = 0; colIndex < BOARD_SIZE_IN_SQUARES; colIndex++) {
-      int col = displayFromWhitePerspective ? 7 - colIndex : colIndex;
+      int col = displayFromWhitePerspective ? colIndex : 7 - colIndex;
 
       // Debugging: check column index for valid bounds
       if (col < 0 || col >= BOARD_SIZE_IN_SQUARES) {

@@ -55,12 +55,12 @@ public class PreLoginClient implements ClientInterface {
 
   public String register(String... params) throws Exception {
     if (params.length == 3) {
-      String registerUsername = params[0];
+      username = params[0];
       String password = params[1];
       String email = params[2];
-      serverFacade.register(registerUsername, password, email);
+      authToken = serverFacade.register(username, password, email).authToken();
 
-      return String.format("You registered as %s.", registerUsername);
+      return String.format("You registered as %s.", username);
     }
     throw new Exception("Expected: <username> <password> <email>");
   }

@@ -30,7 +30,6 @@ public class PostLoginClient implements ClientInterface{
         case "play" -> joinGame(params);
         case "observe" -> observeGame(params);
         case "logout" -> logout();
-        case "quit" -> "quit";
         default -> help();
       };
     } catch (Exception ex) {
@@ -41,9 +40,9 @@ public class PostLoginClient implements ClientInterface{
   public String createGame(String... params) throws Exception {
     if (params.length == 1){
       String gameName = params[0];
-      int gameID = serverFacade.createGame(authToken, gameName);
+      serverFacade.createGame(authToken, gameName);
 
-      return String.format("%s created the Chess game %s, check list to get the game number", username, gameName, gameID);
+      return String.format("%s created the Chess game %s, check list to get the game number", username, gameName);
     }
     throw new Exception("Expected 1 argument: <gameName>");
   }
@@ -139,7 +138,6 @@ public class PostLoginClient implements ClientInterface{
           - observe <gameNumber>
           - logout
           - help
-          - quit
           """;
   }
 
