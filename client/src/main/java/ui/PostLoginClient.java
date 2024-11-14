@@ -63,8 +63,18 @@ public class PostLoginClient implements ClientInterface{
     return result;
   }
 
-  public String joinGame(String... params) {
-    return null;
+  public String joinGame(String... params) throws Exception {
+    if (params.length == 2) {
+      switch (params[1].toLowerCase()) {
+        case "white" -> serverFacade.joinGame(authToken, params[0], "WHITE");
+        case "black" -> serverFacade.joinGame(authToken, params[0], "BLACK");
+        default -> {
+          return "The second argument must specify WHITE or BLACK";
+        }
+      }
+      return String.format("%s has successfully joined game %s playing %s", username, params[0], params[1].toUpperCase());
+    }
+    throw new Exception("Expected 2 arguments: <gameID> <WHITE|BLACK>");
   }
 
   public String observeGame(String... params) {
