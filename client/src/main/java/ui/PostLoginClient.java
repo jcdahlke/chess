@@ -82,8 +82,15 @@ public class PostLoginClient implements ClientInterface{
     throw new Exception("Expected 2 arguments: <gameID> <WHITE|BLACK>");
   }
 
-  public String observeGame(String... params) {
-    return null;
+  public String observeGame(String... params) throws Exception {
+    if (params.length == 1) {
+      ChessBoard board = new ChessBoard();
+      board.resetBoard();
+      new DrawBoard(board,"white").displayBoard();
+      new DrawBoard(board,"black").displayBoard();
+      return String.format("%s is observing game %s", username, params[0]);
+    }
+    throw new Exception("Expected 1 argument: <gameID>");
   }
 
   public String logout() throws Exception {
