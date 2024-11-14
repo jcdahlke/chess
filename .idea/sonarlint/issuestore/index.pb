@@ -7,3 +7,15 @@ J
 src/main/java/ui/Repl.java,4\1\4136460d180280f11cf845e20695dc75ecefd418
 U
 %src/main/java/ui/PostLoginClient.java,b\5\b54a71146ebcbe0595de43b145cef8cb8e52ead0
+Q
+!src/main/java/model/GameData.java,6\7\67153312f42cfc25e918e7241d99ff3d32f0ce01
+O
+src/main/java/ui/DrawBoard.java,9\7\97969689992dd0243d2d21346302ea21a58742e3
+S
+#src/main/java/chess/ChessBoard.java,1\3\139d0d4bb2b8e11a4e03dbed5b694452387fb52a
+U
+%src/main/java/ui/EscapeSequences.java,f\5\f5164a7694d7bc0ec5a278873d5b206d75837ac4
+R
+"src/main/java/chess/ChessGame.java,7\3\73bf4fdc57c71c6f70f600b9fea515a646b27eef
+S
+#src/main/java/chess/ChessPiece.java,8\5\85a88ea4958ed1b3e2cc2a545a3ad992329e985a

@@ -1,5 +1,6 @@
 package ui;
 
+import chess.ChessBoard;
 import model.GameData;
 import server.ServerFacade;
 
@@ -72,6 +73,10 @@ public class PostLoginClient implements ClientInterface{
           return "The second argument must specify WHITE or BLACK";
         }
       }
+      ChessBoard board = new ChessBoard();
+      board.resetBoard();
+      new DrawBoard(board,"white").displayBoard();
+      new DrawBoard(board,"black").displayBoard();
       return String.format("%s has successfully joined game %s playing %s", username, params[0], params[1].toUpperCase());
     }
     throw new Exception("Expected 2 arguments: <gameID> <WHITE|BLACK>");
