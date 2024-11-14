@@ -37,7 +37,16 @@ public class PreLoginClient implements ClientInterface {
 
       username = params[0];
       String password = params[1];
-      authToken = serverFacade.login(username, password).authToken();
+      try {
+        authToken = serverFacade.login(username, password).authToken();
+      }
+      catch (Throwable e) {
+        String msg = e.toString();
+        if (msg.split(" ")[2].equals("401")) {
+          msg = "Incorrect username or password";
+        }
+        return msg;
+      }
 
       return String.format("You signed in as %s.", username);
     }
@@ -51,7 +60,7 @@ public class PreLoginClient implements ClientInterface {
       String email = params[2];
       serverFacade.register(registerUsername, password, email);
 
-      return String.format("You registered as %s.", username);
+      return String.format("You registered as %s.", registerUsername);
     }
     throw new Exception("Expected: <username> <password> <email>");
   }

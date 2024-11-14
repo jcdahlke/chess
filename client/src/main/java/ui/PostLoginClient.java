@@ -43,7 +43,7 @@ public class PostLoginClient implements ClientInterface{
       String gameName = params[0];
       int gameID = serverFacade.createGame(authToken, gameName);
 
-      return String.format("%s created the Chess game %s, with gameID %d.", username, gameName, gameID);
+      return String.format("%s created the Chess game %s, check list to get the game number", username, gameName, gameID);
     }
     throw new Exception("Expected 1 argument: <gameName>");
   }
@@ -54,7 +54,7 @@ public class PostLoginClient implements ClientInterface{
     if (games.isEmpty()) {
       return "There are no active games, create one to get started!";
     }
-    int gameCount = 0;
+    int gameCount = 1;
     for (GameData game: games) {
       result += "Game " + gameCount + ":\n";
       result += game.toString();
@@ -66,12 +66,44 @@ public class PostLoginClient implements ClientInterface{
 
   public String joinGame(String... params) throws Exception {
     if (params.length == 2) {
-      switch (params[1].toLowerCase()) {
-        case "white" -> serverFacade.joinGame(authToken, params[0], "WHITE");
-        case "black" -> serverFacade.joinGame(authToken, params[0], "BLACK");
-        default -> {
-          return "The second argument must specify WHITE or BLACK";
+      Collection<GameData> games = serverFacade.listGames(authToken);
+      int gameID = 0;
+      try {
+        int gameIndex = Integer.parseInt(params[0]) - 1; // Convert input to 0-based index
+
+        // Check if the gameIndex is within the valid range
+        if (gameIndex < 0 || gameIndex >= games.size()) {
+          throw new IndexOutOfBoundsException("Invalid game number. Please choose a number between 1 and " + games.size());
         }
+
+        gameID = ((GameData) games.toArray()[gameIndex]).gameID();
+        // Proceed with using the gameID as needed
+
+      } catch (NumberFormatException e) {
+        System.out.println("Error: Please enter a valid number.");
+      } catch (IndexOutOfBoundsException e) {
+        System.out.println("Error: " + e.getMessage());
+      }
+      try {
+        switch (params[1].toLowerCase()) {
+          case "white" -> {serverFacade.joinGame(authToken, String.valueOf(gameID), "WHITE");
+          }
+          case "black" -> serverFacade.joinGame(authToken, String.valueOf(gameID), "BLACK");
+          default -> {
+            return "The second argument must specify WHITE or BLACK";
+          }
+        }
+      }
+      catch (Throwable e) {
+        String msg = e.toString();
+        if (msg.split(" ")[2].equals("403")) {
+          msg = "There is already a user for " + params[1].toUpperCase() + " in game " + params[0];
+        }
+        else if
+        (msg.split(" ")[2].equals("500")) {
+          msg = "There is no game number " + params[0];
+        }
+        return msg;
       }
       ChessBoard board = new ChessBoard();
       board.resetBoard();
@@ -90,7 +122,7 @@ public class PostLoginClient implements ClientInterface{
       new DrawBoard(board,"black").displayBoard();
       return String.format("%s is observing game %s", username, params[0]);
     }
-    throw new Exception("Expected 1 argument: <gameID>");
+    throw new Exception("Expected 1 argument: <gameNumber>");
   }
 
   public String logout() throws Exception {
@@ -103,8 +135,8 @@ public class PostLoginClient implements ClientInterface{
     return"""
           - create <gameName>
           - list
-          - play <gameID> [WHITE|BLACK]
-          - observe <gameID>
+          - play <gameNumber> [WHITE|BLACK]
+          - observe <gameNumber>
           - logout
           - help
           - quit

@@ -11,7 +11,7 @@ import static ui.EscapeSequences.*;
 
 public class DrawBoard {
   private static final int BOARD_SIZE_IN_SQUARES = 8;
-  private static final int SQUARE_SIZE_IN_PADDED_CHARS = 3;
+  private static final int SQUARE_SIZE_IN_PADDED_CHARS = 4;
   private static final int LINE_WIDTH_IN_PADDED_CHARS = 1;
   private static final String EMPTY = "   ";
 
@@ -51,7 +51,7 @@ public class DrawBoard {
   }
 
   private void drawHeader(PrintStream out, String headerText) {
-    int prefixLength = SQUARE_SIZE_IN_PADDED_CHARS / 2;
+    int prefixLength = 1;
     int suffixLength = 0;
 
     out.print(EMPTY.repeat(prefixLength));
@@ -92,6 +92,7 @@ public class DrawBoard {
 
       drawSquare(out, rowIndex, col);  // Draw the square for this column
     }
+    out.print(" " + rowLabel + " ");  // Print the row label at the end of the row
     out.println();  // Move to the next line after each row
   }
 
