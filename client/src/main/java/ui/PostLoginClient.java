@@ -57,7 +57,7 @@ public class PostLoginClient implements ClientInterface{
     for (GameData game: games) {
       result += "Game " + gameCount + ":\n";
       result += game.toString();
-      result += "\n\n";
+      result += "\n";
       gameCount++;
     }
     return result;

@@ -37,6 +37,7 @@ public class Repl {
         }
         if (resultWords.length >= 5 && resultWords[4].equals("out")) {
           client = new PreLoginClient(serverFacade);
+          System.out.println();
           System.out.print(client.help());
         }
       } catch (Throwable e) {
