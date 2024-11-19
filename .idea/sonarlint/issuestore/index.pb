@@ -25,3 +25,11 @@ c
 3src/main/java/websocket/messages/ServerMessage.java,5\9\590bb6fde6950c83d445433a60e6c8a7bfd1da27
 ]
 -src/test/java/passoff/server/TestFactory.java,0\0\000790cef0470da7bba7e8874c818ff77e08a3c9
+:
+
+server.iml,8\2\8223cc95a68355bfb31e8c65de12cb67ce74a18a
+:
+
+client.iml,8\1\81276a78d81379d1349e1ff0f16babcbe4db95cc
+e
+5src/main/java/websocket/commands/MakeMoveCommand.java,a\f\afe0cda152e2245e68db6d7af80b1df266c68af9
