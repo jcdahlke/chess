@@ -25,3 +25,15 @@ U
 0src/test/java/passoff/server/WebSocketTests.java,2\d\2d0f89d5b2ef1a0ebfd9255669644b833e55929a
 P
  src/main/java/ui/GameClient.java,9\e\9e7b2c17a615b97d0053b0520e667831ce8f8cfb
+P
+ src/main/java/server/Server.java,4\c\4c405aa622276106ee9ef8c3a2fbee4e76dcafbb
+^
+.src/main/java/server/Websocket/Connection.java,d\d\dd1f8c3509369cf427e0199258ee1d1fb30662ce
+e
+5src/main/java/server/Websocket/ConnectionManager.java,f\2\f2486373bdbeed2c87c1cf1b25724a906f783493
+^
+.src/main/java/server/websocket/Connection.java,3\7\37defc871c22d622968a9058e47ef697c0948f12
+e
+5src/main/java/server/websocket/ConnectionManager.java,b\e\be314f4208de966ff617bff95c8b5fbf2664e831
+d
+4src/main/java/server/websocket/WebSocketHandler.java,a\1\a1e176380e02ea0e2874c86a0c686d03b73c8282
