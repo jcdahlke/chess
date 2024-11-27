@@ -56,7 +56,7 @@ public class GameClient implements ClientInterface{
     return !(validOne && validTwo || validAltOne && validAltTwo);
   }
   public String movePiece(String... params){
-    if (params.length < 2) {
+    if (params.length < 2 || params[0].length() != 2 || params[1].length() != 2) {
       return "Incorrect Input, please use <a-h><1-8> <a-h><1-8>";
     }
     int fromInnerIndex = 0;
@@ -110,7 +110,30 @@ public class GameClient implements ClientInterface{
   }
 
   public String highlightPossibleMoves(String... params) {
-    return "";
+    if (params.length < 1 || params[0].length() != 2) {
+      return "Incorrect Input, please use <a-h><1-8>";
+    }
+    int innerIndex = 0;
+    int outerIndex = 0;
+    char one = params[0].charAt(0);
+    char two = params[0].charAt(1);
+    if (isWrongInput(one,two)) {
+      return "Incorrect Input, please use <a-h><1-8>";
+    }
+    if (Character.isLetter(one)) {
+      innerIndex = (int)Character.toLowerCase(one) - 96;
+    }
+    if (Character.isLetter(two)) {
+      innerIndex = (int)Character.toLowerCase(two) - 96;
+    }
+    if (Character.isDigit(one)) {
+      outerIndex = Character.getNumericValue(one);
+    }
+    if (Character.isDigit(two)) {
+      outerIndex = Character.getNumericValue(two);
+    }
+    ChessPosition highlightPosition = new ChessPosition(outerIndex, innerIndex);
+    return "highlighted moves for piece in position " + params[0];
   }
   @Override
   public String help() {
