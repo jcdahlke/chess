@@ -13,6 +13,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="junit.jupiter" level="project" />
     <orderEntry type="library" name="google.code.gson" level="project" />
+    <orderEntry type="library" name="sparkjava.spark.core" level="project" />
   </component>
   <component name="SonarLintModuleSettings">
     <option name="uniqueId" value="7a076c87-650a-4773-a8e2-0cf51d33e618" />

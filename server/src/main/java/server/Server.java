@@ -9,6 +9,7 @@ import dataaccess.*;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
+import server.websocket.WebSocketHandler;
 import service.ClearService;
 import service.GameService;
 import service.UserService;
@@ -28,6 +29,7 @@ public class Server {
     private final ClearService clearService;
     private final GameService gameService;
     private final UserService userService;
+    private final WebSocketHandler webSocketHandler;
 
   public Server(){
     int dataBaseSwitch=1;
@@ -44,6 +46,7 @@ public class Server {
     clearService = new ClearService(gameDAO, userDAO, authDAO);
     gameService = new GameService(gameDAO, authDAO);
     userService = new UserService(userDAO, authDAO);
+    webSocketHandler = new WebSocketHandler();
   }
 
 
@@ -54,6 +57,7 @@ public class Server {
 
         // Register your endpoints and handle exceptions here.
         String gamePath = "/game";
+        Spark.webSocket("/ws", webSocketHandler);
         Spark.delete("/db", this::clearHandler);
         Spark.post("/user", this::registerHandler);
         Spark.post("/session", this::loginHandler);

@@ -11,15 +11,30 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 
-public class ServerFacade {
+import org.eclipse.jetty.websocket.api.Session;
+import websocket.commands.UserGameCommand;
+
+public class ServerFacade{
 
   private final String serverUrl;
+  private String socketUrl;
+  public Session session;
 
   public ServerFacade(String url) {
     serverUrl = url;
+    socketUrl = "";
+    try {
+      socketUrl = url.replace("http", "ws");
+      URI socketURI = new URI(url + "/ws");
+    }
+    catch (URISyntaxException ex) {
+
+    }
+
     System.out.println(serverUrl);
   }
 
@@ -64,6 +79,13 @@ public class ServerFacade {
     record JoinGameRequest(String gameID, String playerColor){}
     JoinGameRequest request = new JoinGameRequest(gameID, playerColor);
     this.makeRequest("PUT", path, request, authToken, null);
+    try {
+      var action = new UserGameCommand(UserGameCommand.CommandType.CONNECT, authToken, Integer.parseInt(gameID));
+      this.session.getRemote().sendString(new Gson().toJson(action));
+    }
+    catch (IOException ex) {
+      throw new Exception(ex.getMessage());
+    }
   }
 
 
