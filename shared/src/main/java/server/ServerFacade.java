@@ -4,38 +4,62 @@ import com.google.gson.Gson;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
+import websocket.commands.UserGameCommand;
 
+import javax.websocket.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Collection;
 
-import org.eclipse.jetty.websocket.api.Session;
-import websocket.commands.UserGameCommand;
-
-public class ServerFacade{
+@ClientEndpoint
+public class ServerFacade {
 
   private final String serverUrl;
-  private String socketUrl;
-  public Session session;
+  private final String socketUrl;
+  private Session session;
 
   public ServerFacade(String url) {
     serverUrl = url;
-    socketUrl = "";
+    socketUrl = url.replace("http", "ws") + "/ws";
+
     try {
-      socketUrl = url.replace("http", "ws");
-      URI socketURI = new URI(url + "/ws");
+      // Connect to the WebSocket server
+      WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+      container.connectToServer(this, URI.create(socketUrl));
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      throw new RuntimeException("Failed to initialize WebSocket connection: " + ex.getMessage());
     }
-    catch (URISyntaxException ex) {
 
-    }
+    System.out.println("Server URL: " + serverUrl);
+  }
 
-    System.out.println(serverUrl);
+  @OnOpen
+  public void onOpen(Session session) {
+    this.session = session;
+    System.out.println("Connected to WebSocket server!");
+  }
+
+  @OnMessage
+  public void onMessage(String message) {
+    System.out.println("Received WebSocket message: " + message);
+    // Handle messages received from the server
+  }
+
+  @OnClose
+  public void onClose(Session session, CloseReason reason) {
+    System.out.println("WebSocket connection closed: " + reason);
+    this.session = null;
+  }
+
+  @OnError
+  public void onError(Session session, Throwable throwable) {
+    System.err.println("WebSocket error: " + throwable.getMessage());
+    throwable.printStackTrace();
   }
 
   public AuthData register(String username, String password, String email) throws Exception {
@@ -76,30 +100,46 @@ public class ServerFacade{
 
   public void joinGame(String authToken, String gameID, String playerColor) throws Exception {
     String path = "/game";
-    record JoinGameRequest(String gameID, String playerColor){}
+    record JoinGameRequest(String gameID, String playerColor) {}
     JoinGameRequest request = new JoinGameRequest(gameID, playerColor);
     this.makeRequest("PUT", path, request, authToken, null);
+
     try {
-      var action = new UserGameCommand(UserGameCommand.CommandType.CONNECT, authToken, Integer.parseInt(gameID));
-      this.session.getRemote().sendString(new Gson().toJson(action));
-    }
-    catch (IOException ex) {
-      throw new Exception(ex.getMessage());
+      var command = new UserGameCommand(UserGameCommand.CommandType.CONNECT, authToken, Integer.parseInt(gameID));
+      if (this.session != null && this.session.isOpen()) {
+        this.session.getBasicRemote().sendText(new Gson().toJson(command));
+      } else {
+        throw new IOException("WebSocket session is not open");
+      }
+    } catch (IOException ex) {
+      throw new Exception("Failed to send WebSocket command: " + ex.getMessage());
     }
   }
 
+  public void leaveGame(String authToken, String gameID) throws Exception {
+    try {
+      var command = new UserGameCommand(UserGameCommand.CommandType.LEAVE, authToken, Integer.parseInt(gameID));
+      if (this.session != null && this.session.isOpen()) {
+        this.session.getBasicRemote().sendText(new Gson().toJson(command));
+      } else {
+        throw new IOException("WebSocket session is not open");
+      }
+    } catch (IOException ex) {
+      throw new Exception("Failed to send WebSocket command: " + ex.getMessage());
+    }
+  }
 
   private <T> T makeRequest(String method, String path, Object request, String authToken, Class<T> responseClass) throws Exception {
     try {
-      URL url = (new URI(serverUrl + path)).toURL();
+      var url = URI.create(serverUrl + path).toURL();
       HttpURLConnection http = (HttpURLConnection) url.openConnection();
       http.setRequestMethod(method);
       if (authToken != null) {
         http.addRequestProperty("Authorization", authToken);
       }
-      http.setDoOutput(method != "GET");
+      http.setDoOutput(!method.equals("GET"));
 
-      if (method != "GET") {
+      if (!method.equals("GET")) {
         writeBody(request, http);
       }
 
@@ -107,7 +147,7 @@ public class ServerFacade{
       throwIfNotSuccessful(http);
       return readBody(http, responseClass);
     } catch (Exception ex) {
-      throw new Exception(ex.getMessage());
+      throw new Exception("HTTP request failed: " + ex.getMessage());
     }
   }
 
@@ -122,25 +162,22 @@ public class ServerFacade{
   }
 
   private void throwIfNotSuccessful(HttpURLConnection http) throws Exception {
-    var status = http.getResponseCode();
+    int status = http.getResponseCode();
     if (!isSuccessful(status)) {
-      throw new Exception("failure: " + status);
+      throw new Exception("HTTP failure: " + status);
     }
   }
 
   private static <T> T readBody(HttpURLConnection http, Class<T> responseClass) throws IOException {
     T response = null;
-    if (http.getContentLength() < 0) {
+    if (http.getContentLength() > 0 && responseClass != null) {
       try (InputStream respBody = http.getInputStream()) {
         InputStreamReader reader = new InputStreamReader(respBody);
-        if (responseClass != null) {
-          response = new Gson().fromJson(reader, responseClass);
-        }
+        response = new Gson().fromJson(reader, responseClass);
       }
     }
     return response;
   }
-
 
   private boolean isSuccessful(int status) {
     return status / 100 == 2;
