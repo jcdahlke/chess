@@ -11,7 +11,7 @@ public class Repl {
   private ClientInterface client;
 
   public Repl(String port) {
-    String url = "http://localhost:" + port + "/";
+    String url = "http://localhost:" + port + "";
     serverFacade = new ServerFacade(url);
     client = new PreLoginClient(serverFacade);
   }

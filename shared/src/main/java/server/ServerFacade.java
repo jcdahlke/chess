@@ -26,10 +26,12 @@ public class ServerFacade {
     serverUrl = url;
     socketUrl = url.replace("http", "ws") + "/ws";
 
+
     try {
       // Connect to the WebSocket server
+      URI socketURI = new URI(socketUrl);
       WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-      container.connectToServer(this, URI.create(socketUrl));
+      container.connectToServer(this, socketURI);
     } catch (Exception ex) {
       ex.printStackTrace();
       throw new RuntimeException("Failed to initialize WebSocket connection: " + ex.getMessage());
@@ -64,7 +66,8 @@ public class ServerFacade {
 
   public AuthData register(String username, String password, String email) throws Exception {
     String path = "/user";
-    return this.makeRequest("POST", path, new UserData(username, password, email), null, AuthData.class);
+    AuthData authData = this.makeRequest("POST", path, new UserData(username, password, email), null, AuthData.class);
+    return authData;
   }
 
   public void clear() throws Exception {
@@ -170,7 +173,7 @@ public class ServerFacade {
 
   private static <T> T readBody(HttpURLConnection http, Class<T> responseClass) throws IOException {
     T response = null;
-    if (http.getContentLength() > 0 && responseClass != null) {
+    if (http.getContentLength() < 0 && responseClass != null) {
       try (InputStream respBody = http.getInputStream()) {
         InputStreamReader reader = new InputStreamReader(respBody);
         response = new Gson().fromJson(reader, responseClass);
