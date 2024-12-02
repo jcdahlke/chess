@@ -13,3 +13,9 @@ T
 $src/main/java/ui/PreLoginClient.java,6\7\6759183767e1832107e0d08887456bf653420599
 `
 0src/test/java/passoff/server/WebSocketTests.java,2\d\2d0f89d5b2ef1a0ebfd9255669644b833e55929a
+e
+5src/main/java/websocket/commands/MakeMoveCommand.java,a\f\afe0cda152e2245e68db6d7af80b1df266c68af9
+e
+5src/main/java/websocket/commands/UserGameCommand.java,c\1\c16e750703ed4f45be1d38427deab84e079f2fb8
+\
+,src/main/java/websocket/WebsocketFacade.java,1\b\1b8a9647391cedc22ba73b7df952fe3dad317824
