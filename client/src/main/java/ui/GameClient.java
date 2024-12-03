@@ -137,7 +137,14 @@ public class GameClient implements ClientInterface{
   }
   @Override
   public String help() {
-    return null;
+    return"""
+          - redraw
+          - move <a-h><1-8> <a-h><1-8>
+          - leave
+          - resign
+          - highlight <a-h><1-8>
+          - help
+          """;
   }
 
   @Override

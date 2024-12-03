@@ -50,6 +50,14 @@ public class Repl {
           System.out.println();
           System.out.print(client.help());
         }
+        if (resultWords.length >= 4 && resultWords[3].equals("joined")) {
+          String authToken = client.getAuthToken();
+          String username = client.getUsername();
+          client = new GameClient(serverFacade, authToken, username);
+          System.out.println();
+          System.out.println();
+          System.out.print(client.help());
+        }
 
 
       } catch (Throwable e) {
