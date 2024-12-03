@@ -21,7 +21,7 @@ public class GameClient implements ClientInterface{
     this.authToken = authToken;
     this.username = username;
     color = playerColor;
-    this.gameIndex = gameIndex;
+    this.gameIndex = gameIndex -1;
     Collection<GameData> games = null;
     try {
       games = serverFacade.listGames(authToken);
@@ -30,7 +30,8 @@ public class GameClient implements ClientInterface{
       System.out.println("problem getting game list.");
     }
 
-    game = ((GameData)games.toArray()[gameIndex]).game();
+    game = ((GameData)games.toArray()[this.gameIndex]).game();
+    redraw();
   }
 
   @Override
@@ -55,10 +56,10 @@ public class GameClient implements ClientInterface{
 
   public String redraw() {
     if (color == ChessGame.TeamColor.BLACK) {
-      new DrawBoard(game.getBoard(), "black");
+      new DrawBoard(game.getBoard(), "black").displayBoard();
     }
     else {
-      new DrawBoard(game.getBoard(), "white");
+      new DrawBoard(game.getBoard(), "white").displayBoard();
     }
     return "";
   }

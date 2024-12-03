@@ -52,6 +52,7 @@ public class Repl {
           System.out.print(client.help());
         }
         if (resultWords.length >= 4 && (resultWords[3].equals("joined") || resultWords[2].equals("observing"))) {
+          System.out.println();
           String authToken = client.getAuthToken();
           String username = client.getUsername();
           if (resultWords.length >= 7) {

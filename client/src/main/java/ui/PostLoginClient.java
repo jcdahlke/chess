@@ -106,10 +106,7 @@ public class PostLoginClient implements ClientInterface{
         }
         return msg;
       }
-      ChessBoard board = new ChessBoard();
-      board.resetBoard();
-      new DrawBoard(board,"white").displayBoard();
-      new DrawBoard(board,"black").displayBoard();
+
       return String.format("%s has successfully joined game %s playing %s", username, params[0], params[1].toUpperCase());
     }
     throw new Exception("Expected 2 arguments: <gameNumber> <WHITE|BLACK>");
@@ -117,10 +114,6 @@ public class PostLoginClient implements ClientInterface{
 
   public String observeGame(String... params) throws Exception {
     if (params.length == 1) {
-      ChessBoard board = new ChessBoard();
-      board.resetBoard();
-      new DrawBoard(board,"white").displayBoard();
-      new DrawBoard(board,"black").displayBoard();
       return String.format("%s is observing game %s", username, params[0]);
     }
     throw new Exception("Expected 1 argument: <gameNumber>");
