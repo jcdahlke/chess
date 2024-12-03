@@ -1,5 +1,6 @@
 package ui;
 
+import chess.ChessGame;
 import server.ServerFacade;
 
 import java.util.Scanner;
@@ -50,10 +51,21 @@ public class Repl {
           System.out.println();
           System.out.print(client.help());
         }
-        if (resultWords.length >= 4 && resultWords[3].equals("joined")) {
+        if (resultWords.length >= 4 && (resultWords[3].equals("joined") || resultWords[2].equals("observing"))) {
           String authToken = client.getAuthToken();
           String username = client.getUsername();
-          client = new GameClient(serverFacade, authToken, username);
+          if (resultWords.length >= 7) {
+            if (resultWords[7].equals("WHITE")) {
+              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.WHITE);
+            }
+            else {
+              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.BLACK);
+            }
+          }
+          else {
+            client = new GameClient(serverFacade, authToken, username, null);
+          }
+
           System.out.println();
           System.out.println();
           System.out.print(client.help());

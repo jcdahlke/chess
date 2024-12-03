@@ -1,6 +1,7 @@
 package ui;
 
 import chess.ChessBoard;
+import chess.ChessGame;
 import chess.ChessMove;
 import chess.ChessPosition;
 import server.ServerFacade;
@@ -11,11 +12,13 @@ public class GameClient implements ClientInterface{
   private final ServerFacade serverFacade;
   private final String authToken;
   private final String username;
+  private final ChessGame.TeamColor color;
 
-  public GameClient(ServerFacade server, String authToken, String username) {
+  public GameClient(ServerFacade server, String authToken, String username, ChessGame.TeamColor playerColor) {
     serverFacade = server;
     this.authToken = authToken;
     this.username = username;
+    color = playerColor;
   }
 
   @Override
