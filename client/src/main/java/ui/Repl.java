@@ -28,7 +28,7 @@ public class Repl {
       try {
         result = client.eval(line);
         String[] resultWords = result.split(" ");
-        if (resultWords.length >= 2 && resultWords[1].equals("401")) {
+        if (resultWords.length >= 7 && resultWords[6].equals("401")) {
           result = "Unauthorized, please try logging in again.";
         }
         else if (resultWords.length >= 2 && resultWords[1].equals("403")) {

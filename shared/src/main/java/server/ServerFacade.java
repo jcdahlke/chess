@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
+import websocket.WebsocketFacade;
 import websocket.commands.UserGameCommand;
 
 import javax.websocket.*;
@@ -19,49 +20,13 @@ import java.util.Collection;
 public class ServerFacade {
 
   private final String serverUrl;
-  private final String socketUrl;
-  private Session session;
+  private WebsocketFacade websocketFacade;
 
   public ServerFacade(String url) {
     serverUrl = url;
-    socketUrl = url.replace("http", "ws") + "/ws";
-
-
-    try {
-      // Connect to the WebSocket server
-      URI socketURI = new URI(socketUrl);
-      WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-      container.connectToServer(this, socketURI);
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException("Failed to initialize WebSocket connection: " + ex.getMessage());
-    }
+    websocketFacade = null;
 
     System.out.println("Server URL: " + serverUrl);
-  }
-
-  @OnOpen
-  public void onOpen(Session session) {
-    this.session = session;
-    System.out.println("Connected to WebSocket server!");
-  }
-
-  @OnMessage
-  public void onMessage(String message) {
-    System.out.println("Received WebSocket message: " + message);
-    // Handle messages received from the server
-  }
-
-  @OnClose
-  public void onClose(Session session, CloseReason reason) {
-    System.out.println("WebSocket connection closed: " + reason);
-    this.session = null;
-  }
-
-  @OnError
-  public void onError(Session session, Throwable throwable) {
-    System.err.println("WebSocket error: " + throwable.getMessage());
-    throwable.printStackTrace();
   }
 
   public AuthData register(String username, String password, String email) throws Exception {
@@ -106,31 +71,11 @@ public class ServerFacade {
     record JoinGameRequest(String gameID, String playerColor) {}
     JoinGameRequest request = new JoinGameRequest(gameID, playerColor);
     this.makeRequest("PUT", path, request, authToken, null);
+    websocketFacade = new WebsocketFacade(serverUrl, this);
+    websocketFacade.joinGame(authToken, Integer.parseInt(gameID), playerColor);
 
-    try {
-      var command = new UserGameCommand(UserGameCommand.CommandType.CONNECT, authToken, Integer.parseInt(gameID));
-      if (this.session != null && this.session.isOpen()) {
-        this.session.getBasicRemote().sendText(new Gson().toJson(command));
-      } else {
-        throw new IOException("WebSocket session is not open");
-      }
-    } catch (IOException ex) {
-      throw new Exception("Failed to send WebSocket command: " + ex.getMessage());
-    }
   }
 
-  public void leaveGame(String authToken, String gameID) throws Exception {
-    try {
-      var command = new UserGameCommand(UserGameCommand.CommandType.LEAVE, authToken, Integer.parseInt(gameID));
-      if (this.session != null && this.session.isOpen()) {
-        this.session.getBasicRemote().sendText(new Gson().toJson(command));
-      } else {
-        throw new IOException("WebSocket session is not open");
-      }
-    } catch (IOException ex) {
-      throw new Exception("Failed to send WebSocket command: " + ex.getMessage());
-    }
-  }
 
   private <T> T makeRequest(String method, String path, Object request, String authToken, Class<T> responseClass) throws Exception {
     try {

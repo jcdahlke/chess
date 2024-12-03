@@ -3,6 +3,7 @@ package ui;
 import chess.ChessBoard;
 import model.GameData;
 import server.ServerFacade;
+import websocket.WebsocketFacade;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -67,6 +68,7 @@ public class PostLoginClient implements ClientInterface{
     if (params.length == 2) {
       Collection<GameData> games = serverFacade.listGames(authToken);
       int gameID = 0;
+      WebsocketFacade websocketFacade = null;
       try {
         int gameIndex = Integer.parseInt(params[0]) - 1; // Convert input to 0-based index
 

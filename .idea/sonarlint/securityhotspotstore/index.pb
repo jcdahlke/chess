@@ -19,3 +19,5 @@ e
 5src/main/java/websocket/commands/UserGameCommand.java,c\1\c16e750703ed4f45be1d38427deab84e079f2fb8
 \
 ,src/main/java/websocket/WebsocketFacade.java,1\b\1b8a9647391cedc22ba73b7df952fe3dad317824
+U
+%src/main/java/ui/PostLoginClient.java,b\5\b54a71146ebcbe0595de43b145cef8cb8e52ead0
