@@ -102,7 +102,7 @@ public class GameClient implements ClientInterface{
   }
 
   public String leaveGame() {
-    return "";
+    return String.format("%s has left the game", username);
   }
 
   public String resign() {

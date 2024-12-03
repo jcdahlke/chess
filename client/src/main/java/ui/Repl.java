@@ -58,6 +58,14 @@ public class Repl {
           System.out.println();
           System.out.print(client.help());
         }
+        if (resultWords.length >= 3 && resultWords[2].equals("left")) {
+          String authToken = client.getAuthToken();
+          String username = client.getUsername();
+          client = new PostLoginClient(serverFacade, authToken, username);
+          System.out.println();
+          System.out.println();
+          System.out.print(client.help());
+        }
 
 
       } catch (Throwable e) {
