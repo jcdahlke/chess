@@ -7,18 +7,21 @@ import chess.ChessPosition;
 import server.ServerFacade;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class GameClient implements ClientInterface{
   private final ServerFacade serverFacade;
   private final String authToken;
   private final String username;
   private final ChessGame.TeamColor color;
+  private final int gameIndex;
 
-  public GameClient(ServerFacade server, String authToken, String username, ChessGame.TeamColor playerColor) {
+  public GameClient(ServerFacade server, String authToken, String username, ChessGame.TeamColor playerColor, int gameIndex) {
     serverFacade = server;
     this.authToken = authToken;
     this.username = username;
     color = playerColor;
+    this.gameIndex = gameIndex;
   }
 
   @Override
@@ -42,8 +45,12 @@ public class GameClient implements ClientInterface{
 
 
   public String redraw() {
-
-    new DrawBoard(new ChessBoard(), "white");
+    if (color == ChessGame.TeamColor.BLACK) {
+      new DrawBoard(new ChessBoard(), "black");
+    }
+    else {
+      new DrawBoard(new ChessBoard(), "white");
+    }
     return "";
   }
 
@@ -109,7 +116,20 @@ public class GameClient implements ClientInterface{
   }
 
   public String resign() {
-    return "";
+    Scanner scanner = new Scanner(System.in);
+    String result = "";
+    while (result != "yes" || result != "no") {
+      System.out.println("Are you sure you want to resign? <yes/no>");
+      System.out.print(">>> ");
+      result = scanner.nextLine();
+      System.out.println();
+    }
+    if (result.equals("yes")) {
+      return username + " resigned from the game";
+    }
+    else {
+      return help();
+    }
   }
 
   public String highlightPossibleMoves(String... params) {

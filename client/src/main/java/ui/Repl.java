@@ -55,15 +55,17 @@ public class Repl {
           String authToken = client.getAuthToken();
           String username = client.getUsername();
           if (resultWords.length >= 7) {
+            int gameIndex = Integer.parseInt(resultWords[5]);
             if (resultWords[7].equals("WHITE")) {
-              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.WHITE);
+              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.WHITE, gameIndex);
             }
             else {
-              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.BLACK);
+              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.BLACK, gameIndex);
             }
           }
           else {
-            client = new GameClient(serverFacade, authToken, username, null);
+            int gameIndex = Integer.parseInt(resultWords[4]);
+            client = new GameClient(serverFacade, authToken, username, null, gameIndex);
           }
 
           System.out.println();

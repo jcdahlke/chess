@@ -23,3 +23,13 @@ U
 %src/main/java/ui/PostLoginClient.java,b\5\b54a71146ebcbe0595de43b145cef8cb8e52ead0
 P
  src/main/java/ui/GameClient.java,9\e\9e7b2c17a615b97d0053b0520e667831ce8f8cfb
+]
+-src/main/java/dataaccess/DatabaseManager.java,0\4\040cd10c19adb6bd0678131c799d8d4ffb973f42
+U
+%src/main/java/dataaccess/GameDAO.java,a\5\a55d6678c343ed4095b6c2089c7368d4633eff97
+X
+(src/main/java/dataaccess/SQLGameDAO.java,f\0\f038d70a886d78b4a8a79c0f66c26d674e996478
+d
+4src/main/java/server/websocket/WebSocketHandler.java,a\1\a1e176380e02ea0e2874c86a0c686d03b73c8282
+V
+&src/main/java/service/GameService.java,9\f\9fb869ea241e6fca6054397a70142c04b4036d07
