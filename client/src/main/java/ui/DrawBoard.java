@@ -6,6 +6,7 @@ import chess.ChessPiece;
 import chess.ChessPosition;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 
 import static ui.EscapeSequences.*;
 
@@ -17,14 +18,23 @@ public class DrawBoard {
 
   private final ChessBoard chessBoard;
   private final boolean displayFromWhitePerspective; // If true, display from white's perspective
+  private Collection<ChessPosition> highlightPositions;
 
   public DrawBoard(ChessBoard chessBoard, String color) {
     this.chessBoard = chessBoard;
     this.displayFromWhitePerspective = color.equalsIgnoreCase("white");
+    highlightPositions = null;
   }
 
   public DrawBoard(ChessBoard chessBoard) {
     this(chessBoard, "white"); // Default to white's perspective
+    highlightPositions = null;
+  }
+
+  public DrawBoard(ChessBoard chessBoard, String color, Collection<ChessPosition> highlightPositions) {
+    this.chessBoard = chessBoard;
+    this.displayFromWhitePerspective = color.equalsIgnoreCase("white");
+    this.highlightPositions = highlightPositions;
   }
 
   public void displayBoard() {
@@ -97,14 +107,30 @@ public class DrawBoard {
   }
 
   private void drawSquare(PrintStream out, int row, int col) {
-    ChessPiece piece = chessBoard.getPiece(new ChessPosition(row + 1, col + 1));
+    ChessPosition position = new ChessPosition(row + 1, col + 1);
+    ChessPiece piece = chessBoard.getPiece(position);
+    boolean isHighlighted = false;
+    if (highlightPositions != null) {
+      isHighlighted = highlightPositions.contains(position);
+    }
     boolean isDarkSquare = (row + col) % 2 == 1;
 
     // Choose background color based on square color
     if (isDarkSquare) {
-      out.print(SET_BG_COLOR_BLACK);
+      if (isHighlighted) {
+        out.print(SET_BG_COLOR_DARK_GREEN);
+      }
+      else {
+        out.print(SET_BG_COLOR_BLACK);
+      }
+
     } else {
-      out.print(SET_BG_COLOR_LIGHT_GREY);
+      if (isHighlighted) {
+        out.print(SET_BG_COLOR_GREEN);
+      }
+      else {
+        out.print(SET_BG_COLOR_LIGHT_GREY);
+      }
     }
 
     // Get the Unicode character for the piece (or space if empty)

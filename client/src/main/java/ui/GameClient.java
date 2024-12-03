@@ -3,10 +3,13 @@ package ui;
 import chess.*;
 import model.GameData;
 import server.ServerFacade;
+import static ui.EscapeSequences.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Scanner;
+
 
 public class GameClient implements ClientInterface{
   private final ServerFacade serverFacade;
@@ -167,10 +170,27 @@ public class GameClient implements ClientInterface{
       outerIndex = Character.getNumericValue(two);
     }
     ChessPosition highlightPosition = new ChessPosition(outerIndex, innerIndex);
+    ChessPiece piece = game.getBoard().getPiece(highlightPosition);
+    if (piece == null) {
+      return "There is no Chess Piece at this location";
+    }
+    Collection<ChessMove> possibleMoves = game.validMoves(highlightPosition);
+    Collection<ChessPosition> possibleEndPositions = new ArrayList<>();
+    for (ChessMove move: possibleMoves) {
+      possibleEndPositions.add(move.getEndPosition());
+    }
+    if (color == ChessGame.TeamColor.BLACK) {
+      new DrawBoard(game.getBoard(), "black", possibleEndPositions).displayBoard();
+    }
+    else {
+      new DrawBoard(game.getBoard(), "white", possibleEndPositions).displayBoard();
+    }
+
     return "highlighted moves for piece in position " + params[0];
   }
   @Override
   public String help() {
+    System.out.print(SET_TEXT_COLOR_BLUE);
     return"""
           - redraw
           - move <a-h><1-8> <a-h><1-8>
@@ -189,5 +209,17 @@ public class GameClient implements ClientInterface{
   @Override
   public String getUsername() {
     return username;
+  }
+
+  public void getUpdatedGame() {
+    Collection<GameData> games = null;
+    try {
+      games = serverFacade.listGames(authToken);
+    }
+    catch (Exception ex) {
+      System.out.println("problem getting game list.");
+    }
+
+    game = ((GameData)games.toArray()[gameIndex]).game();
   }
 }
