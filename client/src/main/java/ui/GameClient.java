@@ -1,12 +1,11 @@
 package ui;
 
-import chess.ChessBoard;
-import chess.ChessGame;
-import chess.ChessMove;
-import chess.ChessPosition;
+import chess.*;
+import model.GameData;
 import server.ServerFacade;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class GameClient implements ClientInterface{
@@ -15,6 +14,7 @@ public class GameClient implements ClientInterface{
   private final String username;
   private final ChessGame.TeamColor color;
   private final int gameIndex;
+  private ChessGame game;
 
   public GameClient(ServerFacade server, String authToken, String username, ChessGame.TeamColor playerColor, int gameIndex) {
     serverFacade = server;
@@ -22,6 +22,15 @@ public class GameClient implements ClientInterface{
     this.username = username;
     color = playerColor;
     this.gameIndex = gameIndex;
+    Collection<GameData> games = null;
+    try {
+      games = serverFacade.listGames(authToken);
+    }
+    catch (Exception ex) {
+      System.out.println("problem getting game list.");
+    }
+
+    game = ((GameData)games.toArray()[gameIndex]).game();
   }
 
   @Override
@@ -46,10 +55,10 @@ public class GameClient implements ClientInterface{
 
   public String redraw() {
     if (color == ChessGame.TeamColor.BLACK) {
-      new DrawBoard(new ChessBoard(), "black");
+      new DrawBoard(game.getBoard(), "black");
     }
     else {
-      new DrawBoard(new ChessBoard(), "white");
+      new DrawBoard(game.getBoard(), "white");
     }
     return "";
   }
@@ -65,7 +74,7 @@ public class GameClient implements ClientInterface{
     // Valid if one pair is correct or the alternate pair is correct
     return !(validOne && validTwo || validAltOne && validAltTwo);
   }
-  public String movePiece(String... params){
+  public String movePiece(String... params) throws InvalidMoveException {
     if (params.length < 2 || params[0].length() != 2 || params[1].length() != 2) {
       return "Incorrect Input, please use <a-h><1-8> <a-h><1-8>";
     }
@@ -107,6 +116,7 @@ public class GameClient implements ClientInterface{
     ChessPosition startPosition = new ChessPosition(fromOuterIndex, fromInnerIndex);
     ChessPosition endPosition = new ChessPosition(toOuterIndex, toInnerIndex);
     ChessMove chessMove = new ChessMove(startPosition, endPosition);
+    game.makeMove(chessMove);
     return "moved piece from " + params[0] + " to " + params[1];
 
   }
