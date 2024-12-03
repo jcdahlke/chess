@@ -2,6 +2,7 @@ package ui;
 
 import chess.*;
 import model.GameData;
+import org.junit.jupiter.api.BeforeEach;
 import server.ServerFacade;
 import static ui.EscapeSequences.*;
 
@@ -36,6 +37,7 @@ public class GameClient implements ClientInterface{
     game = ((GameData)games.toArray()[this.gameIndex]).game();
     redraw();
   }
+
 
   @Override
   public String eval(String input) {
@@ -79,6 +81,13 @@ public class GameClient implements ClientInterface{
     return !(validOne && validTwo || validAltOne && validAltTwo);
   }
   public String movePiece(String... params) throws InvalidMoveException {
+    if (color == null) {
+      return "Only players can make moves";
+    }
+    if (color != game.getTeamTurn()) {
+      return "It is not your turn.";
+    }
+
     if (params.length < 2 || params[0].length() != 2 || params[1].length() != 2) {
       return "Incorrect Input, please use <a-h><1-8> <a-h><1-8>";
     }
