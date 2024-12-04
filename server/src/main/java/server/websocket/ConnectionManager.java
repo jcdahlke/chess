@@ -5,35 +5,29 @@ import websocket.messages.NotificationMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionManager {
-  public final ConcurrentHashMap<String, Connection> connections = new ConcurrentHashMap<>();
+  public final Map<Integer, Set<Session>> sessionMap = new HashMap<>();
 
-  public void add(String visitorName, Session session) {
-    var connection = new Connection(visitorName, session);
-    connections.put(visitorName, connection);
+  public void addSessionToGame(int gameID, Session session) {
+    sessionMap.get(gameID).add(session);
   }
 
-  public void remove(String visitorName) {
-    connections.remove(visitorName);
+  public void removeSessionFromGame(int gameID, Session session) {
+    sessionMap.get(gameID).remove(session);
   }
 
-  public void broadcast(String excludeVisitorName, NotificationMessage notification) throws IOException {
-    var removeList = new ArrayList<Connection>();
-    for (var c : connections.values()) {
-      if (c.session.isOpen()) {
-        if (!c.visitorName.equals(excludeVisitorName)) {
-          c.send(notification.toString());
-        }
-      } else {
-        removeList.add(c);
-      }
-    }
+  public void removeSession(Session session) {
 
-    // Clean up any connections that were left open.
-    for (var c : removeList) {
-      connections.remove(c.visitorName);
-    }
   }
+
+  public Set<Session> getSessionsForGame(int gameID) {
+    return sessionMap.get(gameID);
+  }
+
+
 }

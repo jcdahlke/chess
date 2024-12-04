@@ -37,3 +37,11 @@ O
 src/main/java/ui/DrawBoard.java,9\7\97969689992dd0243d2d21346302ea21a58742e3
 U
 %src/main/java/ui/EscapeSequences.java,f\5\f5164a7694d7bc0ec5a278873d5b206d75837ac4
+e
+5src/main/java/server/websocket/ConnectionManager.java,b\e\be314f4208de966ff617bff95c8b5fbf2664e831
+R
+"src/main/java/chess/ChessGame.java,7\3\73bf4fdc57c71c6f70f600b9fea515a646b27eef
+b
+2src/main/java/websocket/messages/ErrorMessage.java,1\a\1aeb4e7aca97eb87b5c8c1e96e03787a313b0e43
+c
+3src/main/java/websocket/messages/ServerMessage.java,5\9\590bb6fde6950c83d445433a60e6c8a7bfd1da27
