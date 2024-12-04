@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import dataaccess.DataAccessException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
+import websocket.messages.ErrorMessage;
 import websocket.messages.LoadGameMessage;
 import websocket.messages.ServerMessage;
 import websocket.commands.UserGameCommand;
@@ -34,12 +35,24 @@ public class WebSocketHandler {
     UserGameCommand action = new Gson().fromJson(message, UserGameCommand.class);
     String authToken = action.getAuthToken();
     int gameID = action.getGameID();
-    switch (action.getCommandType()) {
-      case CONNECT -> connect(message, authToken, gameID, session);
-      case MAKE_MOVE -> makeMove(message, authToken, gameID, session);
-      case LEAVE -> leaveGame(message, authToken, gameID, session);
-      case RESIGN -> resignGame(message, authToken, gameID, session);
+    String error = "";
+    try {
+      service.getGame(gameID);
     }
+    catch (Exception ex) {
+      error = "There is no game with this gameID";
+      ErrorMessage errorMessage = new ErrorMessage(error);
+      sendMessage(errorMessage, session);
+    }
+    if (error.isEmpty()) {
+      switch (action.getCommandType()) {
+        case CONNECT -> connect(message, authToken, gameID, session);
+        case MAKE_MOVE -> makeMove(message, authToken, gameID, session);
+        case LEAVE -> leaveGame(message, authToken, gameID, session);
+        case RESIGN -> resignGame(message, authToken, gameID, session);
+      }
+    }
+
   }
 
   //connect sends a LoadGameMessage to root client, and a Notification Message to all other clients
