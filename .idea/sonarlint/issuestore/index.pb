@@ -59,3 +59,7 @@ e
 5src/main/java/websocket/messages/LoadGameMessage.java,f\b\fbd5b6be0c8563422e1116e98be71989896a91ce
 \
 ,src/main/java/dataaccess/GameDataAccess.java,e\6\e605aab99be2abd41590f76f5060633bc115a5d0
+X
+(src/main/java/dataaccess/SQLAuthDAO.java,2\d\2dc8b572d235f0a526a31a3ea9164595a1850045
+U
+%src/main/java/dataaccess/AuthDAO.java,9\1\91db918cd92b11c75a61c2e65f189de168b5e6ef

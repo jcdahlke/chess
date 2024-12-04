@@ -1,7 +1,9 @@
 package server.websocket;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 
+import dataaccess.DataAccessException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import websocket.messages.LoadGameMessage;
@@ -28,41 +30,48 @@ public class WebSocketHandler {
     System.out.println(throwable.toString());
   }
   @OnWebSocketMessage
-  public void onMessage(Session session, String message) throws IOException {
+  public void onMessage(Session session, String message) throws IOException, DataAccessException {
     UserGameCommand action = new Gson().fromJson(message, UserGameCommand.class);
     String authToken = action.getAuthToken();
     int gameID = action.getGameID();
     switch (action.getCommandType()) {
-      case CONNECT -> connect(new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, message));
-      case MAKE_MOVE -> makeMove(new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION,message));
-      case LEAVE -> leaveGame(new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION,message));
-      case RESIGN -> resignGame(new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION,message));
+      case CONNECT -> connect(message, authToken, gameID, session);
+      case MAKE_MOVE -> makeMove(message, authToken, gameID, session);
+      case LEAVE -> leaveGame(message, authToken, gameID, session);
+      case RESIGN -> resignGame(message, authToken, gameID, session);
     }
   }
 
   //connect sends a LoadGameMessage to root client, and a Notification Message to all other clients
-  private void connect(NotificationMessage message) throws IOException {
+  private void connect(String message, String authToken, int gameID, Session session) throws IOException, DataAccessException {
 //    connections.add(visitorName, session);
 //    var message = String.format("%s joined the game", visitorName);
 //    var notification = new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
 //    broadcastMessage();
-    LoadGameMessage loadGameMessage = null;
+    connections.addSessionToGame(gameID, session);
+    LoadGameMessage loadGameMessage = new LoadGameMessage(ServerMessage.ServerMessageType.LOAD_GAME, service.getGame(gameID));
+    String username = service.getUsername(authToken);
+    String notification = username + " has connected to the game";
+    NotificationMessage notificationMessage = new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, notification);
+    sendMessage(loadGameMessage, session);
+    broadcastMessage(gameID, notificationMessage, session);
+
 
   }
 
   //makeMove sends a LOAD_GAME message to all clients, and a Notification Message to all other clients
-  private void makeMove(NotificationMessage message) {
+  private void makeMove(String message, String authToken, int gameID, Session session) {
     LoadGameMessage loadGameMessage = null;
 
   }
 
   //leaveGame sends a Notification Message to all other clients
-  private void leaveGame(NotificationMessage message) {
+  private void leaveGame(String message, String authToken, int gameID, Session session) {
 
   }
 
   //resignGame sends a notification message to all
-  private void resignGame(NotificationMessage message) {
+  private void resignGame(String message, String authToken, int gameID, Session session) {
 
   }
 //  private void exit(String visitorName) throws IOException {
@@ -74,16 +83,15 @@ public class WebSocketHandler {
 
   public void sendMessage(ServerMessage message, Session session) throws IOException {
     if (session.isOpen()) {
-      session.getRemote().sendString(message.toString());
+      session.getRemote().sendString(new Gson().toJson(message));
     }
   }
 
   public void broadcastMessage(int gameID, ServerMessage message, Session session) throws IOException {
     Set<Session> sessions = connections.getSessionsForGame(gameID);
-    sessions.remove(session);
     for (Session ses: sessions) {
-      if (ses.isOpen()){
-        ses.getRemote().sendString(message.toString());
+      if (ses.isOpen() && !session.equals(ses)){
+        ses.getRemote().sendString(new Gson().toJson(message));
       }
 
 
