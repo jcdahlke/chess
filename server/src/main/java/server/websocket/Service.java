@@ -8,6 +8,7 @@ import dataaccess.AuthDataAccess;
 import dataaccess.DataAccessException;
 import dataaccess.GameDataAccess;
 import dataaccess.UserDataAccess;
+import model.GameData;
 import org.eclipse.jetty.websocket.api.Session;
 
 import java.io.IOException;
@@ -38,8 +39,14 @@ public class Service {
     gameDataAccess.updateGameBoard(String.valueOf(gameID), game);
   }
 
-  public void leaveGame() {
-
+  public void leaveGame(int gameID, String authToken) throws DataAccessException {
+    GameData gameData = gameDataAccess.getGame(String.valueOf(gameID));
+    if(gameData.whiteUsername().equals(getUsername(authToken))) {
+      gameDataAccess.updateGame(String.valueOf(gameID), null, ChessGame.TeamColor.WHITE);
+    }
+    else if (gameData.blackUsername().equals(getUsername(authToken))) {
+      gameDataAccess.updateGame(String.valueOf(gameID), null, ChessGame.TeamColor.BLACK);
+    }
   }
 
   public void resignGame() {
