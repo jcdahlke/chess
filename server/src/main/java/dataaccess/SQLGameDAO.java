@@ -93,6 +93,22 @@ public class SQLGameDAO extends BaseDAOSQL implements GameDataAccess {
   }
 
   @Override
+  public void updateGameBoard(String gameID, ChessGame game) throws DataAccessException{
+    String json = new Gson().toJson(game);
+    String statement = "UPDATE game SET json = ? WHERE id = ?";
+    try (var conn = DatabaseManager.getConnection();
+         var ps = conn.prepareStatement(statement)) {
+      ps.setString(1, json);
+      ps.setString(2, gameID);
+      if (ps.executeUpdate() == 0) {
+        throw new DataAccessException("No game found with ID: " + gameID);
+      }
+    } catch (SQLException e) {
+      throw new DataAccessException("Error updating game with ID: " + gameID + " - " + e.getMessage());
+    }
+  }
+
+  @Override
   public int size() throws DataAccessException {
     String query = "SELECT COUNT(*) AS total FROM game";
     try (var conn = DatabaseManager.getConnection();

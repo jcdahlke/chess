@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
+import websocket.messages.LoadGameMessage;
 import websocket.messages.ServerMessage;
 import websocket.commands.UserGameCommand;
 import websocket.messages.NotificationMessage;
@@ -17,29 +18,25 @@ import java.util.Timer;
 public class WebSocketHandler {
 
   private final ConnectionManager connections = new ConnectionManager();
+  private final Service service;
 
-  @OnWebSocketConnect
-  public void onConnect(Session session) {
-
+  public WebSocketHandler(Service service) {
+    this.service = service;
   }
-
-  @OnWebSocketClose
-  public void onClose(Session session) {
-
-  }
-
   @OnWebSocketError
   public void onError(Throwable throwable) {
-
+    System.out.println(throwable.toString());
   }
   @OnWebSocketMessage
   public void onMessage(Session session, String message) throws IOException {
     UserGameCommand action = new Gson().fromJson(message, UserGameCommand.class);
+    String authToken = action.getAuthToken();
+    int gameID = action.getGameID();
     switch (action.getCommandType()) {
       case CONNECT -> connect(new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, message));
-      case MAKE_MOVE -> makeMove();
-      case LEAVE -> leaveGame();
-      case RESIGN -> resignGame();
+      case MAKE_MOVE -> makeMove(new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION,message));
+      case LEAVE -> leaveGame(new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION,message));
+      case RESIGN -> resignGame(new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION,message));
     }
   }
 
@@ -49,19 +46,23 @@ public class WebSocketHandler {
 //    var message = String.format("%s joined the game", visitorName);
 //    var notification = new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
 //    broadcastMessage();
+    LoadGameMessage loadGameMessage = null;
+
   }
 
   //makeMove sends a LOAD_GAME message to all clients, and a Notification Message to all other clients
-  private void makeMove() {
+  private void makeMove(NotificationMessage message) {
+    LoadGameMessage loadGameMessage = null;
 
   }
 
   //leaveGame sends a Notification Message to all other clients
-  private void leaveGame() {
+  private void leaveGame(NotificationMessage message) {
 
   }
 
-  private void resignGame() {
+  //resignGame sends a notification message to all
+  private void resignGame(NotificationMessage message) {
 
   }
 //  private void exit(String visitorName) throws IOException {
@@ -71,8 +72,10 @@ public class WebSocketHandler {
 //    connections.broadcast(visitorName, notification);
 //  }
 
-  public void sendMessage(ServerMessage message, Session session) {
-
+  public void sendMessage(ServerMessage message, Session session) throws IOException {
+    if (session.isOpen()) {
+      session.getRemote().sendString(message.toString());
+    }
   }
 
   public void broadcastMessage(int gameID, ServerMessage message, Session session) throws IOException {

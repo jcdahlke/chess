@@ -17,5 +17,7 @@ public interface GameDataAccess {
 
   void updateGame(String gameID, String newUser, ChessGame.TeamColor color) throws DataAccessException;
 
+  void updateGameBoard(String gameID, ChessGame game) throws  DataAccessException;
+
   int size() throws DataAccessException;
 }

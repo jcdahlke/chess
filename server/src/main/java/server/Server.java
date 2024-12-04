@@ -9,6 +9,7 @@ import dataaccess.*;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
+import server.websocket.Service;
 import server.websocket.WebSocketHandler;
 import service.ClearService;
 import service.GameService;
@@ -46,7 +47,8 @@ public class Server {
     clearService = new ClearService(gameDAO, userDAO, authDAO);
     gameService = new GameService(gameDAO, authDAO);
     userService = new UserService(userDAO, authDAO);
-    webSocketHandler = new WebSocketHandler();
+    Service webSocketService = new Service(gameDAO, userDAO, authDAO);
+    webSocketHandler = new WebSocketHandler(webSocketService);
   }
 
 

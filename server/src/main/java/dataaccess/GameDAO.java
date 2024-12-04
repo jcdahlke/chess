@@ -45,6 +45,17 @@ public class GameDAO implements GameDataAccess {
   }
 
   @Override
+  public void updateGameBoard(String gameID, ChessGame game) throws DataAccessException{
+    GameData oldGameData = chessGames.get(Integer.parseInt(gameID));
+    String whiteUsername = oldGameData.whiteUsername();
+    String blackUsername = oldGameData.blackUsername();
+    String gameName = oldGameData.gameName();
+    GameData newGameData = new GameData(oldGameData.gameID(), whiteUsername, blackUsername, gameName, game);
+    chessGames.remove(Integer.parseInt(gameID));
+    chessGames.put(Integer.parseInt(gameID), newGameData);
+  }
+
+  @Override
   public int size(){
     return chessGames.size();
   }
