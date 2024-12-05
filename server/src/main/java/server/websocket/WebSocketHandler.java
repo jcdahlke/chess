@@ -34,8 +34,17 @@ public class WebSocketHandler {
   public void onMessage(Session session, String message) throws IOException, DataAccessException {
     UserGameCommand action = new Gson().fromJson(message, UserGameCommand.class);
     String authToken = action.getAuthToken();
-    int gameID = action.getGameID();
     String error = "";
+    try {
+      service.getUsername(authToken);
+    }
+    catch (NullPointerException ex) {
+      error = "You are unauthorized";
+      ErrorMessage errorMessage = new ErrorMessage(error);
+      sendMessage(errorMessage, session);
+    }
+    int gameID = action.getGameID();
+
     try {
       service.getGame(gameID);
     }
