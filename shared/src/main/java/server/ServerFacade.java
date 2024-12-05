@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import model.AuthData;
 import model.GameData;
 import model.UserData;
-import websocket.WebsocketFacade;
-import websocket.commands.UserGameCommand;
+
+
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -20,11 +20,11 @@ import java.util.Collection;
 public class ServerFacade {
 
   private final String serverUrl;
-  private WebsocketFacade websocketFacade;
+
 
   public ServerFacade(String url) {
     serverUrl = url;
-    websocketFacade = null;
+
 
     System.out.println("Server URL: " + serverUrl);
   }
@@ -71,10 +71,9 @@ public class ServerFacade {
     record JoinGameRequest(String gameID, String playerColor) {}
     JoinGameRequest request = new JoinGameRequest(gameID, playerColor);
     this.makeRequest("PUT", path, request, authToken, null);
-    websocketFacade = new WebsocketFacade(serverUrl, this);
-    websocketFacade.joinGame(authToken, Integer.parseInt(gameID), playerColor);
-
   }
+
+
 
 
   private <T> T makeRequest(String method, String path, Object request, String authToken, Class<T> responseClass) throws Exception {

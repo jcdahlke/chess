@@ -10,9 +10,10 @@ import static ui.EscapeSequences.*;
 public class Repl {
   private final ServerFacade serverFacade;
   private ClientInterface client;
+  private String url;
 
   public Repl(String port) {
-    String url = "http://localhost:" + port + "";
+    url = "http://localhost:" + port;
     serverFacade = new ServerFacade(url);
     client = new PreLoginClient(serverFacade);
   }
@@ -58,15 +59,15 @@ public class Repl {
           if (resultWords.length >= 7) {
             int gameIndex = Integer.parseInt(resultWords[5]);
             if (resultWords[7].equals("WHITE")) {
-              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.WHITE, gameIndex);
+              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.WHITE, gameIndex, url);
             }
             else {
-              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.BLACK, gameIndex);
+              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.BLACK, gameIndex, url);
             }
           }
           else {
             int gameIndex = Integer.parseInt(resultWords[4]);
-            client = new GameClient(serverFacade, authToken, username, null, gameIndex);
+            client = new GameClient(serverFacade, authToken, username, null, gameIndex, url);
           }
 
           System.out.println();
@@ -99,7 +100,9 @@ public class Repl {
   }
 
 
-
+public String getURL() {
+    return url;
+}
   private void printPrompt() {
     System.out.print("\n" + ">>> " + SET_TEXT_COLOR_GREEN + SET_BG_COLOR_BLACK);
   }

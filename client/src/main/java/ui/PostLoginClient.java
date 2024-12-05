@@ -1,9 +1,7 @@
 package ui;
 
-import chess.ChessBoard;
 import model.GameData;
 import server.ServerFacade;
-import websocket.WebsocketFacade;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -19,14 +19,31 @@ public class GameClient implements ClientInterface{
   private final ChessGame.TeamColor color;
   private final int gameIndex;
   private ChessGame game;
+  private WebsocketFacade websocketFacade;
 
-  public GameClient(ServerFacade server, String authToken, String username, ChessGame.TeamColor playerColor, int gameIndex) {
+  public GameClient(ServerFacade server, String authToken, String username, ChessGame.TeamColor playerColor, int gameIndex, String url) {
     serverFacade = server;
     this.authToken = authToken;
     this.username = username;
     color = playerColor;
     this.gameIndex = gameIndex -1;
     Collection<GameData> games = null;
+    String color = null;
+    if (playerColor == ChessGame.TeamColor.WHITE) {
+      color = "white";
+    }
+    if (playerColor == ChessGame.TeamColor.BLACK) {
+      color = "black";
+    }
+    websocketFacade = null;
+    try {
+      websocketFacade = new WebsocketFacade(url, color);
+      websocketFacade.joinGame(authToken, getGameID(), color);
+    }
+    catch (Exception ex) {
+      System.out.println("Problem connecting to websocket");
+    }
+
     try {
       games = serverFacade.listGames(authToken);
     }
@@ -230,5 +247,16 @@ public class GameClient implements ClientInterface{
     }
 
     game = ((GameData)games.toArray()[gameIndex]).game();
+  }
+
+  private int getGameID() {
+    Collection<GameData> games = null;
+    try {
+      games = serverFacade.listGames(authToken);
+    }
+    catch (Exception ex) {
+      System.out.println("problem getting game list.");
+    }
+    return ((GameData)games.toArray()[gameIndex]).gameID();
   }
 }

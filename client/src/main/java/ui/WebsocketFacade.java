@@ -1,4 +1,4 @@
-package websocket;
+package ui;
 
 import chess.ChessGame;
 import chess.ChessMove;
@@ -21,13 +21,14 @@ public class WebsocketFacade extends Endpoint {
 
   Session session;
   ServerFacade serverFacade;
+  String playerColor;
 
 
-  public WebsocketFacade(String url, ServerFacade serverFacade) throws Exception {
+  public WebsocketFacade(String url, String playerColor) throws Exception {
+    this.playerColor = playerColor.toLowerCase();
     try {
       url = url.replace("http", "ws");
       URI socketURI = new URI(url + "/ws");
-      this.serverFacade = serverFacade;
 
       WebSocketContainer container = ContainerProvider.getWebSocketContainer();
       this.session = container.connectToServer(this, socketURI);
@@ -71,23 +72,19 @@ public class WebsocketFacade extends Endpoint {
   }
 
   private void handleLoadGameMessage(LoadGameMessage loadGameMessage) {
-    // Example: Update the game state in the client
     ChessGame gameState = loadGameMessage.getGame();
-    System.out.println("Game updated: " + gameState);
-    // Update your UI or internal game state representation
+    new DrawBoard(gameState.getBoard(), playerColor);
   }
 
   private void handleNotificationMessage(NotificationMessage notificationMessage) {
     String notification = notificationMessage.getMessage();
     System.out.println(notification);
-    // Display this notification to the user
   }
 
 
   private void handleErrorMessage(ErrorMessage errorMessage) {
     String error = errorMessage.getErrorMessage();
     System.err.println(error);
-    // Show an error message to the user
   }
 
 
