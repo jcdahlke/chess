@@ -13,13 +13,18 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ChessGame {
   private TeamColor currentTeamTurn;
   private ChessBoard board;
+  private boolean gameIsOver;
 
   public ChessGame() {
     currentTeamTurn=TeamColor.WHITE;
     board=new ChessBoard();
     board.resetBoard();
+    gameIsOver = false;
   }
 
+  public boolean getGameIsOver() {
+    return gameIsOver;
+  }
   /**
    * @return Which team's turn it is
    */
@@ -205,7 +210,13 @@ public class ChessGame {
     }
 
     // Check if any piece of the given team can make a valid move
-    return !hasAnyValidMove(teamColor);
+    if (!hasAnyValidMove(teamColor)) {
+      gameIsOver = true;
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   private boolean hasAnyValidMove(TeamColor teamColor) {
