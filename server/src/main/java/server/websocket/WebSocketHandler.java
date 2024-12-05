@@ -89,13 +89,14 @@ public class WebSocketHandler {
     String error = "";
     if (game.getGameIsOver()) {
       error = "This game is already over";
-      ErrorMessage errorMessage = new ErrorMessage(error);
-      sendMessage(errorMessage, session);
+      sendErrorMessage(error, session);
+    }
+    if (game.getBoard().getPiece(move.getStartPosition()) == null) {
+      error = "There are no pieces at this position";
     }
     if (!game.validMoves(move.getStartPosition()).contains(move)) {
       error = "This game is already over";
-      ErrorMessage errorMessage = new ErrorMessage(error);
-      sendMessage(errorMessage, session);
+      sendErrorMessage(error, session);
     }
     if (!error.isEmpty()) {
       return;
