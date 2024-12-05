@@ -141,7 +141,26 @@ public class WebSocketHandler {
   }
 
   //resignGame sends a notification message to all
-  private void resignGame(String message, String authToken, int gameID, Session session) {
+  private void resignGame(String message, String authToken, int gameID, Session session) throws DataAccessException, IOException {
+    ChessGame.TeamColor userColor = service.getUserColor(authToken, gameID);
+    ChessGame game = service.getGame(gameID);
+    String error = "";
+    if (userColor == null) {
+      error = "observers cannot resign";
+      sendErrorMessage(error, session);
+      return;
+    }
+    if (game.getGameIsOver()) {
+      error = "The game is already over, you cannot resign";
+      sendErrorMessage(error, session);
+      return;
+    }
+    service.resignGame(gameID, authToken);
+    String username = service.getUsername(authToken);
+    String notification = username + " resigned from the game";
+    NotificationMessage notificationMessage = new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, notification);
+    sendMessage(notificationMessage, session);
+    broadcastMessage(gameID, notificationMessage, session);
 
   }
 

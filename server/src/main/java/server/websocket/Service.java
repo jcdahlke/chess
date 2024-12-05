@@ -63,7 +63,10 @@ public class Service {
     }
   }
 
-  public void resignGame() {
-
+  public void resignGame(int gameID, String authToken) throws DataAccessException {
+    ChessGame game = gameDataAccess.getGame(String.valueOf(gameID)).game();
+    ChessGame.TeamColor userColor = getUserColor(authToken, gameID);
+    game.playerResign(userColor);
+    gameDataAccess.updateGameBoard(String.valueOf(gameID), game);
   }
 }
