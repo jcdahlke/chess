@@ -28,6 +28,10 @@ public class ChessGame {
     return gameIsOver;
   }
 
+  public TeamColor getWinningColor() {
+    return winningColor;
+  }
+
   public void playerResign(TeamColor color) {
     if (gameIsOver) {
       return;

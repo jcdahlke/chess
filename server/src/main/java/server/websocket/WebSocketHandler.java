@@ -134,11 +134,20 @@ public class WebSocketHandler {
     service.makeMove(gameID, move);
     LoadGameMessage loadGameMessage = new LoadGameMessage(service.getGame(gameID));
     String username = service.getUsername(authToken);
-    String notification = username + " has made a move in the game";
+    String start = move.getStartPosition().toString();
+    String end = move.getEndPosition().toString();
+    String notification = username + " moved " + start + " to " + end;
     NotificationMessage notificationMessage = new NotificationMessage(notification);
     sendMessage(loadGameMessage, session);
     broadcastMessage(gameID, loadGameMessage, session);
     broadcastMessage(gameID, notificationMessage, session);
+
+    notification = checkGameCondition(authToken, gameID);
+    if (!notification.isEmpty()) {
+      notificationMessage = new NotificationMessage(notification);
+      sendMessage(notificationMessage, session);
+      broadcastMessage(gameID, notificationMessage, session);
+    }
 
   }
 
@@ -150,7 +159,17 @@ public class WebSocketHandler {
     }
     connections.removeSessionFromGame(gameID, session);
     String username = service.getUsername(authToken);
-    String notification = username + " has made a move in the game";
+    String endStatement = username + ", has left the game";
+    String notification;
+    if (userColor == null) {
+      notification = "Observer, " + endStatement;
+    }
+    else if (userColor == ChessGame.TeamColor.WHITE) {
+      notification = "Player white, " + endStatement;
+    }
+    else {
+      notification = "Player black, " + endStatement;
+    }
     NotificationMessage notificationMessage = new NotificationMessage(notification);
     broadcastMessage(gameID, notificationMessage, session);
   }
@@ -172,11 +191,18 @@ public class WebSocketHandler {
     }
     service.resignGame(gameID, authToken);
     String username = service.getUsername(authToken);
-    String notification = username + " resigned from the game";
+    ChessGame.TeamColor winningColor = service.getGame(gameID).getWinningColor();
+    String color;
+    if (winningColor == ChessGame.TeamColor.WHITE) {
+      color = "white";
+    }
+    else {
+      color = "black";
+    }
+    String notification = username + " resigned from the game, meaning " + color + " has won the game!";
     NotificationMessage notificationMessage = new NotificationMessage(notification);
     sendMessage(notificationMessage, session);
     broadcastMessage(gameID, notificationMessage, session);
-
   }
 
 
@@ -200,6 +226,34 @@ public class WebSocketHandler {
   private void sendErrorMessage(String error, Session session) throws IOException {
     ErrorMessage errorMessage = new ErrorMessage(error);
     sendMessage(errorMessage, session);
+  }
+
+  private String checkGameCondition(String authToken, int gameID) throws DataAccessException {
+    ChessGame.TeamColor userColor = service.getUserColor(authToken, gameID);
+    ChessGame.TeamColor opponentColor;
+    String message = "";
+    String color;
+    if (userColor == ChessGame.TeamColor.WHITE) {
+      opponentColor = ChessGame.TeamColor.BLACK;
+      color = "black";
+
+    }
+    else {
+      opponentColor = ChessGame.TeamColor.WHITE;
+      color = "white";
+    }
+    ChessGame game = service.getGame(gameID);
+
+    if (game.isInCheck(opponentColor)) {
+      message = color + " is in check";
+    }
+    if (game.isInCheckmate(opponentColor)) {
+      message = color + " is in checkmate";
+    }
+    if (game.isInStalemate(opponentColor)) {
+      message = "The game has ended in a stalemate";
+    }
+    return message;
   }
 
 }

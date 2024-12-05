@@ -63,3 +63,5 @@ X
 (src/main/java/dataaccess/SQLAuthDAO.java,2\d\2dc8b572d235f0a526a31a3ea9164595a1850045
 U
 %src/main/java/dataaccess/AuthDAO.java,9\1\91db918cd92b11c75a61c2e65f189de168b5e6ef
+V
+&src/main/java/chess/ChessPosition.java,1\2\12180158e3ed9f2b7cf9588a38f33fca071ee26a
