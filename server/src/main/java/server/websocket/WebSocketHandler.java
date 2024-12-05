@@ -2,6 +2,7 @@ package server.websocket;
 
 import chess.ChessGame;
 import chess.ChessMove;
+import chess.ChessPiece;
 import chess.InvalidMoveException;
 import com.google.gson.Gson;
 
@@ -87,18 +88,37 @@ public class WebSocketHandler {
   private void makeMove(String message, String authToken, int gameID, Session session, ChessMove move) throws DataAccessException, InvalidMoveException, IOException {
     ChessGame game = service.getGame(gameID);
     String error = "";
+    ChessPiece piece = game.getBoard().getPiece(move.getStartPosition());
+    ChessGame.TeamColor userColor = service.getUserColor(authToken, gameID);
+    if (userColor == null) {
+      error = "observers cannot make moves";
+      sendErrorMessage(error, session);
+      return;
+    }
+    if (userColor != piece.getTeamColor()) {
+      error = "Players cannot move pieces of the opposite color";
+      sendErrorMessage(error, session);
+      return;
+    }
     if (game.getGameIsOver()) {
+      game.isInCheckmate(userColor);
       error = "This game is already over";
       sendErrorMessage(error, session);
+      return;
     }
-    if (game.getBoard().getPiece(move.getStartPosition()) == null) {
-      error = "There are no pieces at this position";
+//    if (piece == null) {
+//      error = "There are no pieces at this position";
+//      sendErrorMessage(error, session);
+//      return;
+//    }
+    if(game.getTeamTurn() != userColor) {
+      error = "It is not your turn";
+      sendErrorMessage(error, session);
+      return;
     }
     if (!game.validMoves(move.getStartPosition()).contains(move)) {
       error = "This game is already over";
       sendErrorMessage(error, session);
-    }
-    if (!error.isEmpty()) {
       return;
     }
     service.makeMove(gameID, move);

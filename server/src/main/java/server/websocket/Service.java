@@ -39,6 +39,20 @@ public class Service {
     gameDataAccess.updateGameBoard(String.valueOf(gameID), game);
   }
 
+  public ChessGame.TeamColor getUserColor(String authToken, int gameID) throws DataAccessException {
+    GameData gameData = gameDataAccess.getGame(String.valueOf(gameID));
+    String username = getUsername(authToken);
+    if (gameData.whiteUsername().equals(username)) {
+      return ChessGame.TeamColor.WHITE;
+    }
+    else if (gameData.blackUsername().equals(username)) {
+      return ChessGame.TeamColor.BLACK;
+    }
+    else {
+      return null;
+    }
+  }
+
   public void leaveGame(int gameID, String authToken) throws DataAccessException {
     GameData gameData = gameDataAccess.getGame(String.valueOf(gameID));
     if(gameData.whiteUsername().equals(getUsername(authToken))) {
