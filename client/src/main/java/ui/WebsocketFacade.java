@@ -73,7 +73,13 @@ public class WebsocketFacade extends Endpoint {
 
   private void handleLoadGameMessage(LoadGameMessage loadGameMessage) {
     ChessGame gameState = loadGameMessage.getGame();
-    new DrawBoard(gameState.getBoard(), playerColor);
+    if (playerColor.equals("black")) {
+      new DrawBoard(gameState.getBoard(), playerColor).displayBoard();
+    }
+    else {
+      new DrawBoard(gameState.getBoard(), "white").displayBoard();
+    }
+
   }
 
   private void handleNotificationMessage(NotificationMessage notificationMessage) {
@@ -108,10 +114,25 @@ public class WebsocketFacade extends Endpoint {
     }
   }
 
-  public void makeMove(String authToken, int gameID, ChessMove move) {
+  public void makeMove(String authToken, int gameID, ChessMove move) throws Exception {
     MakeMoveCommand moveCommand = new MakeMoveCommand(UserGameCommand.CommandType.MAKE_MOVE, authToken, gameID, move);
+    try {
+      this.session.getBasicRemote().sendText(new Gson().toJson(moveCommand));
+    } catch (IOException e) {
+      throw new Exception(e.getMessage());
+    }
 
 
+  }
+
+  public void resign(String authToken, int gameID) throws Exception {
+    try {
+      var action = new UserGameCommand(UserGameCommand.CommandType.LEAVE, authToken, gameID);
+      this.session.getBasicRemote().sendText(new Gson().toJson(action));
+
+    } catch (IOException ex) {
+      throw new Exception(ex.getMessage());
+    }
   }
 
 }

@@ -65,3 +65,5 @@ U
 %src/main/java/dataaccess/AuthDAO.java,9\1\91db918cd92b11c75a61c2e65f189de168b5e6ef
 V
 &src/main/java/chess/ChessPosition.java,1\2\12180158e3ed9f2b7cf9588a38f33fca071ee26a
+U
+%src/main/java/ui/WebsocketFacade.java,2\e\2e8d913e72c2827f0f204376ba1a148eac97cae0

@@ -20,6 +20,7 @@ public class GameClient implements ClientInterface{
   private final int gameIndex;
   private ChessGame game;
   private WebsocketFacade websocketFacade;
+  private final int gameID;
 
   public GameClient(ServerFacade server, String authToken, String username, ChessGame.TeamColor playerColor, int gameIndex, String url) {
     serverFacade = server;
@@ -27,6 +28,7 @@ public class GameClient implements ClientInterface{
     this.username = username;
     color = playerColor;
     this.gameIndex = gameIndex -1;
+    gameID = getGameID();
     Collection<GameData> games = null;
     String color = null;
     if (playerColor == ChessGame.TeamColor.WHITE) {
@@ -38,7 +40,7 @@ public class GameClient implements ClientInterface{
     websocketFacade = null;
     try {
       websocketFacade = new WebsocketFacade(url, color);
-      websocketFacade.joinGame(authToken, getGameID(), color);
+      websocketFacade.joinGame(authToken, gameID, color);
     }
     catch (Exception ex) {
       System.out.println("Problem connecting to websocket");
@@ -77,6 +79,7 @@ public class GameClient implements ClientInterface{
 
 
   public String redraw() {
+    getUpdatedGame();
     if (color == ChessGame.TeamColor.BLACK) {
       new DrawBoard(game.getBoard(), "black").displayBoard();
     }
@@ -97,7 +100,8 @@ public class GameClient implements ClientInterface{
     // Valid if one pair is correct or the alternate pair is correct
     return !(validOne && validTwo || validAltOne && validAltTwo);
   }
-  public String movePiece(String... params) throws InvalidMoveException {
+  public String movePiece(String... params) throws Exception {
+    getUpdatedGame();
     if (color == null) {
       return "Only players can make moves";
     }
@@ -146,25 +150,27 @@ public class GameClient implements ClientInterface{
     ChessPosition startPosition = new ChessPosition(fromOuterIndex, fromInnerIndex);
     ChessPosition endPosition = new ChessPosition(toOuterIndex, toInnerIndex);
     ChessMove chessMove = new ChessMove(startPosition, endPosition);
-    game.makeMove(chessMove);
+    websocketFacade.makeMove(authToken, gameID, chessMove);
     return "moved piece from " + params[0] + " to " + params[1];
 
   }
 
-  public String leaveGame() {
+  public String leaveGame() throws Exception {
+    websocketFacade.leaveGame(authToken, gameID);
     return String.format("%s has left the game", username);
   }
 
-  public String resign() {
+  public String resign() throws Exception {
     Scanner scanner = new Scanner(System.in);
     String result = "";
-    while (result != "yes" || result != "no") {
+    while (!result.equals("yes") && !result.equals("no")) {
       System.out.println("Are you sure you want to resign? <yes/no>");
       System.out.print(">>> ");
       result = scanner.nextLine();
       System.out.println();
     }
     if (result.equals("yes")) {
+      websocketFacade.resign(authToken, gameID);
       return username + " resigned from the game";
     }
     else {
