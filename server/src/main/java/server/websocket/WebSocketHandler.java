@@ -106,11 +106,6 @@ public class WebSocketHandler {
       sendErrorMessage(error, session);
       return;
     }
-//    if (piece == null) {
-//      error = "There are no pieces at this position";
-//      sendErrorMessage(error, session);
-//      return;
-//    }
     if(game.getTeamTurn() != userColor) {
       error = "It is not your turn";
       sendErrorMessage(error, session);
@@ -133,20 +128,23 @@ public class WebSocketHandler {
   }
 
   //leaveGame sends a Notification Message to all other clients
-  private void leaveGame(String message, String authToken, int gameID, Session session) {
-
+  private void leaveGame(String message, String authToken, int gameID, Session session) throws DataAccessException, IOException {
+    ChessGame.TeamColor userColor = service.getUserColor(authToken, gameID);
+    if (userColor != null) {
+      service.leaveGame(gameID, authToken);
+    }
+    connections.removeSessionFromGame(gameID, session);
+    String username = service.getUsername(authToken);
+    String notification = username + " has made a move in the game";
+    NotificationMessage notificationMessage = new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, notification);
+    broadcastMessage(gameID, notificationMessage, session);
   }
 
   //resignGame sends a notification message to all
   private void resignGame(String message, String authToken, int gameID, Session session) {
 
   }
-//  private void exit(String visitorName) throws IOException {
-//    connections.remove(visitorName);
-//    var message = String.format("%s left the game", visitorName);
-//    var notification = new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, message);
-//    connections.broadcast(visitorName, notification);
-//  }
+
 
   public void sendMessage(ServerMessage message, Session session) throws IOException {
     if (session.isOpen()) {

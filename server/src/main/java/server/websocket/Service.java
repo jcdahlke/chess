@@ -42,10 +42,10 @@ public class Service {
   public ChessGame.TeamColor getUserColor(String authToken, int gameID) throws DataAccessException {
     GameData gameData = gameDataAccess.getGame(String.valueOf(gameID));
     String username = getUsername(authToken);
-    if (gameData.whiteUsername().equals(username)) {
+    if (gameData.whiteUsername() != null && gameData.whiteUsername().equals(username)) {
       return ChessGame.TeamColor.WHITE;
     }
-    else if (gameData.blackUsername().equals(username)) {
+    else if (gameData.blackUsername() != null && gameData.blackUsername().equals(username)) {
       return ChessGame.TeamColor.BLACK;
     }
     else {

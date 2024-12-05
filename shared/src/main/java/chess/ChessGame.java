@@ -14,16 +14,31 @@ public class ChessGame {
   private TeamColor currentTeamTurn;
   private ChessBoard board;
   private boolean gameIsOver;
+  private TeamColor winningColor;
 
   public ChessGame() {
     currentTeamTurn=TeamColor.WHITE;
     board=new ChessBoard();
     board.resetBoard();
     gameIsOver = false;
+    winningColor = null;
   }
 
   public boolean getGameIsOver() {
     return gameIsOver;
+  }
+
+  public void playerResign(TeamColor color) {
+    if (gameIsOver) {
+      return;
+    }
+    gameIsOver = true;
+    if(color == TeamColor.WHITE) {
+      winningColor = TeamColor.BLACK;
+    }
+    else {
+      winningColor = TeamColor.WHITE;
+    }
   }
   /**
    * @return Which team's turn it is
@@ -212,6 +227,12 @@ public class ChessGame {
     // Check if any piece of the given team can make a valid move
     if (!hasAnyValidMove(teamColor)) {
       gameIsOver = true;
+      if (teamColor == TeamColor.WHITE) {
+        winningColor = TeamColor.BLACK;
+      }
+      else {
+        winningColor = TeamColor.WHITE;
+      }
       return true;
     }
     else {
