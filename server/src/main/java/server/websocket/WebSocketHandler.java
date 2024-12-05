@@ -64,30 +64,45 @@ public class WebSocketHandler {
     }
     if (error.isEmpty()) {
       switch (action.getCommandType()) {
-        case CONNECT -> connect(message, authToken, gameID, session);
-        case MAKE_MOVE -> makeMove(message, authToken, gameID, session, chessMove);
-        case LEAVE -> leaveGame(message, authToken, gameID, session);
-        case RESIGN -> resignGame(message, authToken, gameID, session);
+        case CONNECT -> connect(authToken, gameID, session);
+        case MAKE_MOVE -> makeMove(authToken, gameID, session, chessMove);
+        case LEAVE -> leaveGame(authToken, gameID, session);
+        case RESIGN -> resignGame(authToken, gameID, session);
       }
     }
 
   }
 
   //connect sends a LoadGameMessage to root client, and a Notification Message to all other clients
-  private void connect(String message, String authToken, int gameID, Session session) throws IOException, DataAccessException {
+  private void connect(String authToken, int gameID, Session session) throws IOException, DataAccessException {
     connections.addSessionToGame(gameID, session);
-    LoadGameMessage loadGameMessage = new LoadGameMessage(ServerMessage.ServerMessageType.LOAD_GAME, service.getGame(gameID));
+    LoadGameMessage loadGameMessage = new LoadGameMessage(service.getGame(gameID));
     String username = service.getUsername(authToken);
-    String notification = username + " has connected to the game";
-    NotificationMessage notificationMessage = new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, notification);
+    ChessGame.TeamColor userColor = service.getUserColor(authToken, gameID);
+    String color = "";
+    String notification;
+    if (userColor == ChessGame.TeamColor.WHITE) {
+      color = "white";
+    }
+    else if (userColor == ChessGame.TeamColor.BLACK) {
+      color = "black";
+    }
+    if (color.isEmpty()) {
+      notification = username + " has connected to the game as an observer";
+    }
+    else {
+      notification = username + " has connected to the game playing as " + color;
+    }
+
+    NotificationMessage notificationMessage = new NotificationMessage(notification);
     sendMessage(loadGameMessage, session);
     broadcastMessage(gameID, notificationMessage, session);
   }
 
   //makeMove sends a LOAD_GAME message to all clients, and a Notification Message to all other clients
-  private void makeMove(String message, String authToken, int gameID, Session session, ChessMove move) throws DataAccessException, InvalidMoveException, IOException {
+  private void makeMove(String authToken, int gameID, Session session, ChessMove move) throws DataAccessException, InvalidMoveException, IOException {
     ChessGame game = service.getGame(gameID);
-    String error = "";
+    String error;
     ChessPiece piece = game.getBoard().getPiece(move.getStartPosition());
     ChessGame.TeamColor userColor = service.getUserColor(authToken, gameID);
     if (userColor == null) {
@@ -117,10 +132,10 @@ public class WebSocketHandler {
       return;
     }
     service.makeMove(gameID, move);
-    LoadGameMessage loadGameMessage = new LoadGameMessage(ServerMessage.ServerMessageType.LOAD_GAME, service.getGame(gameID));
+    LoadGameMessage loadGameMessage = new LoadGameMessage(service.getGame(gameID));
     String username = service.getUsername(authToken);
     String notification = username + " has made a move in the game";
-    NotificationMessage notificationMessage = new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, notification);
+    NotificationMessage notificationMessage = new NotificationMessage(notification);
     sendMessage(loadGameMessage, session);
     broadcastMessage(gameID, loadGameMessage, session);
     broadcastMessage(gameID, notificationMessage, session);
@@ -128,7 +143,7 @@ public class WebSocketHandler {
   }
 
   //leaveGame sends a Notification Message to all other clients
-  private void leaveGame(String message, String authToken, int gameID, Session session) throws DataAccessException, IOException {
+  private void leaveGame(String authToken, int gameID, Session session) throws DataAccessException, IOException {
     ChessGame.TeamColor userColor = service.getUserColor(authToken, gameID);
     if (userColor != null) {
       service.leaveGame(gameID, authToken);
@@ -136,12 +151,12 @@ public class WebSocketHandler {
     connections.removeSessionFromGame(gameID, session);
     String username = service.getUsername(authToken);
     String notification = username + " has made a move in the game";
-    NotificationMessage notificationMessage = new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, notification);
+    NotificationMessage notificationMessage = new NotificationMessage(notification);
     broadcastMessage(gameID, notificationMessage, session);
   }
 
   //resignGame sends a notification message to all
-  private void resignGame(String message, String authToken, int gameID, Session session) throws DataAccessException, IOException {
+  private void resignGame(String authToken, int gameID, Session session) throws DataAccessException, IOException {
     ChessGame.TeamColor userColor = service.getUserColor(authToken, gameID);
     ChessGame game = service.getGame(gameID);
     String error = "";
@@ -158,7 +173,7 @@ public class WebSocketHandler {
     service.resignGame(gameID, authToken);
     String username = service.getUsername(authToken);
     String notification = username + " resigned from the game";
-    NotificationMessage notificationMessage = new NotificationMessage(ServerMessage.ServerMessageType.NOTIFICATION, notification);
+    NotificationMessage notificationMessage = new NotificationMessage(notification);
     sendMessage(notificationMessage, session);
     broadcastMessage(gameID, notificationMessage, session);
 
