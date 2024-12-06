@@ -95,7 +95,7 @@ public class PostLoginClient implements ClientInterface{
       }
       catch (Throwable e) {
         String msg = e.toString();
-        if (msg.split(" ")[2].equals("403")) {
+        if (msg.split(" ")[6].equals("403")) {
           msg = "There is already a user for " + params[1].toUpperCase() + " in game " + params[0];
         }
         else if
