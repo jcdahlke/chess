@@ -40,15 +40,16 @@ public class Repl {
           System.out.println();
           String authToken = client.getAuthToken();
           String username = client.getUsername();
-          if (resultWords.length >= 7) {
-            int gameIndex = Integer.parseInt(resultWords[5]);
-            if (resultWords[7].equals("WHITE")) {
-              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.WHITE, gameIndex, url);
-            }
-            else {
-              client = new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.BLACK, gameIndex, url);
-            }
+          if (resultWords.length >= 7 && resultWords[7].equals("WHITE")) {
+            int gameIndex=Integer.parseInt(resultWords[5]);
+            client=new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.WHITE, gameIndex, url);
           }
+          else if (resultWords.length >= 7 && resultWords[7].equals("BLACK")) {
+            int gameIndex=Integer.parseInt(resultWords[5]);
+            client=new GameClient(serverFacade, authToken, username, ChessGame.TeamColor.BLACK, gameIndex, url);
+          }
+
+
           else {
             int gameIndex = Integer.parseInt(resultWords[4]);
             client = new GameClient(serverFacade, authToken, username, null, gameIndex, url);
