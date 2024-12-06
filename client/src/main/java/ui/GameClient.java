@@ -54,7 +54,13 @@ public class GameClient implements ClientInterface{
     }
 
     game = ((GameData)games.toArray()[this.gameIndex]).game();
-    redraw();
+    try {
+      Thread.sleep(500);
+    }catch (Exception ex) {
+      System.out.println("problem with sleep");
+    }
+
+    System.out.print(help());
   }
 
 
@@ -151,7 +157,7 @@ public class GameClient implements ClientInterface{
     ChessPosition endPosition = new ChessPosition(toOuterIndex, toInnerIndex);
     ChessMove chessMove = new ChessMove(startPosition, endPosition);
     websocketFacade.makeMove(authToken, gameID, chessMove);
-    return "moved piece from " + params[0] + " to " + params[1];
+    return "";
 
   }
 
@@ -171,7 +177,7 @@ public class GameClient implements ClientInterface{
     }
     if (result.equals("yes")) {
       websocketFacade.resign(authToken, gameID);
-      return username + " resigned from the game";
+      return "";
     }
     else {
       return help();

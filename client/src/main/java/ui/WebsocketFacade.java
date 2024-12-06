@@ -73,13 +73,14 @@ public class WebsocketFacade extends Endpoint {
 
   private void handleLoadGameMessage(LoadGameMessage loadGameMessage) {
     ChessGame gameState = loadGameMessage.getGame();
+    System.out.println();
     if (playerColor.equals("black")) {
       new DrawBoard(gameState.getBoard(), playerColor).displayBoard();
     }
     else {
       new DrawBoard(gameState.getBoard(), "white").displayBoard();
     }
-
+    System.out.println();
   }
 
   private void handleNotificationMessage(NotificationMessage notificationMessage) {

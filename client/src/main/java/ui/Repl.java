@@ -54,16 +54,13 @@ public class Repl {
             client = new GameClient(serverFacade, authToken, username, null, gameIndex, url);
           }
 
-          System.out.println();
-          System.out.println();
-          System.out.print(client.help());
+
         }
         else if (resultWords.length >= 3 && resultWords[2].equals("left")) {
           String authToken = client.getAuthToken();
           String username = client.getUsername();
           client = new PostLoginClient(serverFacade, authToken, username);
-          System.out.println();
-          System.out.println();
+          System.out.println(SET_TEXT_COLOR_BLUE);
           System.out.print(client.help());
         }
         else {

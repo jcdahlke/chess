@@ -47,7 +47,7 @@ public class Server {
     clearService = new ClearService(gameDAO, userDAO, authDAO);
     gameService = new GameService(gameDAO, authDAO);
     userService = new UserService(userDAO, authDAO);
-    Service webSocketService = new Service(gameDAO, userDAO, authDAO);
+    Service webSocketService = new Service(gameDAO, authDAO);
     webSocketHandler = new WebSocketHandler(webSocketService);
   }
 
