@@ -127,7 +127,7 @@ public class WebSocketHandler {
       return;
     }
     if (!game.validMoves(move.getStartPosition()).contains(move)) {
-      error = "This game is already over";
+      error = "This move is invalid";
       sendErrorMessage(error, session);
       return;
     }

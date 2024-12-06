@@ -25,7 +25,9 @@ public class WebsocketFacade extends Endpoint {
 
 
   public WebsocketFacade(String url, String playerColor) throws Exception {
-    this.playerColor = playerColor.toLowerCase();
+    if (playerColor == null) {
+      this.playerColor = "";
+    }
     try {
       url = url.replace("http", "ws");
       URI socketURI = new URI(url + "/ws");

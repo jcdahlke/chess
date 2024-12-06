@@ -22,7 +22,8 @@ public class GameClient implements ClientInterface{
   private WebsocketFacade websocketFacade;
   private final int gameID;
 
-  public GameClient(ServerFacade server, String authToken, String username, ChessGame.TeamColor playerColor, int gameIndex, String url) {
+  public GameClient(ServerFacade server, String authToken, String username,
+                    ChessGame.TeamColor playerColor, int gameIndex, String url) {
     serverFacade = server;
     this.authToken = authToken;
     this.username = username;
