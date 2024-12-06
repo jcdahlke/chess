@@ -29,9 +29,6 @@ public class ConnectionManager {
     sessionMap.get(gameID).remove(session);
   }
 
-  public void removeSession(Session session) {
-
-  }
 
   public Set<Session> getSessionsForGame(int gameID) {
     return sessionMap.get(gameID);
