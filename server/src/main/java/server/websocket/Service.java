@@ -7,7 +7,6 @@ import chess.InvalidMoveException;
 import dataaccess.AuthDataAccess;
 import dataaccess.DataAccessException;
 import dataaccess.GameDataAccess;
-import dataaccess.UserDataAccess;
 import model.GameData;
 
 

@@ -103,6 +103,14 @@ public String getURL() {
     return url;
 }
   private void printPrompt() {
+    if (client instanceof GameClient) {
+      try {
+        Thread.sleep(250);
+      }
+      catch (Exception ex) {
+        System.out.println("Time problem");
+      }
+    }
     System.out.print("\n" + ">>> " + SET_TEXT_COLOR_GREEN + SET_BG_COLOR_BLACK);
   }
 }
