@@ -42,14 +42,14 @@ public class WebsocketFacade extends Endpoint {
             ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
 
             // Handle different types of messages based on their class or type
-            if (serverMessage instanceof LoadGameMessage) {
-              LoadGameMessage loadGameMessage = (LoadGameMessage) serverMessage;
+            if (serverMessage.getServerMessageType() == ServerMessage.ServerMessageType.LOAD_GAME) {
+              LoadGameMessage loadGameMessage = new Gson().fromJson(message, LoadGameMessage.class);
               handleLoadGameMessage(loadGameMessage);
-            } else if (serverMessage instanceof NotificationMessage) {
-              NotificationMessage notificationMessage = (NotificationMessage) serverMessage;
+            } else if (serverMessage.getServerMessageType() == ServerMessage.ServerMessageType.NOTIFICATION) {
+              NotificationMessage notificationMessage = new Gson().fromJson(message, NotificationMessage.class);
               handleNotificationMessage(notificationMessage);
-            } else if (serverMessage instanceof ErrorMessage) {
-              ErrorMessage errorMessage = (ErrorMessage) serverMessage;
+            } else if (serverMessage.getServerMessageType() == ServerMessage.ServerMessageType.ERROR) {
+              ErrorMessage errorMessage = new Gson().fromJson(message, ErrorMessage.class);
               handleErrorMessage(errorMessage);
             } else {
               System.out.println("Unknown message type received: " + message);

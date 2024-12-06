@@ -36,22 +36,6 @@ public class Repl {
         else if (resultWords.length >= 2 && resultWords[1].equals("403")) {
           result = "User with this username already exists, please use a different username :)";
         }
-        System.out.print(SET_TEXT_COLOR_BLUE + SET_BG_COLOR_BLACK + result);
-
-        if (resultWords.length > 1 && (resultWords[1].equals("signed") || resultWords[1].equals("registered"))) {
-          String authToken = client.getAuthToken();
-          String username = client.getUsername();
-          client = new PostLoginClient(serverFacade, authToken, username);
-          System.out.println();
-          System.out.println();
-          System.out.print(client.help());
-        }
-        if (resultWords.length >= 5 && resultWords[4].equals("out")) {
-          client = new PreLoginClient(serverFacade);
-          System.out.println();
-          System.out.println();
-          System.out.print(client.help());
-        }
         if (resultWords.length >= 4 && (resultWords[3].equals("joined") || resultWords[2].equals("observing"))) {
           System.out.println();
           String authToken = client.getAuthToken();
@@ -74,7 +58,7 @@ public class Repl {
           System.out.println();
           System.out.print(client.help());
         }
-        if (resultWords.length >= 3 && resultWords[2].equals("left")) {
+        else if (resultWords.length >= 3 && resultWords[2].equals("left")) {
           String authToken = client.getAuthToken();
           String username = client.getUsername();
           client = new PostLoginClient(serverFacade, authToken, username);
@@ -82,7 +66,25 @@ public class Repl {
           System.out.println();
           System.out.print(client.help());
         }
+        else {
+          System.out.print(SET_TEXT_COLOR_BLUE + SET_BG_COLOR_BLACK + result);
+        }
 
+
+        if (resultWords.length > 1 && (resultWords[1].equals("signed") || resultWords[1].equals("registered"))) {
+          String authToken = client.getAuthToken();
+          String username = client.getUsername();
+          client = new PostLoginClient(serverFacade, authToken, username);
+          System.out.println();
+          System.out.println();
+          System.out.print(client.help());
+        }
+        if (resultWords.length >= 5 && resultWords[4].equals("out")) {
+          client = new PreLoginClient(serverFacade);
+          System.out.println();
+          System.out.println();
+          System.out.print(client.help());
+        }
 
       } catch (Throwable e) {
         var msg = e.toString();
