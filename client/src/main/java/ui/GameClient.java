@@ -186,6 +186,7 @@ public class GameClient implements ClientInterface{
   }
 
   public String highlightPossibleMoves(String... params) {
+    getUpdatedGame();
     if (params.length < 1 || params[0].length() != 2) {
       return "Incorrect Input, please use <a-h><1-8>";
     }
