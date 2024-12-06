@@ -32,8 +32,14 @@ public class Service {
   public void makeMove(int gameID, ChessMove move) throws DataAccessException, InvalidMoveException {
     ChessGame game = gameDataAccess.getGame(String.valueOf(gameID)).game();
     game.makeMove(move);
+    game.isInCheckmate(ChessGame.TeamColor.BLACK);
+    game.isInCheckmate(ChessGame.TeamColor.WHITE);
+    game.isInStalemate(ChessGame.TeamColor.BLACK);
+    game.isInStalemate(ChessGame.TeamColor.WHITE);
     gameDataAccess.updateGameBoard(String.valueOf(gameID), game);
   }
+
+
 
   public ChessGame.TeamColor getUserColor(String authToken, int gameID) throws DataAccessException {
     GameData gameData = gameDataAccess.getGame(String.valueOf(gameID));

@@ -293,6 +293,7 @@ public class ChessGame {
 
       }
     }
+    gameIsOver = true;
     return true;
   }
 

@@ -249,6 +249,7 @@ public class WebSocketHandler {
     }
     if (game.isInCheckmate(opponentColor)) {
       message = color + " is in checkmate";
+
     }
     if (game.isInStalemate(opponentColor)) {
       message = "The game has ended in a stalemate";

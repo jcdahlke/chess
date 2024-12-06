@@ -28,6 +28,9 @@ public class WebsocketFacade extends Endpoint {
     if (playerColor == null) {
       this.playerColor = "";
     }
+    else {
+      this.playerColor = playerColor;
+    }
     try {
       url = url.replace("http", "ws");
       URI socketURI = new URI(url + "/ws");
